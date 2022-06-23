@@ -20,7 +20,7 @@
 These dotfiles doesn't contains any font installation so you have install them beforehand.
 
 - [MonoLisa](https://www.monolisa.dev/) - for main font
-- [Jetbrains Mono](https://www.jetbrains.com/lp/mono/) - as fallback font for Icons and Glyphs
+- [Jetbrains Mono](https://www.jetbrains.com/lp/mono/) - as fallback font
 
 ### 🚀 Installation
 
