@@ -214,7 +214,11 @@ return {
 		{ key = "w", mods = "CTRL|SHIFT", action = wezterm.action({ CloseCurrentPane = { confirm = true } }) },
 
 		-- split vertical pane
-		{ key = "%", mods = "CTRL|SHIFT", action = wezterm.action({ SplitVertical = { domain = "CurrentPaneDomain" } }) },
+		{
+			key = "%",
+			mods = "CTRL|SHIFT",
+			action = wezterm.action({ SplitVertical = { domain = "CurrentPaneDomain" } }),
+		},
 
 		-- nightly version
 		-- This will create a new split and run the `top` program inside it
