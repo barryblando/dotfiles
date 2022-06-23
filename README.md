@@ -27,7 +27,7 @@ These dotfiles doesn't contains any font installation so you have install them b
 - Clone the repository into `$HOME/.dotfiles` and `cd` into it.
 
 ```
-git clone https://github.com/numtostr/dotfiles ~/.dotfiles
+git clone https://github.com/barryblando/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 ```
 
