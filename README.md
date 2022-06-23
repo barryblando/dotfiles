@@ -41,13 +41,18 @@ cd ~/.dotfiles
 
 ```shell
 stow {directory name} i.e neovim folder
+
+output: None
 ```
   ** **NOTICE** we didn't specify what the target directory is! By default, `stow` assumes that the target directory is the parent directory of the one you specified:  `stow -d ~/.dotfiles -t ~/`
      
 - Windows (Admin-Level Command Prompt)
 
-```
+```shell
 mklink /D c:\Users\{username}\.config\wezterm\ c:\Users\{username}\.dotfiles\wezterm\.config\wezterm\
+
+output:
+symbolic link created for c:\Users\Retr0_0x315\.config\wezterm\ <<===>> c:\Users\Retr0_0x315\.dotfiles\wezterm\.config\wezterm\
 ```
 
 ### 🖥️ Software
