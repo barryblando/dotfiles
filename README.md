@@ -19,8 +19,8 @@
 
 These dotfiles doesn't contains any font installation so you have install them beforehand.
 
-- [MonoLisa](https://www.monolisa.dev/)
-- [Jetbrains Mono](https://www.jetbrains.com/lp/mono/)
+- [MonoLisa](https://www.monolisa.dev/) - for main font
+- [Jetbrains Mono](https://www.jetbrains.com/lp/mono/) - as fallback font for Icons and Glyphs
 
 ### 🚀 Installation
 
@@ -35,10 +35,10 @@ cd ~/.dotfiles
 
 ### 🖥️ Software
 
-- OS: Debian (Linux)
-- Distro: Pengwin (WLinux) under WSL2
+- OS: Debian (Linux) under WSL2
+- Distro: Pengwin (WLinux)
 - Desktop: Windows 11
-- Terminal: WezTerm
+- Terminal: [WezTerm](https://wezfurlong.org/wezterm/install/linux.html)
 
 ### 🙏 Credits
 
