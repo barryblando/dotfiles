@@ -11,6 +11,7 @@
 - bash
 - make
 - unzip
+- mklink (sym-linking for windows)
 - GNU tar
 - [GNU stow](https://github.com/aspiers/stow)
 - gcc or clang (for compiling neovim treesitter parsers)
@@ -28,10 +29,26 @@ These dotfiles doesn't contains any font installation so you have install them b
 
 ```
 git clone https://github.com/barryblando/dotfiles.git ~/.dotfiles
+
 cd ~/.dotfiles
 ```
 
-- Make sure you clean/remove all files that need to be symlink in `.dotfiles` folder before running `stow`
+- Make sure you clean/remove all files that needed to be symlink from `.dotfiles` folder
+
+### 🔗 Linking
+
+* Linux
+
+```shell
+stow {directory name} i.e neovim folder
+```
+  ** **NOTICE** we didn't specify what the target directory is! By default, `stow` assumes that the target directory is the parent directory of the one you specified:  `stow -d ~/.dotfiles -t ~/`
+     
+- Windows (Admin-Level Command Prompt)
+
+```
+mklink /D c:\Users\{username}\.config\wezterm\ c:\Users\{username}\.dotfiles\wezterm\.config\wezterm\
+```
 
 ### 🖥️ Software
 
