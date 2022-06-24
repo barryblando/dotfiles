@@ -40,3 +40,5 @@ luac.out
 *.hex
 
 neovim/.config/nvim/plugin
+# add experiment demo-install. will remove later in gitignore
+demo-install.sh
