@@ -48,15 +48,13 @@ output: None
 
 - **Windows**
   - For windows you can use stow via MSYS2. To install via MSYS2: `pacman -S stow`
-  - To symlink correctly in via MSYS2 uncomment line with: `MSYS=winsymlinks:nativestrict` in MSYS2 config setting file. 
+  - To symlink correctly in via MSYS2 uncomment line with: `MSYS=winsymlinks:nativestrict` in ini/config file (C:\msys64 by default).
   - Now run MSYS2 with admin privileges and set target dir for `stow`:
 
   ```shell
     stow --target=/c/Users/Retr0_0x315/ wezterm 
-    
-    ** I have to set target 'cause stow will put link under user directory not in .config folder
   ```
-
+  - I have to set target 'cause stow will put link under user directory not in .config folder
 ### 🖥️ Software
 
 - OS: Debian (Linux) under WSL2
