@@ -36,23 +36,22 @@ cd ~/.dotfiles
 
 ### 🔗 Linking
 
-* **Linux**
-
-```shell
-stow {folder name in .dotfiles} i.e neovim
-
-output: None
-```
-  ** **NOTICE** I didn't specify what the target directory is! By default, `stow` assumes that the target directory is the parent directory of the one you specified:  `stow -d ~/.dotfiles -t ~/`
-     
+- **Linux**
+  - **NOTICE** I didn't specify what the target directory is! By default, `stow` assumes that the target directory is the parent directory of the one you specified:  `stow -d ~/.dotfiles -t ~/`
+   ```shell
+    stow {folder name in .dotfiles} i.e neovim
+    output: None
+   ```
 
 - **Windows**
   - For windows you can use stow via MSYS2. To install via MSYS2: `pacman -S stow`
-  - To symlink correctly via MSYS2 uncomment line with: `MSYS=winsymlinks:nativestrict` in ini/config file. Location: `(C:\msys64 by default)`.
+  - To symlink correctly via MSYS2 uncomment line with: `MSYS=winsymlinks:nativestrict` in ini/config file. 
+   - Location: `(C:\msys64 by default)`.
   - Now run MSYS2 with admin privileges and set target dir for `stow`:
 
   ```shell
-    stow --target=/c/Users/Retr0_0x315/ wezterm 
+   stow --target=/c/Users/Retr0_0x315/ wezterm
+   output: None
   ```
   - I have to set target 'cause stow will put link under user directory not in .config folder
 ### 🖥️ Software
