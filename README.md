@@ -11,7 +11,6 @@
 - bash
 - make
 - unzip
-- mklink (sym-linking for windows)
 - GNU tar
 - [GNU stow](https://github.com/aspiers/stow)
 - gcc or clang (for compiling neovim treesitter parsers)
@@ -37,23 +36,26 @@ cd ~/.dotfiles
 
 ### 🔗 Linking
 
-* Linux
+* **Linux**
 
 ```shell
-stow {directory name} i.e neovim folder
+stow {folder name in .dotfiles} i.e neovim
 
 output: None
 ```
-  ** **NOTICE** we didn't specify what the target directory is! By default, `stow` assumes that the target directory is the parent directory of the one you specified:  `stow -d ~/.dotfiles -t ~/`
+  ** **NOTICE** I didn't specify what the target directory is! By default, `stow` assumes that the target directory is the parent directory of the one you specified:  `stow -d ~/.dotfiles -t ~/`
      
-- Windows (Admin-Level Command Prompt)
 
-```shell
-mklink /D c:\Users\{username}\.config\wezterm\ c:\Users\{username}\.dotfiles\wezterm\.config\wezterm\
+- **Windows**
+  - For windows you can use stow via MSYS2. To install via MSYS2: `pacman -S stow`
+  - To symlink correctly in via MSYS2 uncomment line with: `MSYS=winsymlinks:nativestrict` in MSYS2 config setting file. 
+  - Now run MSYS2 with admin privileges and set target dir for `stow`:
 
-output:
-symbolic link created for c:\Users\Retr0_0x315\.config\wezterm\ <<===>> c:\Users\Retr0_0x315\.dotfiles\wezterm\.config\wezterm\
-```
+  ```shell
+    stow --target=/c/Users/Retr0_0x315/ wezterm 
+    
+    ** I have to set target 'cause stow will put link under user directory not in .config folder
+  ```
 
 ### 🖥️ Software
 
