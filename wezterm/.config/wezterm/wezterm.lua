@@ -88,6 +88,7 @@ end)
 
 return {
 	launch_menu = launch_menu,
+	hide_tab_bar_if_only_one_tab = true,
 	font = wezterm.font_with_fallback({
 		{
 			family = "MonoLisa",
