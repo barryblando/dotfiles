@@ -97,6 +97,35 @@ return {
 		"JetBrains Mono",
 	}),
 
+	font_rules = {
+		-- Similarly, a fancy bold+italic font
+		{
+			italic = true,
+			intensity = "Bold",
+			font = wezterm.font_with_fallback({
+				{
+					family = "MonoLisa",
+					weight = "Medium",
+					italic = true,
+					harfbuzz_features = { "calt=1", "liga=1", "zero=1", "ss02=1" },
+				},
+				"JetBrains Mono",
+			}),
+		},
+
+		-- Make regular bold text a different color to make it stand out even more
+		{
+			intensity = "Bold",
+			font = wezterm.font_with_fallback({
+				{
+					family = "MonoLisa",
+					harfbuzz_features = { "calt=1", "liga=1", "zero=1", "ss02=1" },
+				},
+				"JetBrains Mono",
+			}),
+		},
+	},
+
 	font_size = 12,
 	font_antialias = "Subpixel",
 
