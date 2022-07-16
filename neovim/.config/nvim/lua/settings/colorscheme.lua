@@ -59,5 +59,13 @@ vim.cmd([[
   hi HintFloat guibg=NONE
   hi NormalFloat guifg=NONE guibg=NONE
   hi FloatBorder guifg=NONE guibg=NONE
+]])
+
+-- disabled annoying bold texthl
+vim.cmd([[
   hi WinBar gui=NONE
+  hi ErrorMsg gui=NONE
+  hi WarningMsg gui=NONE
+  hi ModeMsg gui=NONE
+  hi MoreMsg gui=NONE
 ]])
