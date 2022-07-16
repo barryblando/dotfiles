@@ -76,7 +76,7 @@ local components = {
 		style = function(buffer)
 			return ((buffer.is_focused and buffer.diagnostics.errors ~= 0) and "bold,italic")
 				or (buffer.is_focused and "bold,italic")
-				or (buffer.diagnostics.errors ~= 0 and "bold")
+				or (buffer.diagnostics.errors ~= 0 and "underline")
 				or nil
 		end,
 		truncation = {
@@ -147,46 +147,10 @@ cokeline.setup({
 		components.unique_prefix,
 		components.filename,
 		components.diagnostics,
-		components.two_spaces,
-		components.close_or_unsaved,
+		components.space,
 		components.is_readonly,
 		components.space,
-		-- space,
-		-- {
-		-- 	text = function(buffer)
-		-- 		return buffer.devicon.icon
-		-- 	end,
-		-- 	fg = function(buffer)
-		-- 		return buffer.devicon.color
-		-- 	end,
-		-- },
-		-- {
-		-- 	text = function(buffer)
-		-- 		return buffer.filename
-		-- 	end,
-		-- 	fg = function(buffer)
-		-- 		if buffer.is_focused then
-		-- 			return "#78dce8"
-		-- 		end
-		-- 		if buffer.is_modified then
-		-- 			return "#e5c463"
-		-- 		end
-		-- 		if buffer.diagnostics.errors ~= 0 then
-		-- 			return "#fc5d7c"
-		-- 		end
-		-- 	end,
-		-- 	style = function(buffer)
-		-- 		return buffer.is_focused and "italic,bold" or nil
-		-- 	end,
-		-- },
-		-- {
-		-- 	text = function(buffer)
-		-- 		if buffer.is_readonly then
-		-- 			return " 🔒"
-		-- 		end
-		-- 		return ""
-		-- 	end,
-		-- },
-		-- space,
+		components.close_or_unsaved,
+		components.space,
 	},
 })
