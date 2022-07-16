@@ -259,7 +259,7 @@ M.on_attach = function(client, bufnr)
 		})
 	end
 
-  local client_to_skip = "dockerls cssls" -- clients that navic doesn't support
+  local client_to_skip = "dockerls cssls bashls" -- clients that navic doesn't support
   if client_to_skip:find(client.name) then
 			goto continue
 	end
