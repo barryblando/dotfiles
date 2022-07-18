@@ -78,6 +78,23 @@ local opts = {
 	nowait = true, -- use `nowait` when creating keymaps
 }
 
+local m_opts = {
+	mode = "n", -- NORMAL mode
+	prefix = "m",
+	buffer = nil, -- Global mappings. Specify a buffer number for buffer local mappings
+	silent = true, -- use `silent` when creating keymaps
+	noremap = true, -- use `noremap` when creating keymaps
+	nowait = true, -- use `nowait` when creating keymaps
+}
+
+local m_mappings = {
+	m = { '<cmd>lua require("harpoon.mark").add_file()<cr>', "Harpoon" },
+	["."] = { '<cmd>lua require("harpoon.ui").nav_next()<cr>', "Harpoon Next" },
+	[","] = { '<cmd>lua require("harpoon.ui").nav_prev()<cr>', "Harpoon Prev" },
+	s = { "<cmd>Telescope harpoon marks<cr>", "Search Files" },
+	[";"] = { '<cmd>lua require("harpoon.ui").toggle_quick_menu()<cr>', "Harpoon UI" },
+}
+
 local mappings = {
 	["a"] = { "<cmd>Alpha<cr>", "Alpha" },
 	["e"] = { "<cmd>Neotree reveal<cr>", "Explorer" },
@@ -101,6 +118,19 @@ local mappings = {
 		name = "Split",
 		s = { "<cmd>split<cr>", "HSplit" },
 		v = { "<cmd>vsplit<cr>", "VSplit" },
+	},
+
+	S = {
+		name = "Session",
+		s = { "<cmd>SaveSession<cr>", "Save" },
+		r = { "<cmd>RestoreSession<cr>", "Restore" },
+		x = { "<cmd>DeleteSession<cr>", "Delete" },
+		f = { "<cmd>Autosession search<cr>", "Find" },
+		d = { "<cmd>Autosession delete<cr>", "Find Delete" },
+		-- a = { ":SaveSession<cr>", "test" },
+		-- a = { ":RestoreSession<cr>", "test" },
+		-- a = { ":RestoreSessionFromFile<cr>", "test" },
+		-- a = { ":DeleteSession<cr>", "test" },
 	},
 
 	f = {
@@ -152,19 +182,18 @@ local mappings = {
 	l = {
 		name = "LSP",
 		a = { "<cmd>CodeActionMenu<cr>", "Code Action" },
-		d = {
-			"<cmd>Telescope lsp_document_diagnostics<cr>",
-			"Document Diagnostics",
-		},
+		d = { "<cmd>TroubleToggle<cr>", "Diagnostics" },
 		w = {
 			"<cmd>Telescope lsp_workspace_diagnostics<cr>",
 			"Workspace Diagnostics",
 		},
-		f = { "<cmd>lua vim.lsp.buf.format()<cr>", "Format" },
+		f = { "<cmd>lua vim.lsp.buf.format({ async = true })<cr>", "Format" },
+		F = { "<cmd>LspToggleAutoFormat<cr>", "Toggle Autoformat" },
+		h = { "<cmd>IlluminationToggle<cr>", "Toggle Doc HL" },
 		i = { "<cmd>LspInfo<cr>", "Info" },
 		I = { "<cmd>LspInstallInfo<cr>", "Installer Info" },
 		j = {
-			"<cmd>lua vim.lsp.diagnostic.goto_next()<CR>",
+			"<cmd>lua vim.lsp.diagnostic.goto_next({buffer=0})<CR>",
 			"Next Diagnostic",
 		},
 		k = {
@@ -174,6 +203,7 @@ local mappings = {
 		l = { "<cmd>lua vim.lsp.codelens.run()<cr>", "CodeLens Action" },
 		q = { "<cmd>lua vim.lsp.diagnostic.set_loclist()<cr>", "Quickfix" },
 		r = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
+		R = { "<cmd>TroubleToggle lsp_references<cr>", "References" },
 		s = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
 		S = {
 			"<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",
@@ -195,6 +225,10 @@ local mappings = {
 
 	t = {
 		name = "Terminal",
+		["1"] = { ":1ToggleTerm<cr>", "1" },
+		["2"] = { ":2ToggleTerm<cr>", "2" },
+		["3"] = { ":3ToggleTerm<cr>", "3" },
+		["4"] = { ":4ToggleTerm<cr>", "4" },
 		n = { "<cmd>lua _NODE_TOGGLE()<cr>", "Node" },
 		k = { "<cmd>lua _LAZYNPM_TOGGLE()<cr>", "NPM" },
 		d = { "<cmd>lua _LAZYDOCKER_TOGGLE()<cr>", "Docker" },
@@ -224,4 +258,5 @@ local vmappings = {
 
 which_key.setup(setup)
 which_key.register(mappings, opts)
+which_key.register(m_mappings, m_opts)
 which_key.register(vmappings, vopts)
