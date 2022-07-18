@@ -4,7 +4,7 @@ return {
 			path = "ansible",
 		},
 		ansiblelint = {
-			enabled = false, -- will be handled by null-ls
+			enabled = true,
 			path = "ansible-lint",
 		},
 		executionEnvironment = {
