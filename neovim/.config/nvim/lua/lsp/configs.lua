@@ -25,6 +25,7 @@ local servers = {
 	"marksman",
 	"emmet_ls",
 	"ansiblels",
+	"eslint",
 }
 
 lsp_installer.setup({
@@ -41,4 +42,13 @@ for _, server in pairs(servers) do
 		opts = vim.tbl_deep_extend("force", server_custom_opts, opts)
 	end
 	lspconfig[server].setup(opts)
+end
+
+local win = require("lspconfig.ui.windows")
+local _default_opts = win.default_opts
+
+win.default_opts = function(options)
+	local opts = _default_opts(options)
+	opts.border = { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" }
+	return opts
 end
