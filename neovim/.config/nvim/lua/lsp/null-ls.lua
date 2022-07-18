@@ -5,8 +5,6 @@ end
 
 -- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/formatting
 local formatting = null_ls.builtins.formatting
--- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/diagnostics
-local diagnostics = null_ls.builtins.diagnostics
 
 null_ls.setup({
 	debug = false,
@@ -42,21 +40,23 @@ null_ls.setup({
 		}),
 
 		-- Typescript, Javascript, React, Vue
-		formatting.eslint.with({}),
-		diagnostics.eslint.with({}),
+		formatting.eslint.with({
+			condition = function(utils)
+				return utils.root_has_file({
+					".eslintrc.js",
+					".eslintrc.cjs",
+					".eslintrc.yaml",
+					".eslintrc.yml",
+					".eslintrc.json",
+				})
+			end,
+		}),
 
 		-- Lua
 		formatting.stylua,
 
-		-- Docker (brew install hadolint, scoop install hadolint)
-		diagnostics.hadolint,
-
 		-- Protocol Buffers
 		formatting.buf,
-		diagnostics.buf,
-
-		-- Ansible
-		diagnostics.ansiblelint,
 
 		-- null_ls.builtins.code_actions.refactoring,
 	},
