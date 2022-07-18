@@ -85,7 +85,14 @@ local location = {
 	"location",
 	padding = 0,
 	fmt = function(str)
-		return " " .. str .. " "
+		local currentLine = vim.fn.line(".")
+		local space = ""
+
+		if currentLine >= 100 or currentLine >= 1000 then
+			space = " "
+		end
+
+		return " " .. space .. str .. " "
 	end,
 }
 
@@ -117,7 +124,7 @@ lualine.setup({
 			left = icons.ui.TriangleRight,
 			right = icons.ui.TriangleLeft,
 		},
-		disabled_filetypes = { "alpha", "dashboard", "Outline" },
+		disabled_filetypes = { "alpha", "dashboard", "Outline", "neo-tree" },
 		always_divide_middle = true,
 		globalstatus = true,
 	},
