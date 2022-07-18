@@ -79,6 +79,9 @@ return packer.startup(function(use)
 	-- Dev Icons also required (for me)
 	use({ "kyazdani42/nvim-web-devicons", config = lua_path("nvim-web-devicons") })
 
+	-- Session Manager
+	use({ "rmagatti/auto-session", config = lua_path("auto-session") })
+
 	-- Easily comment stuff
 	use({ "numToStr/Comment.nvim", config = lua_path("comment") })
 
@@ -92,7 +95,7 @@ return packer.startup(function(use)
 			{
 				-- only needed if you want to use the commands with "_with_window_picker" suffix
 				"s1n7ax/nvim-window-picker",
-				tag = "1.*",
+				tag = "v1.*",
 				config = function()
 					require("window-picker").setup({
 						autoselect_one = true,
@@ -134,7 +137,7 @@ return packer.startup(function(use)
 	use({ "ahmedkhalf/project.nvim", config = lua_path("project") })
 
 	-- Smooth scroll
-	use({ "karb94/neoscroll.nvim", config = lua_path("neoscroll") })
+	use({ "karb94/neoscroll.nvim", disable = true, config = lua_path("neoscroll") })
 
 	-- Remove mapping escape delay
 	use({
@@ -170,9 +173,8 @@ return packer.startup(function(use)
 	-- Multiple Select Cursor
 	use("terryma/vim-multiple-cursors")
 
-	-- Collection of minimal, independent, and fast Lua modules dedicated to improve Neovim
-	-- Use for surround
-	use({ "echasnovski/mini.nvim", branch = "stable", config = lua_path("mini") })
+	-- nvim-surround
+	use({ "kylechui/nvim-surround", config = lua_path("nvim-surround") })
 
 	-- Tracking Code stats
 	use("wakatime/vim-wakatime")
@@ -194,6 +196,9 @@ return packer.startup(function(use)
 		end,
 		ft = { "markdown" },
 	})
+
+	-- plugin to specify, or on the fly, mark and create persisting key strokes to go to the files you want.
+	use("ThePrimeagen/harpoon")
 
 	---------------------
 	--  COLOR SCHEMES  --
@@ -255,6 +260,9 @@ return packer.startup(function(use)
 	-- show current code context in winbar
 	use({ "SmiteshP/nvim-navic", config = lua_path("nvim-navic") })
 
+	-- Trouble A pretty diagnostic
+	use("folke/trouble.nvim")
+
 	---------------------
 	--    Telescope    --
 	---------------------
@@ -308,7 +316,7 @@ return packer.startup(function(use)
 	-- Plugins to Experiment in spare time
 	-- https://github.com/axieax/dotconfig/blob/main/nvim/lua/axie/plugins/init.lua
 	-- use "ThePrimeagen/refactoring.nvim"
-	-- use "nvim-pack/nvim-spectre"
+	-- use "windwp/nvim-spectre"
 	-- use { "michaelb/sniprun", run = "bash ./install.sh" }
 	-- use { "NTBBloodbath/rest.nvim" }
 	-- use { "junegunn/vim-easy-align" }
@@ -321,7 +329,8 @@ return packer.startup(function(use)
 	--       "mfussenegger/nvim-dap",
 	--     },
 	--   }) -- https://sharksforarms.dev/posts/neovim-rust/
-	-- https://github.com/ray-x/go.nvim
+	-- https://github.coam/ray-x/go.nvim
+	-- https://github.com/pwntester/octo.nvim
 
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins
