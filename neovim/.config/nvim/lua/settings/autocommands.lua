@@ -23,11 +23,14 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 	end,
 })
 
-vim.api.nvim_create_autocmd({ "CursorMoved", "BufWinEnter", "BufFilePost", "InsertEnter", "BufWritePost" }, {
-	callback = function()
-		require("settings.winbar").get_winbar()
-	end,
-})
+vim.api.nvim_create_autocmd(
+	{ "CursorMoved", "CursorHold", "BufWinEnter", "BufFilePost", "InsertEnter", "BufWritePost", "TabClosed" },
+	{
+		callback = function()
+			require("settings.winbar").get_winbar()
+		end,
+	}
+)
 
 -- Highlight Yanked Text
 vim.api.nvim_create_autocmd({ "TextYankPost" }, {
