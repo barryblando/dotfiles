@@ -59,8 +59,8 @@ wezterm.on("format-window-title", function(tab, pane, tabs, panes, config)
 end)
 
 wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
-	local pane = tab.active_pane
-	local title = baseName(pane.foreground_process_name) .. " "
+	-- local pane = tab.active_pane
+	-- local title = baseName(pane.foreground_process_name) .. " "
 
 	if tab.is_active then
 		return {
@@ -135,8 +135,8 @@ return {
 	cursor_blink_ease_in = "Constant",
 	cursor_blink_ease_out = "Constant",
 
-	initial_rows = 55,
-	initial_cols = 150,
+	initial_rows = 65,
+	initial_cols = 170,
 
 	color_scheme = "gruvbox_material_dark_hard",
 	color_schemes = {
