@@ -77,6 +77,11 @@ if [ -x "$(command -v exa)" ]; then
   alias la="exa --icons --long --all --group"
 fi
 
+# Tmux Aliases
+alias tns="tmux new-session"
+alias tnw="tmux new-window"
+alias ta="tmux a" # attach to current running session
+
 # Other Aliases
 alias zshrc="vi ~/.zshrc"
 alias zshhistory="vi ~/.zsh_history"
