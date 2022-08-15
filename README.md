@@ -32,7 +32,7 @@ git clone https://github.com/barryblando/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 ```
 
-- Make sure you clean/remove all files that needed to be symlink from `.dotfiles` folder
+- Make sure you clean/remove all files that needed to be symlink 
 
 ### 🔗 Linking
 
