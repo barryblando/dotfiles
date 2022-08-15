@@ -17,12 +17,19 @@ toggleterm.setup({
 	close_on_exit = true,
 	shell = vim.o.shell,
 	float_opts = {
-		border = "curved",
+		border = { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" },
+		-- border = "curved",
 		winblend = 0,
 		highlights = {
 			border = "Normal",
 			background = "Normal",
 		},
+	},
+	winbar = {
+		enabled = false,
+		name_formatter = function(term) --  term: Terminal
+			return term.name
+		end,
 	},
 })
 
