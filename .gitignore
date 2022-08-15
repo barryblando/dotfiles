@@ -41,6 +41,6 @@ luac.out
 
 neovim/.config/nvim/plugin
 # add experiment demo-install. will remove later in gitignore
-demo-install.sh
+demo-install
 
 lazygit/.config/lazygit/state.yml
