@@ -104,6 +104,7 @@ local mappings = {
 	["q"] = { '<cmd>lua require("utils.functions").smart_quit()<CR>', "Quit" },
 	["/"] = { '<cmd>lua require("Comment.api").toggle_current_linewise()<CR>', "Comment" },
 	["P"] = { "<cmd>lua require('telescope').extensions.projects.projects()<cr>", "Projects" },
+	["x"] = { "<cmd>!chmod +x %<cr>", "Make Script Executable" },
 
 	p = {
 		name = "Packer",
