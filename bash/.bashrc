@@ -3,8 +3,11 @@
 # for examples
 
 # automatically start zsh whenever launching shell
-if test -t 1; then
-   exec zsh
+# if test -t 1; then
+#    exec zsh
+# fi
+if [[ -t 1 && -x /usr/bin/zsh ]]; then
+    exec /usr/bin/zsh
 fi
 
 # If not running interactively, don't do anything
