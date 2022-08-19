@@ -26,7 +26,7 @@ if wezterm.target_triple == "x86_64-pc-windows-msvc" then
 			-- Add an entry that will spawn into the distro with the default shell
 			table.insert(launch_menu, {
 				label = distro .. " (WSL default shell)",
-				args = { "wsl.exe", "--distribution", distro },
+				args = { "wsl.exe", "--distribution", distro, "--exec", "usr/bin/zsh", "-l" },
 			})
 
 			-- Here's how to jump directly into some other program; in this example
@@ -34,7 +34,7 @@ if wezterm.target_triple == "x86_64-pc-windows-msvc" then
 			-- any other program that you want to run in that environment
 			table.insert(launch_menu, {
 				label = distro .. " (WSL zsh login shell)",
-				args = { "wsl.exe", "--distribution", distro, "--exec", "/bin/zsh", "-l" },
+				args = { "wsl.exe", "--distribution", distro, "--exec", "usr/bin/zsh", "-l" },
 			})
 		end
 	end
