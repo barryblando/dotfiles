@@ -10,7 +10,6 @@ fi
 source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
-# BUN RUNTIME
 BUN_INSTALL="/home/bblando0x15/.bun"
 PATH="$BUN_INSTALL/bin:$PATH"
 
@@ -18,6 +17,11 @@ export DENO_INSTALL="/home/bblando0x15/.deno"
 export PATH="$DENO_INSTALL/bin:$PATH"
 
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
+export BREW_HOME="/home/linuxbrew/.linuxbrew/bin"
+export PATH="$PATH:$BREW_HOME"
+
+export PATH="$HOME/.cargo/bin:$PATH"
 
 # Created by `pipx` on 2022-06-21 13:33:23
 export PATH="$PATH:/home/bblando0x15/.local/bin"
@@ -83,8 +87,8 @@ alias tnw="tmux new-window"
 alias ta="tmux a" # attach to current running session
 
 # Other Aliases
-alias zshrc="vi ~/.zshrc"
-alias zshhistory="vi ~/.zsh_history"
+alias zshrc="vim ~/.zshrc"
+alias zshhistory="vim ~/.zsh_history"
 alias md="mkdir"
 alias ..="cd .."
 alias ...="cd ../.."
@@ -139,6 +143,9 @@ zstyle ':completion:*' verbose true
 
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
+
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#757575'
+
 # if you use manual installation
 # source ~/powerlevel10k/powerlevel10k.zsh-theme 
 # if you use oh-my-zsh https://github.com/ohmyzsh/ohmyzsh/wiki/Installing-ZSH
@@ -146,5 +153,6 @@ source ~/.oh-my-zsh/custom/themes/powerlevel10k/powerlevel10k.zsh-theme
 
 eval "$(fnm env --use-on-cd)"
 
+# eval "$(starship init zsh)" # -- I find starship slow in WSL2. Powerlevel10k is better
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
