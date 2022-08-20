@@ -61,5 +61,8 @@ null_ls.setup({
 		formatting.buf,
 
 		-- null_ls.builtins.code_actions.refactoring,
+
+    -- shell scripts
+    diagnostics.shellcheck,
 	},
 })
