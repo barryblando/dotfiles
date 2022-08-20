@@ -81,6 +81,7 @@ return packer.startup(function(use)
 
 	-- Session Manager
 	use({ "rmagatti/auto-session", config = lua_path("auto-session") })
+	use({ "rmagatti/session-lens" })
 
 	-- Easily comment stuff
 	use({ "numToStr/Comment.nvim", config = lua_path("comment") })
@@ -233,8 +234,8 @@ return packer.startup(function(use)
 	---------------------
 
 	use("neovim/nvim-lspconfig") -- enable LSP
-	use("williamboman/nvim-lsp-installer") -- simple to use language server installer
-	use("tamago324/nlsp-settings.nvim") -- A plugin to configure Neovim LSP using json/yaml files like coc-settings.json
+	use("williamboman/mason.nvim")
+	use("williamboman/mason-lspconfig.nvim")
 	use("jose-elias-alvarez/null-ls.nvim") -- for formatters and linters
 	use("folke/lua-dev.nvim") -- full signature help, docs and completion for the nvim lua API
 	use("b0o/schemastore.nvim") -- providing access to the SchemaStore catalog.
@@ -243,7 +244,7 @@ return packer.startup(function(use)
 	use("ray-x/lsp_signature.nvim")
 
 	-- LSP document highlight
-	use("RRethy/vim-illuminate")
+	use({"RRethy/vim-illuminate", config = lua_path("illuminate") })
 
 	-- LSP code action menu with diff preview
 	use({
@@ -263,6 +264,10 @@ return packer.startup(function(use)
 	-- Trouble A pretty diagnostic
 	use("folke/trouble.nvim")
 
+  -- RUST
+  use({ "simrat39/rust-tools.nvim" })
+  use "Saecki/crates.nvim"
+
 	---------------------
 	--    Telescope    --
 	---------------------
@@ -278,11 +283,12 @@ return packer.startup(function(use)
 	---------------------
 
 	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate", config = lua_path("nvim-treesitter") })
+	use({ "nvim-treesitter/nvim-treesitter-context" })
+	use({ "nvim-treesitter/nvim-treesitter-textobjects" })
 	use("JoosepAlviste/nvim-ts-context-commentstring")
 	use({ "p00f/nvim-ts-rainbow" })
 	use({ "windwp/nvim-autopairs", config = lua_path("nvim-autopairs") })
 	use({ "windwp/nvim-ts-autotag" })
-	use({ "nvim-treesitter/nvim-treesitter-context" })
 
 	-- Treesitter text dimming
 	use({
@@ -329,7 +335,6 @@ return packer.startup(function(use)
 	--       "mfussenegger/nvim-dap",
 	--     },
 	--   }) -- https://sharksforarms.dev/posts/neovim-rust/
-	-- https://github.coam/ray-x/go.nvim
 	-- https://github.com/pwntester/octo.nvim
 
 	-- Automatically set up your configuration after cloning packer.nvim
