@@ -179,7 +179,7 @@ local mappings = {
 	l = {
 		name = "LSP",
 		a = { "<cmd>CodeActionMenu<cr>", "Code Action" },
-		c = { "<cmd>lua require('lsp').server_capabilities()<cr>", "Get Capabilities" },
+		--[[ c = { "<cmd>lua require('lsp').server_capabilities()<cr>", "Get Capabilities" }, ]]
 		d = { "<cmd>TroubleToggle<cr>", "Diagnostics" },
 		w = {
 			"<cmd>Telescope lsp_workspace_diagnostics<cr>",
