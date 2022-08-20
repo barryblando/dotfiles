@@ -58,6 +58,8 @@ brew install hashicorp/tap/terraform-ls
 brew install lua-language-server
 brew install bufbuild/buf/buf
 brew install hadolint
+
+https://rust-analyzer.github.io/manual.html#rust-analyzer-language-server-binary
 ```
 
 - Install the following, in order for Telescope to work:
