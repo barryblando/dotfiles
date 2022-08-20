@@ -6,9 +6,19 @@ end
 
 local icons = require("utils.icons")
 
+local stages = require("notify.stages").fade_in_slide_out
+
 notify.setup({
 	-- Animation style (see below for details)
-	stages = "static",
+	--[[ stages = "static", ]]
+  stages = vim.list_extend({
+      function(state)
+        if #state.open_windows >= 3 then
+          return nil
+        end
+        return stages[1](state)
+      end,
+    }, vim.list_slice(stages, 2, #stages)),
 
 	-- Function called when a new window is opened, use for changing win settings/config
 	on_open = function(win)
