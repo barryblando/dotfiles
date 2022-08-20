@@ -126,12 +126,8 @@ local mappings = {
 		s = { "<cmd>SaveSession<cr>", "Save" },
 		r = { "<cmd>RestoreSession<cr>", "Restore" },
 		x = { "<cmd>DeleteSession<cr>", "Delete" },
-		f = { "<cmd>Autosession search<cr>", "Find" },
+		f = { "<cmd>Telescope session-lens search_session<cr>", "Find" },
 		d = { "<cmd>Autosession delete<cr>", "Find Delete" },
-		-- a = { ":SaveSession<cr>", "test" },
-		-- a = { ":RestoreSession<cr>", "test" },
-		-- a = { ":RestoreSessionFromFile<cr>", "test" },
-		-- a = { ":DeleteSession<cr>", "test" },
 	},
 
 	f = {
@@ -183,6 +179,7 @@ local mappings = {
 	l = {
 		name = "LSP",
 		a = { "<cmd>CodeActionMenu<cr>", "Code Action" },
+		c = { "<cmd>lua require('lsp').server_capabilities()<cr>", "Get Capabilities" },
 		d = { "<cmd>TroubleToggle<cr>", "Diagnostics" },
 		w = {
 			"<cmd>Telescope lsp_workspace_diagnostics<cr>",

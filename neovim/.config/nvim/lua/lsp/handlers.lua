@@ -2,6 +2,15 @@ local M = {}
 
 M.capabilities = vim.lsp.protocol.make_client_capabilities()
 
+local status_cmp_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+
+if not status_cmp_ok then
+	return
+end
+
+M.capabilities.textDocument.completion.completionItem.snippetSupport = true
+M.capabilities = cmp_nvim_lsp.update_capabilities(M.capabilities)
+
 ------------------------
 --    SETUP START     --
 ------------------------
@@ -160,113 +169,63 @@ end
 
 local function lsp_keymaps(bufnr)
 	local opts = { noremap = true, silent = true }
-	vim.api.nvim_buf_set_keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-	vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-	vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-	vim.api.nvim_buf_set_keymap(bufnr, "n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
-	vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
-	vim.cmd([[ command! Format execute 'lua vim.lsp.buf.format()' ]])
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "gD", "<cmd>Telescope lsp_declarations<CR>", opts)
+	-- vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "gI", "<cmd>Telescope lsp_implementations<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", "<cmd>Telescope lsp_references<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "gl", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
+	vim.cmd([[ command! Format execute 'lua vim.lsp.buf.format({ async = true })' ]])
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "<M-f>", "<cmd>Format<cr>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "<M-a>", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
 end
-
-------------------------
---     FORMATTING     --
-------------------------
-
-local lsp_formatting = function(bufnr)
-	vim.lsp.buf.format({
-		filter = function(client)
-			-- apply whatever logic you want (in this example, we'll only use null-ls)
-			return client.name == "null-ls"
-		end,
-		bufnr = bufnr,
-	})
-end
-
-------------------------
---  ASYNC FORMATTING  --
-------------------------
-
--- WARN: Enable async_formatting if you prefer it but does not guarantee reliability, use with caution.
-local async_formatting = function(bufnr)
-	bufnr = bufnr or vim.api.nvim_get_current_buf()
-
-	-- Async formatting works by sending a formatting request, then applying and writing results once they're received.
-	-- The async formatting implementation here comes with the following caveats:
-	--    If you edit the buffer in between sending a request and receiving results, those results won't be applied.
-	--    Each save will result in writing the file to the disk twice.
-	--    :wq will not format the file before quitting.
-
-	vim.lsp.buf_request(
-		bufnr,
-		"textDocument/formatting",
-		{ textDocument = { uri = vim.uri_from_bufnr(bufnr) } },
-		function(err, res, ctx)
-			if err then
-				local err_msg = type(err) == "string" and err or err.message
-				-- you can modify the log message / level (or ignore it completely)
-				vim.notify("Formatting: " .. err_msg, vim.log.levels.WARN)
-				return
-			end
-
-			-- don't apply results if buffer is unloaded or has been modified
-			if not vim.api.nvim_buf_is_loaded(bufnr) or vim.api.nvim_buf_get_option(bufnr, "modified") then
-				return
-			end
-
-			if res then
-				local client = vim.lsp.get_client_by_id(ctx.client_id)
-				vim.lsp.util.apply_text_edits(res, bufnr, client and client.offset_encoding or "utf-16")
-				vim.api.nvim_buf_call(bufnr, function()
-					vim.cmd("silent noautocmd update")
-				end)
-			end
-		end
-	)
-end
-
--- INFO: if you want to set up formatting on save, you can use this as a callback
-local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
 -- add to your shared on_attach callback
 M.on_attach = function(client, bufnr)
-	-- INFO: Enable this code to auto format after opening a file
-	-- lsp_formatting(bufnr)
-
-	-- INFO: Enable this code if you want auto formatting on save
-	if client.supports_method("textDocument/formatting") then
-		vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-		vim.api.nvim_create_autocmd("BufWritePre", {
-			group = augroup,
-			buffer = bufnr,
-			callback = function()
-				-- NOTE: This is the most reliable way to format files on save
-				lsp_formatting(bufnr)
-				-- async_formatting(bufnr)
-			end,
-		})
+	local client_to_skip = "dockerls cssls bashls" -- clients that navic doesn't support
+	if client_to_skip:find(client.name) then
+		goto continue
 	end
 
-  local client_to_skip = "dockerls cssls bashls" -- clients that navic doesn't support
-  if client_to_skip:find(client.name) then
-			goto continue
-	end
-
-  if client.supports_method("textDocument/documentSymbol") then
+	if client.supports_method("textDocument/documentSymbol") then
 		require("nvim-navic").attach(client, bufnr) -- in order for nvim-navic to work
 	end
 
-  ::continue::
+	::continue::
 	lsp_keymaps(bufnr)
 	lsp_highlight_document(client)
 end
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-
-local status_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-if not status_ok then
-	return
+function M.enable_format_on_save()
+	vim.cmd([[
+    augroup format_on_save
+      autocmd! 
+      autocmd BufWritePre * lua vim.lsp.buf.format({ async = false }) 
+    augroup end
+  ]])
+	vim.notify("Enabled format on save")
 end
 
-M.capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
+function M.disable_format_on_save()
+	M.remove_augroup("format_on_save")
+	vim.notify("Disabled format on save")
+end
+
+function M.toggle_format_on_save()
+	if vim.fn.exists("#format_on_save#BufWritePre") == 0 then
+		M.enable_format_on_save()
+	else
+		M.disable_format_on_save()
+	end
+end
+
+function M.remove_augroup(name)
+	if vim.fn.exists("#" .. name) == 1 then
+		vim.cmd("au! " .. name)
+	end
+end
+
+vim.cmd([[ command! LspToggleAutoFormat execute 'lua require("lsp.handlers").toggle_format_on_save()' ]])
 
 return M
