@@ -232,7 +232,7 @@ return {
 	default_domain = "WSL:WLinux",
 
   set_environment_variables = {
-    TERMINFO_DIRS = '/home/bblando0x15/.terminfo',
+    TERMINFO_DIRS = '//wsl$/WLinux/home/bblando0x15/.terminfo',
     WSLENV = 'TERMINFO_DIRS',
   },
   term = 'wezterm',
