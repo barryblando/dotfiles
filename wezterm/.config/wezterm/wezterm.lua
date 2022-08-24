@@ -231,6 +231,12 @@ return {
 
 	default_domain = "WSL:WLinux",
 
+  set_environment_variables = {
+    TERMINFO_DIRS = '/home/bblando0x15/.terminfo',
+    WSLENV = 'TERMINFO_DIRS',
+  },
+  term = 'wezterm',
+
 	keys = {
 		-- capital C so it won't conflict buffer window, CTRL-SHIFT + C to copy
 		{ key = "C", mods = "CTRL", action = wezterm.action({ CopyTo = "ClipboardAndPrimarySelection" }) },
