@@ -44,3 +44,4 @@ neovim/.config/nvim/plugin
 demo-install
 
 lazygit/.config/lazygit/state.yml
+.luarc.json
