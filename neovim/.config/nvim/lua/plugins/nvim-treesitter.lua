@@ -41,7 +41,8 @@ configs.setup {
     "css",
     "scss",
     "yaml",
-    "toml"
+    "toml",
+    "query"
   },
   sync_install = false, -- install languages synchronously (only applied to `ensure_installed`)
   ignore_install = { "" }, -- List of parsers to ignore installing
@@ -72,7 +73,7 @@ configs.setup {
   },
   rainbow = {
     enable = true,
-    extended_mode = true,
+    extended_mode = false,
     max_file_lines = nil,
     disable = vim.tbl_filter(
       function(p)
@@ -85,9 +86,9 @@ configs.setup {
       parsers.available_parsers()
     )
   },
-  playground = {
-    enable = true,
-  },
+  --[[ playground = { ]]
+  --[[   enable = true, ]]
+  --[[ }, ]]
   indent = { enable = true, disable = { "yaml" } },
   context_commentstring = {
     enable = true,
