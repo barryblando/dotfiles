@@ -14,13 +14,36 @@ vim.api.nvim_create_autocmd({ "User" }, {
 })
 
 vim.api.nvim_create_autocmd({ "FileType" }, {
-	pattern = { "qf", "help", "man", "lspinfo", "spectre_panel" },
-	callback = function()
-		vim.cmd([[
+  pattern = {
+    "Jaq",
+    "qf",
+    "help",
+    "man",
+    "lspinfo",
+    "spectre_panel",
+    "lir",
+    "DressingSelect",
+    "tsplayground",
+    "Markdown",
+  },
+  callback = function()
+    vim.cmd [[
       nnoremap <silent> <buffer> q :close<CR> 
+      nnoremap <silent> <buffer> <esc> :close<CR> 
       set nobuflisted 
-    ]])
-	end,
+    ]]
+  end,
+})
+
+vim.api.nvim_create_autocmd({ "FileType" }, {
+  pattern = { "Jaq" },
+  callback = function()
+    vim.cmd [[
+      nnoremap <silent> <buffer> <m-r> :close<CR>
+      " nnoremap <silent> <buffer> <m-r> <NOP> 
+      set nobuflisted 
+    ]]
+  end,
 })
 
 if vim.fn.has("nvim-0.8") == 1 then
@@ -67,49 +90,20 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
 
 vim.api.nvim_create_autocmd({ "VimEnter" }, {
 	callback = function()
-		vim.cmd("hi link illuminatedWord CursorLine")
+		vim.cmd("hi link illuminatedWord LspReferenceText")
 	end,
 })
 
--- #########################
---     AUTOCOMMANDS END
--- #########################)
-
--- vim.cmd [[
---   augroup _general_settings
---     autocmd!
---     autocmd FileType qf,help,man,lspinfo nnoremap <silent> <buffer> q :close<CR>
---     autocmd TextYankPost * silent!lua require('vim.highlight').on_yank({higroup = 'Visual', timeout = 200})
---     autocmd BufWinEnter * :set formatoptions-=cro
---     autocmd FileType qf set nobuflisted
---   augroup end
---
---   augroup _git
---     autocmd!
---     autocmd FileType gitcommit setlocal wrap
---     autocmd FileType gitcommit setlocal spell
---   augroup end
---
---   augroup _markdown
---     autocmd!
---     autocmd FileType markdown setlocal wrap
---     autocmd FileType markdown setlocal spell
---   augroup end
---
---   augroup _json
---     autocmd!
---     autocmd BufNewFile,BufRead tsconfig.json setlocal filetype=jsonc
---     autocmd BufNewFile,BufRead tsconfig.*.json setlocal filetype=jsonc
---   augroup end
---
---   augroup _auto_resize
---     autocmd!
---     autocmd VimResized * tabdo wincmd =
---   augroup end
--- ]]
-
--- Autoformat
--- augroup _lsp
---   autocmd!
---   autocmd BufWritePre * lua vim.lsp.buf.formatting()
--- augroup end
+vim.api.nvim_create_autocmd({ "CursorHold" }, {
+  callback = function()
+    local status_ok, luasnip = pcall(require, "luasnip")
+    if not status_ok then
+      return
+    end
+    if luasnip.expand_or_jumpable() then
+      -- ask maintainer for option to make this silent
+      -- luasnip.unlink_current()
+      vim.cmd [[silent! lua require("luasnip").unlink_current()]]
+    end
+  end,
+})
