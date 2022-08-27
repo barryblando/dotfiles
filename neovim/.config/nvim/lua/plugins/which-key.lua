@@ -102,7 +102,7 @@ local mappings = {
 	["c"] = { "<cmd>Bdelete!<CR>", "Close Buffer" },
 	["h"] = { "<cmd>nohlsearch<CR>", "No Highlight" },
 	["q"] = { '<cmd>lua require("utils.functions").smart_quit()<CR>', "Quit" },
-	["/"] = { '<cmd>lua require("Comment.api").toggle_current_linewise()<CR>', "Comment" },
+	["/"] = { '<cmd>lua require("Comment.api").toggle.linewise.current()<CR>', "Comment" },
 	["P"] = { "<cmd>lua require('telescope').extensions.projects.projects()<cr>", "Projects" },
 	["x"] = { "<cmd>!chmod +x %<cr>", "Make Script Executable" },
 
@@ -114,6 +114,18 @@ local mappings = {
 		S = { "<cmd>PackerStatus<cr>", "Status" },
 		u = { "<cmd>PackerUpdate<cr>", "Update" },
 	},
+
+  o = {
+    name = "Options",
+    c = { '<cmd>lua vim.g.cmp_active=false<cr>', "Completion off" },
+    C = { '<cmd>lua vim.g.cmp_active=true<cr>', "Completion on" },
+    w = { '<cmd>lua require("user.functions").toggle_option("wrap")<cr>', "Wrap" },
+    r = { '<cmd>lua require("user.functions").toggle_option("relativenumber")<cr>', "Relative" },
+    l = { '<cmd>lua require("user.functions").toggle_option("cursorline")<cr>', "Cursorline" },
+    s = { '<cmd>lua require("user.functions").toggle_option("spell")<cr>', "Spell" },
+    t = { '<cmd>lua require("user.functions").toggle_tabline()<cr>', "Tabline" },
+
+  },
 
 	s = {
 		name = "Split",
@@ -130,28 +142,37 @@ local mappings = {
 		d = { "<cmd>Autosession delete<cr>", "Find Delete" },
 	},
 
-	f = {
-		name = "Find",
-		b = { "<cmd>Telescope git_branches<cr>", "Checkout branch" },
-		c = { "<cmd>Telescope colorscheme<cr>", "Colorscheme" },
-		f = {
-			"<cmd>lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown{previewer = false})<cr>",
-			"Find files",
-		},
-		F = {
-			"<cmd>Telescope file_browser<cr>",
-			"File Browser",
-		},
-		t = { "<cmd>Telescope live_grep theme=ivy<cr>", "Find Text" },
-		h = { "<cmd>Telescope help_tags<cr>", "Help" },
-		i = { "<cmd>lua require('telescope').extensions.media_files.media_files()<cr>", "Media" },
-		l = { "<cmd>Telescope resume<cr>", "Last Search" },
-		M = { "<cmd>Telescope man_pages<cr>", "Man Pages" },
-		r = { "<cmd>Telescope oldfiles<cr>", "Recent File" },
-		R = { "<cmd>Telescope registers<cr>", "Registers" },
-		k = { "<cmd>Telescope keymaps<cr>", "Keymaps" },
-		C = { "<cmd>Telescope commands<cr>", "Commands" },
-	},
+  d = {
+    name = "Debug",
+    b = { "<cmd>lua require'dap'.toggle_breakpoint()<cr>", "Breakpoint" },
+    c = { "<cmd>lua require'dap'.continue()<cr>", "Continue" },
+    i = { "<cmd>lua require'dap'.step_into()<cr>", "Into" },
+    o = { "<cmd>lua require'dap'.step_over()<cr>", "Over" },
+    O = { "<cmd>lua require'dap'.step_out()<cr>", "Out" },
+    r = { "<cmd>lua require'dap'.repl.toggle()<cr>", "Repl" },
+    l = { "<cmd>lua require'dap'.run_last()<cr>", "Last" },
+    u = { "<cmd>lua require'dapui'.toggle()<cr>", "UI" },
+    x = { "<cmd>lua require'dap'.terminate()<cr>", "Exit" },
+  },
+
+
+  f = {
+    name = "Find",
+    b = { "<cmd>Telescope git_branches<cr>", "Checkout branch" },
+    c = { "<cmd>Telescope colorscheme<cr>", "Colorscheme" },
+    f = { "<cmd>Telescope find_files<cr>", "Find files" },
+    t = { "<cmd>Telescope live_grep<cr>", "Find Text" },
+    s = { "<cmd>Telescope grep_string<cr>", "Find String" },
+    h = { "<cmd>Telescope help_tags<cr>", "Help" },
+    H = { "<cmd>Telescope highlights<cr>", "Highlights" },
+    i = { "<cmd>lua require('telescope').extensions.media_files.media_files()<cr>", "Media" },
+    l = { "<cmd>Telescope resume<cr>", "Last Search" },
+    M = { "<cmd>Telescope man_pages<cr>", "Man Pages" },
+    r = { "<cmd>Telescope oldfiles<cr>", "Recent File" },
+    R = { "<cmd>Telescope registers<cr>", "Registers" },
+    k = { "<cmd>Telescope keymaps<cr>", "Keymaps" },
+    C = { "<cmd>Telescope commands<cr>", "Commands" },
+  },
 
 	g = {
 		name = "Git",
@@ -180,7 +201,7 @@ local mappings = {
 		name = "LSP",
 		a = { "<cmd>CodeActionMenu<cr>", "Code Action" },
 		--[[ c = { "<cmd>lua require('lsp').server_capabilities()<cr>", "Get Capabilities" }, ]]
-		d = { "<cmd>TroubleToggle<cr>", "Diagnostics" },
+		-- d = { "<cmd>TroubleToggle<cr>", "Diagnostics" },
 		w = {
 			"<cmd>Telescope lsp_workspace_diagnostics<cr>",
 			"Workspace Diagnostics",
@@ -198,10 +219,11 @@ local mappings = {
 			"<cmd>lua vim.lsp.diagnostic.goto_prev()<cr>",
 			"Prev Diagnostic",
 		},
+    v = { "<cmd>lua require('lsp_lines').toggle()<cr>", "Virtual Lines" },
 		l = { "<cmd>lua vim.lsp.codelens.run()<cr>", "CodeLens Action" },
 		q = { "<cmd>lua vim.lsp.diagnostic.set_loclist()<cr>", "Quickfix" },
 		r = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
-		R = { "<cmd>TroubleToggle lsp_references<cr>", "References" },
+		-- R = { "<cmd>TroubleToggle lsp_references<cr>", "References" },
 		s = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
 		S = {
 			"<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",
@@ -228,7 +250,6 @@ local mappings = {
 		["3"] = { ":3ToggleTerm<cr>", "3" },
 		["4"] = { ":4ToggleTerm<cr>", "4" },
 		n = { "<cmd>lua _NODE_TOGGLE()<cr>", "Node" },
-		k = { "<cmd>lua _LAZYNPM_TOGGLE()<cr>", "NPM" },
 		d = { "<cmd>lua _LAZYDOCKER_TOGGLE()<cr>", "Docker" },
 		u = { "<cmd>lua _NCDU_TOGGLE()<cr>", "NCDU" },
 		t = { "<cmd>lua _HTOP_TOGGLE()<cr>", "Htop" },
@@ -250,7 +271,7 @@ local vopts = {
 }
 
 local vmappings = {
-	["/"] = { '<ESC><CMD>lua require("Comment.api").toggle_linewise_op(vim.fn.visualmode())<CR>', "Comment" },
+	["/"] = { '<ESC><CMD>lua require("Comment.api").toggle.linewise(vim.fn.visualmode())<CR>', "Comment" },
 	s = { "<esc><cmd>'<,'>SnipRun<cr>", "Run range" },
 }
 
