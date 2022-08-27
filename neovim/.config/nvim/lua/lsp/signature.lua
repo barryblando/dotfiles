@@ -4,9 +4,9 @@ if not ok_status then
 	return
 end
 
-signature.setup({
+local cfg = {
 	-- general options
-	always_trigger = true,
+	always_trigger = false,
 	hint_enable = false, -- virtual text hint
 	bind = true,
 
@@ -20,4 +20,8 @@ signature.setup({
 		border = { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" },
 	},
 	max_width = 80,
-})
+}
+
+signature.setup(cfg)
+
+signature.on_attach(cfg)
