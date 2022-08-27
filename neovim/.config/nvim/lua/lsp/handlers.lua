@@ -141,7 +141,7 @@ M.setup = function()
 
 	-- Show line diagnostics in floating popup on hover, except insert mode (CursorHoldI)
 	vim.o.updatetime = 250
-	vim.cmd([[autocmd CursorHold * lua vim.diagnostic.open_float()]])
+	-- vim.cmd([[ autocmd CursorHold * lua vim.diagnostic.open_float(nil, { focusable = false }) ]])
 end
 
 ------------------------
@@ -157,6 +157,11 @@ local function lsp_highlight_document(client)
       hi! link LspReferenceRead Visual
       hi! link LspReferenceText Visual
       hi! link LspReferenceWrite Visual
+      augroup lsp_document_highlight
+        autocmd! * <buffer>
+        autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+        autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+      augroup END
     ]],
 			false
 		)
@@ -169,9 +174,9 @@ end
 
 local function lsp_keymaps(bufnr)
 	local opts = { noremap = true, silent = true }
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
 	vim.api.nvim_buf_set_keymap(bufnr, "n", "gD", "<cmd>Telescope lsp_declarations<CR>", opts)
-	-- vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
 	vim.api.nvim_buf_set_keymap(bufnr, "n", "gI", "<cmd>Telescope lsp_implementations<CR>", opts)
 	vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", "<cmd>Telescope lsp_references<CR>", opts)
 	vim.api.nvim_buf_set_keymap(bufnr, "n", "gl", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
@@ -181,7 +186,10 @@ local function lsp_keymaps(bufnr)
 	vim.api.nvim_buf_set_keymap(bufnr, "n", "<M-a>", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
 end
 
--- add to your shared on_attach callback
+------------------------
+--     ON ATTACH      --
+------------------------
+
 M.on_attach = function(client, bufnr)
 	local client_to_skip = "dockerls cssls bashls" -- clients that navic doesn't support
 	if client_to_skip:find(client.name) then
@@ -195,6 +203,9 @@ M.on_attach = function(client, bufnr)
 	::continue::
 	lsp_keymaps(bufnr)
 	lsp_highlight_document(client)
+	-- if client.name == "tsserver" then
+	--   require("lsp-inlayhints").on_attach(bufnr, client)
+	-- end
 end
 
 function M.enable_format_on_save()
