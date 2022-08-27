@@ -30,12 +30,16 @@ end
 
 -- Have packer use a popup window
 packer.init({
+  -- snapshot = "aug-22",
+  -- snapshot_path = fn.stdpath "config" .. "/snapshots",
+  max_jobs = 50,
 	display = {
 		open_fn = function()
 			return require("packer.util").float({
 				border = { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" },
 			})
 		end,
+    prompt_borer = "rounded"
 	},
 })
 
@@ -128,6 +132,9 @@ return packer.startup(function(use)
 	-- Closing buffers
 	use("moll/vim-bbye")
 
+  -- Cycling buffers (i.e tab navigation for buffer)
+  use({ "ghillb/cybu.nvim", config = lua_path("cybu") })
+
 	-- Statusline
 	use({ "nvim-lualine/lualine.nvim", config = lua_path("lualine") })
 
@@ -157,18 +164,19 @@ return packer.startup(function(use)
 	})
 
 	-- Alpha Menu
-	use({ "goolord/alpha-nvim", config = lua_path("alpha") })
+	use({ "goolord/alpha-nvim", config = lua_path("alpha-nvim") })
 
 	-- This is need to fix some plugins cursor problems
 	use("antoinemadec/FixCursorHold.nvim")
 
-	-- Which Key Menu
+	-- Which Key Binding
 	use({ "folke/which-key.nvim", config = lua_path("which-key") })
 
 	-- For jumping cursor in every word
 	use("unblevable/quick-scope")
 
 	-- Easy motion. Crazy fast jumping cursor
+  -- ALT - https://github.com/ggandor/leap.nvim
 	use({ "phaazon/hop.nvim", config = lua_path("hop") })
 
 	-- Multiple Select Cursor
@@ -209,7 +217,7 @@ return packer.startup(function(use)
 	use("sainnhe/gruvbox-material")
 
 	-- Color highlighter for Neovim
-	use({ "norcalli/nvim-colorizer.lua", config = lua_path("colorizer") })
+	use({ "norcalli/nvim-colorizer.lua", config = lua_path("nvim-colorizer") })
 
 	---------------------
 	-- AUTO COMPLETION --
@@ -221,6 +229,7 @@ return packer.startup(function(use)
 	use("hrsh7th/cmp-cmdline") -- cmdline completions
 	use("hrsh7th/cmp-nvim-lsp") -- nvim-cmp source for neovim's built-in language server client
 	use("saadparwaiz1/cmp_luasnip") -- snippet completions
+  use({ "tzachar/cmp-tabnine", run = "./install.sh" })
 
 	---------------------
 	--    SNIPPETS     --
@@ -240,11 +249,14 @@ return packer.startup(function(use)
 	use("folke/lua-dev.nvim") -- full signature help, docs and completion for the nvim lua API
 	use("b0o/schemastore.nvim") -- providing access to the SchemaStore catalog.
 
+  -- LSP partial implementation inlay-hints
+  use({ "lvimuser/lsp-inlayhints.nvim", config = lua_path("lsp-inlayhints") })
+
 	-- LSP signature help
 	use("ray-x/lsp_signature.nvim")
 
 	-- LSP document highlight
-	use({"RRethy/vim-illuminate", config = lua_path("illuminate") })
+	use({"RRethy/vim-illuminate", config = lua_path("vim-illuminate") })
 
 	-- LSP code action menu with diff preview
 	use({
@@ -253,7 +265,7 @@ return packer.startup(function(use)
 	})
 
 	-- LSP code action prompt
-	use({ "kosayoda/nvim-lightbulb", config = lua_path("lightbulb") })
+	use({ "kosayoda/nvim-lightbulb", config = lua_path("nvim-lightbulb") })
 
 	-- Renamer
 	use({ "filipdutescu/renamer.nvim", branch = "master", config = lua_path("renamer") })
@@ -262,11 +274,24 @@ return packer.startup(function(use)
 	use({ "SmiteshP/nvim-navic", config = lua_path("nvim-navic") })
 
 	-- Trouble A pretty diagnostic
-	use("folke/trouble.nvim")
+	-- use("folke/trouble.nvim")
+
+  -- LSP diagnostic lines
+  use({ "https://git.sr.ht/~whynothugo/lsp_lines.nvim", config = lua_path("lsp_lines" )})
 
   -- RUST
   use({ "simrat39/rust-tools.nvim" })
-  use "Saecki/crates.nvim"
+  use ({ "Saecki/crates.nvim", config = lua_path("crates") })
+
+  -- GOLANG
+  use ({ "https://github.com/ray-x/go.nvim" })
+
+	---------------------
+	--    Debugging    --
+	---------------------
+
+  use ({ "mfussenegger/nvim-dap", config = lua_path("nvim-dap") })
+  use "rcarriga/nvim-dap-ui"
 
 	---------------------
 	--    Telescope    --
@@ -285,6 +310,7 @@ return packer.startup(function(use)
 	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate", config = lua_path("nvim-treesitter") })
 	use({ "nvim-treesitter/nvim-treesitter-context" })
 	use({ "nvim-treesitter/nvim-treesitter-textobjects" })
+  use({ "nvim-treesitter/playground" })
 	use("JoosepAlviste/nvim-ts-context-commentstring")
 	use({ "p00f/nvim-ts-rainbow" })
 	use({ "windwp/nvim-autopairs", config = lua_path("nvim-autopairs") })
@@ -314,28 +340,33 @@ return packer.startup(function(use)
 	---------------------
 
 	use({ "lewis6991/gitsigns.nvim", config = lua_path("gitsigns") })
+  use ({
+    "akinsho/git-conflict.nvim",
+    tag = "*",
+    config = function()
+      require('git-conflict').setup()
+    end
+  })
 
 	---------------------
 	--   EXPIREMENT    --
-	---------------------
+  ---------------------
 
 	-- Plugins to Experiment in spare time
 	-- https://github.com/axieax/dotconfig/blob/main/nvim/lua/axie/plugins/init.lua
 	-- use "ThePrimeagen/refactoring.nvim"
 	-- use "windwp/nvim-spectre"
-	-- use { "michaelb/sniprun", run = "bash ./install.sh" }
 	-- use { "NTBBloodbath/rest.nvim" }
 	-- use { "junegunn/vim-easy-align" }
 	-- use { "kevinhwang91/nvim-bqf", ft = "qf" }
 	-- use { "sunjon/stylish.nvim" } -- stylish UI Components for Neovim
-	-- use { "saecki/crates.nvim" }
 	-- use({
 	--     "simrat39/rust-tools.nvim",
 	--     requires = {
 	--       "mfussenegger/nvim-dap",
 	--     },
 	--   }) -- https://sharksforarms.dev/posts/neovim-rust/
-	-- https://github.com/pwntester/octo.nvim
+  -- https://github.com/is0n/jaq-nvim
 
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins
