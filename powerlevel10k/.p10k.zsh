@@ -9,6 +9,7 @@
 # Type `p10k configure` to generate your own config based on it.
 #
 # Tip: Looking for a nice color? Here's a one-liner to print colormap.
+# https://github.com/romkatv/powerlevel10k/issues/805
 #
 #   for i in {0..255}; do print -Pn "%K{$i}  %k%F{$i}${(l:3::0:)i}%f " ${${(M)$((i%6)):#3}:+$'\n'}; done
 
@@ -55,8 +56,8 @@
     anaconda                # conda environment (https://conda.io/)
     pyenv                   # python environment (https://github.com/pyenv/pyenv)
     goenv                   # go environment (https://github.com/syndbg/goenv)
-    # nodenv                  # node.js version from nodenv (https://github.com/nodenv/nodenv)
-    nvm                     # node.js version from nvm (https://github.com/nvm-sh/nvm)
+    # nodenv                # node.js version from nodenv (https://github.com/nodenv/nodenv)
+    # nvm                   # node.js version from nvm (https://github.com/nvm-sh/nvm)
     # nodeenv               # node.js environment (https://github.com/ekalinin/nodeenv)
     node_version            # node.js version
     go_version              # go version (https://golang.org)
@@ -1016,7 +1017,7 @@
 
   ##############################[ node_version: node.js version ]###############################
   # Node version color.
-  # typeset -g POWERLEVEL9K_NODE_VERSION_FOREGROUND=7
+  typeset -g POWERLEVEL9K_NODE_VERSION_FOREGROUND=0
   # typeset -g POWERLEVEL9K_NODE_VERSION_BACKGROUND=2
   # Show node version only when in a directory tree containing package.json.
   typeset -g POWERLEVEL9K_NODE_VERSION_PROJECT_ONLY=true
