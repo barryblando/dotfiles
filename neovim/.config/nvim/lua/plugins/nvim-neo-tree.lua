@@ -30,6 +30,10 @@ neotree.setup({
 			trailing_slash = true,
 		},
 	},
+  -- source_selector = {
+  --   winbar = true,
+  --   statusline = false
+  -- },
 	window = {
 		position = "float",
 		width = "30%",
