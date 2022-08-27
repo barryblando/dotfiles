@@ -10,22 +10,6 @@ fi
 source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
-BUN_INSTALL="/home/bblando0x15/.bun"
-PATH="$BUN_INSTALL/bin:$PATH"
-
-export DENO_INSTALL="/home/bblando0x15/.deno"
-export PATH="$DENO_INSTALL/bin:$PATH"
-
-export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
-
-export BREW_HOME="/home/linuxbrew/.linuxbrew/bin"
-export PATH="$PATH:$BREW_HOME"
-
-export PATH="$HOME/.cargo/bin:$PATH"
-
-# Created by `pipx` on 2022-06-21 13:33:23
-export PATH="$PATH:/home/bblando0x15/.local/bin"
-
 # Git Aliases
 alias gc="git checkout";
 alias gcm="git checkout master";
