@@ -1,4 +1,11 @@
+local extension_path = vim.env.HOME .. "/.vscode-server/extensions/vadimcn.vscode-lldb-1.7.4/"
+local codelldb_path = extension_path .. "adapter/codelldb"
+local liblldb_path = extension_path .. "lldb/lib/liblldb.so"
+
 return {
+	dap = {
+		adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path),
+	},
 	tools = {
 		-- autoSetHints = false,
 		on_initialized = function()
@@ -58,7 +65,16 @@ return {
 		},
 		hover_actions = {
 			auto_focus = false,
-			border = "rounded",
+			border = {
+				{ "┏", "FloatBorder" },
+				{ "━", "FloatBorder" },
+				{ "┓", "FloatBorder" },
+				{ "┃", "FloatBorder" },
+				{ "┛", "FloatBorder" },
+				{ "━", "FloatBorder" },
+				{ "┗", "FloatBorder" },
+				{ "┃", "FloatBorder" },
+			},
 			width = 60,
 			-- height = 30,
 		},
@@ -69,8 +85,8 @@ return {
         $ curl -L https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-x86_64-unknown-linux-gnu.gz | gunzip -c - > ~/.local/bin/rust-analyzer
         $ chmod +x ~/.local/bin/rust-analyzer
     --]]
-		-- cmd = { os.getenv "HOME" .. "/.local/bin/rust-analyzer" },
-		cmd = { "rustup", "run", "nightly", os.getenv("HOME") .. "/.local/bin/rust-analyzer" },
+		cmd = { os.getenv("HOME") .. "/.local/bin/rust-analyzer" },
+		-- cmd = { "rustup", "run", "nightly", os.getenv("HOME") .. "/.local/bin/rust-analyzer" },
 		on_attach = require("lsp.handlers").on_attach,
 		capabilities = require("lsp.handlers").capabilities,
 
