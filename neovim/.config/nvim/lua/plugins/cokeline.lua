@@ -27,6 +27,16 @@ local components = {
 		truncation = { priority = 1 },
 	},
 
+  left_bracket = {
+    text = "[",
+    truncation = { priority = 1 }
+  },
+
+  right_bracket = {
+    text = "]",
+    truncation = { priority = 1 }
+  },
+
 	separator = {
 		text = function(buffer)
 			return buffer.index ~= 1 and "▏" or ""
@@ -52,7 +62,7 @@ local components = {
 
 	index = {
 		text = function(buffer)
-			return buffer.index .. ": "
+			return buffer.index .. ":"
 		end,
 		truncation = { priority = 1 },
 	},
@@ -74,8 +84,8 @@ local components = {
 			return buffer.filename
 		end,
 		style = function(buffer)
-			return ((buffer.is_focused and buffer.diagnostics.errors ~= 0) and "bold,italic")
-				or (buffer.is_focused and "bold,italic")
+			return ((buffer.is_focused and buffer.diagnostics.errors ~= 0) and "bold") -- "bold,italic"
+				or (buffer.is_focused and "bold") -- "bold,italic"
 				or (buffer.diagnostics.errors ~= 0 and "underline")
 				or nil
 		end,
@@ -87,8 +97,8 @@ local components = {
 
 	diagnostics = {
 		text = function(buffer)
-			return (buffer.diagnostics.errors ~= 0 and " " .. icons.diagnostics.Error .. buffer.diagnostics.errors)
-				or (buffer.diagnostics.warnings ~= 0 and " " .. icons.diagnostics.Warning .. buffer.diagnostics.warnings)
+			return (buffer.diagnostics.errors ~= 0 and "[" .. icons.diagnostics.Error .. buffer.diagnostics.errors .. "]")
+				or (buffer.diagnostics.warnings ~= 0 and "[" .. icons.diagnostics.Warning .. buffer.diagnostics.warnings .. "]")
 				or ""
 		end,
 		fg = function(buffer)
@@ -101,7 +111,7 @@ local components = {
 
 	close_or_unsaved = {
 		text = function(buffer)
-			return buffer.is_modified and "●" or "×"
+			return buffer.is_modified and "[●]" or "" -- "×"
 		end,
 		fg = function(buffer)
 			return buffer.is_modified and "#e5c463" or nil
@@ -113,7 +123,7 @@ local components = {
 	is_readonly = {
 		text = function(buffer)
 			if buffer.is_readonly then
-				return " 🔒"
+				return ""
 			end
 			return ""
 		end,
@@ -142,15 +152,19 @@ cokeline.setup({
 	},
 	components = {
 		components.space,
-		components.devicon,
-		components.space,
+		-- components.devicon,
+		-- components.space,
+    components.index,
+    components.left_bracket,
 		components.unique_prefix,
 		components.filename,
+    components.right_bracket,
 		components.diagnostics,
-		components.space,
-		components.is_readonly,
-		components.space,
+		-- components.space,
+		-- components.is_readonly,
+		-- components.space,
 		components.close_or_unsaved,
+		components.is_readonly,
 		components.space,
 	},
 })
