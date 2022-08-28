@@ -136,6 +136,7 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#757575'
 source ~/.oh-my-zsh/custom/themes/powerlevel10k/powerlevel10k.zsh-theme
 
 eval "$(fnm env --use-on-cd)"
+eval "$(goenv init -)"
 
 # eval "$(starship init zsh)" # -- I find starship slow in WSL2. Powerlevel10k is better
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.

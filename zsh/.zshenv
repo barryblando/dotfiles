@@ -18,5 +18,5 @@ PATH="$PATH:/home/linuxbrew/.linuxbrew/bin/nvim"
 
 # TERMINFO="/home/bblando0x15/.terminfo/"
 
-GOPATH="/usr/local/go"
-PATH="$PATH:$GOPATH/bin"
+# GOPATH="/usr/local/go"
+# PATH="$PATH:$GOPATH/bin"
