@@ -360,13 +360,8 @@ return packer.startup(function(use)
 	-- use { "junegunn/vim-easy-align" }
 	-- use { "kevinhwang91/nvim-bqf", ft = "qf" }
 	-- use { "sunjon/stylish.nvim" } -- stylish UI Components for Neovim
-	-- use({
-	--     "simrat39/rust-tools.nvim",
-	--     requires = {
-	--       "mfussenegger/nvim-dap",
-	--     },
-	--   }) -- https://sharksforarms.dev/posts/neovim-rust/
   -- https://github.com/is0n/jaq-nvim
+  -- https://github.com/B4mbus/nvim-headband -- soon. a simple and opinionated winbar
 
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins
