@@ -10,9 +10,9 @@ local hide_in_width = function()
 	return vim.fn.winwidth(0) > 80
 end
 
-local hl_str = function(str, hl)
-  return "%#" .. hl .. "#" .. str .. "%*"
-end
+-- local hl_str = function(str, hl)
+--   return "%#" .. hl .. "#" .. str .. "%*"
+-- end
 
 -- check if value in table
 local function contains(t, value)
