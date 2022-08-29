@@ -72,6 +72,9 @@ return packer.startup(function(use)
 	-- Useful lua functions used by lots of plugins
 	use("nvim-lua/plenary.nvim")
 
+  -- UI Component Library for Neovim
+  use("MunifTanjim/nui.nvim")
+
 	-- Speeding up startup
 	use({
 		"lewis6991/impatient.nvim",
@@ -95,8 +98,6 @@ return packer.startup(function(use)
 		"nvim-neo-tree/neo-tree.nvim",
 		branch = "v2.x",
 		requires = {
-			"nvim-lua/plenary.nvim",
-			"MunifTanjim/nui.nvim",
 			{
 				-- only needed if you want to use the commands with "_with_window_picker" suffix
 				"s1n7ax/nvim-window-picker",
@@ -208,6 +209,9 @@ return packer.startup(function(use)
 
 	-- plugin to specify, or on the fly, mark and create persisting key strokes to go to the files you want.
 	use("ThePrimeagen/harpoon")
+
+  -- All the npm/yarn/pnpm commands I don't want to type
+  -- use({ "vuki656/package-info.nvim", config = lua_path("package-info") })
 
 	---------------------
 	--  COLOR SCHEMES  --
