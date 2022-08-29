@@ -14,36 +14,36 @@ vim.api.nvim_create_autocmd({ "User" }, {
 })
 
 vim.api.nvim_create_autocmd({ "FileType" }, {
-  pattern = {
-    "Jaq",
-    "qf",
-    "help",
-    "man",
-    "lspinfo",
-    "spectre_panel",
-    "lir",
-    "DressingSelect",
-    "tsplayground",
-    "Markdown",
-  },
-  callback = function()
-    vim.cmd [[
+	pattern = {
+		"Jaq",
+		"qf",
+		"help",
+		"man",
+		"lspinfo",
+		"spectre_panel",
+		"lir",
+		"DressingSelect",
+		"tsplayground",
+		"Markdown",
+	},
+	callback = function()
+		vim.cmd([[
       nnoremap <silent> <buffer> q :close<CR> 
       nnoremap <silent> <buffer> <esc> :close<CR> 
       set nobuflisted 
-    ]]
-  end,
+    ]])
+	end,
 })
 
 vim.api.nvim_create_autocmd({ "FileType" }, {
-  pattern = { "Jaq" },
-  callback = function()
-    vim.cmd [[
+	pattern = { "Jaq" },
+	callback = function()
+		vim.cmd([[
       nnoremap <silent> <buffer> <m-r> :close<CR>
       " nnoremap <silent> <buffer> <m-r> <NOP> 
       set nobuflisted 
-    ]]
-  end,
+    ]])
+	end,
 })
 
 if vim.fn.has("nvim-0.8") == 1 then
@@ -95,15 +95,15 @@ vim.api.nvim_create_autocmd({ "VimEnter" }, {
 })
 
 vim.api.nvim_create_autocmd({ "CursorHold" }, {
-  callback = function()
-    local status_ok, luasnip = pcall(require, "luasnip")
-    if not status_ok then
-      return
-    end
-    if luasnip.expand_or_jumpable() then
-      -- ask maintainer for option to make this silent
-      -- luasnip.unlink_current()
-      vim.cmd [[silent! lua require("luasnip").unlink_current()]]
-    end
-  end,
+	callback = function()
+		local status_ok, luasnip = pcall(require, "luasnip")
+		if not status_ok then
+			return
+		end
+		if luasnip.expand_or_jumpable() then
+			-- ask maintainer for option to make this silent
+			-- luasnip.unlink_current()
+			vim.cmd([[silent! lua require("luasnip").unlink_current()]])
+		end
+	end,
 })
