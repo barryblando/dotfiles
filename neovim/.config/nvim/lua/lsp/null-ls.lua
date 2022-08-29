@@ -12,7 +12,7 @@ null_ls.setup({
 	debug = false,
 	sources = {
 		-- Basic Formatting needs
-		formatting.prettier.with({
+		formatting.prettierd.with({
 			filetypes = {
 				"css",
 				"scss",
@@ -42,17 +42,17 @@ null_ls.setup({
 		}),
 
 		-- Typescript, Javascript, React, Vue
-		-- formatting.eslint.with({
-		-- 	condition = function(utils)
-		-- 		return utils.root_has_file({
-		-- 			".eslintrc.js",
-		-- 			".eslintrc.cjs",
-		-- 			".eslintrc.yaml",
-		-- 			".eslintrc.yml",
-		-- 			".eslintrc.json",
-		-- 		})
-		-- 	end,
-		-- }),
+		formatting.eslint_d.with({
+			condition = function(utils)
+				return utils.root_has_file({
+					".eslintrc.js",
+					".eslintrc.cjs",
+					".eslintrc.yaml",
+					".eslintrc.yml",
+					".eslintrc.json",
+				})
+			end,
+		}),
 
 		-- Lua
 		formatting.stylua,
@@ -68,31 +68,31 @@ null_ls.setup({
 })
 
 local unwrap = {
-  method = null_ls.methods.DIAGNOSTICS,
-  filetypes = { "rust" },
-  generator = {
-    fn = function(params)
-      local diagnostics = {}
-      -- sources have access to a params object
-      -- containing info about the current file and editor state
-      for i, line in ipairs(params.content) do
-        local col, end_col = line:find "unwrap()"
-        if col and end_col then
-          -- null-ls fills in undefined positions
-          -- and converts source diagnostics into the required format
-          table.insert(diagnostics, {
-            row = i,
-            col = col,
-            end_col = end_col,
-            source = "unwrap",
-            message = "hey " .. os.getenv("USER") .. ", don't forget to handle this" ,
-            severity = 2,
-          })
-        end
-      end
-      return diagnostics
-    end,
-  },
+	method = null_ls.methods.DIAGNOSTICS,
+	filetypes = { "rust" },
+	generator = {
+		fn = function(params)
+			local diagnostics = {}
+			-- sources have access to a params object
+			-- containing info about the current file and editor state
+			for i, line in ipairs(params.content) do
+				local col, end_col = line:find("unwrap()")
+				if col and end_col then
+					-- null-ls fills in undefined positions
+					-- and converts source diagnostics into the required format
+					table.insert(diagnostics, {
+						row = i,
+						col = col,
+						end_col = end_col,
+						source = "unwrap",
+						message = "hey " .. os.getenv("USER") .. ", don't forget to handle this",
+						severity = 2,
+					})
+				end
+			end
+			return diagnostics
+		end,
+	},
 }
 
 null_ls.register(unwrap)
