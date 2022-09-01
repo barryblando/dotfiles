@@ -85,7 +85,7 @@ return {
         $ curl -L https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-x86_64-unknown-linux-gnu.gz | gunzip -c - > ~/.local/bin/rust-analyzer
         $ chmod +x ~/.local/bin/rust-analyzer
     --]]
-		cmd = { os.getenv("HOME") .. "/.local/bin/rust-analyzer" },
+		cmd = { os.getenv("HOME") .. "/.local/share/nvim/mason/bin/rust-analyzer" },
 		-- cmd = { "rustup", "run", "nightly", os.getenv("HOME") .. "/.local/bin/rust-analyzer" },
 		on_attach = require("lsp.handlers").on_attach,
 		capabilities = require("lsp.handlers").capabilities,

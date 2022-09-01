@@ -108,11 +108,4 @@ for _, server in pairs(servers) do
 	::continue::
 end
 
-local win = require("lspconfig.ui.windows")
-local _default_opts = win.default_opts
-
-win.default_opts = function(options)
-	local wopts = _default_opts(options)
-	wopts.border = { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" }
-	return wopts
-end
+require("lspconfig.ui.windows").default_options.border = { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" }
