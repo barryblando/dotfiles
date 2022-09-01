@@ -63,7 +63,7 @@ null_ls.setup({
 		-- null_ls.builtins.code_actions.refactoring,
 
 		-- shell scripts
-		diagnostics.shellcheck,
+		-- diagnostics.shellcheck,
 	},
 })
 
