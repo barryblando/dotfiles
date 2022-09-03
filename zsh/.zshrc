@@ -78,7 +78,7 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias sourceslist="sudo vi /etc/apt/sources.list"
 alias ovim="vim"
-alias vim="nvim"
+alias v="nvim"
 alias pip="pip3"
 alias python="python3"
 
