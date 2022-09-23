@@ -52,14 +52,18 @@ configs.setup {
   autotag = {
     enable = true,
     filetypes = {
-      "html",
-      "javascript",
-      "typescript",
-      "javascriptreact",
-      "typescriptreact",
-      "tsx",
-      "jsx",
-      "markdown"
+      'css',
+      'html',
+      'jsx',
+      'javascript',
+      'javascriptreact',
+      'markdown',
+      'svelte',
+      'typescript',
+      'typescriptreact',
+      'vue',
+      'xhtml',
+      'xml',
     },
     skip_tags = {
       'area', 'base', 'br', 'col', 'command', 'embed', 'hr', 'img', 'slot',
@@ -68,12 +72,21 @@ configs.setup {
   },
   highlight = {
     enable = true, -- false will disable the whole extension
-    disable = { "" }, -- list of language that will be disabled
+    -- disable for big files
+    disable = {
+      function(_, bufnr)
+        local buf_name = vim.api.nvim_buf_get_name(bufnr)
+        local file_size = vim.api.nvim_call_function('getfsize', { buf_name })
+        return file_size > 256 * 1024
+      end,
+      'latex',
+    },
     additional_vim_regex_highlighting = true,
   },
   rainbow = {
     enable = true,
     extended_mode = false,
+    additional_vim_regex_highlighting = false,
     max_file_lines = nil,
     disable = vim.tbl_filter(
       function(p)
@@ -86,9 +99,9 @@ configs.setup {
       parsers.available_parsers()
     )
   },
-  --[[ playground = { ]]
-  --[[   enable = true, ]]
-  --[[ }, ]]
+  -- playground = {
+  --   enable = true,
+  -- },
   indent = { enable = true, disable = { "yaml" } },
   context_commentstring = {
     enable = true,
