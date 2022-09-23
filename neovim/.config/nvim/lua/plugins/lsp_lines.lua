@@ -10,12 +10,13 @@ vim.keymap.set("n", "g?", function()
   vim.diagnostic.config(
     {
       virtual_lines = lines_enabled,
-      virtual_text = not lines_enabled
+      -- virtual_text = not lines_enabled
+      virtual_text = false
     }
   )
 end, { noremap = true, silent = true })
 
 vim.diagnostic.config({
   virtual_text = false,
-  virtual_lines = true
+  virtual_lines = false
 })
