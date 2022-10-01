@@ -181,7 +181,7 @@ return packer.startup(function(use)
 	use({ "phaazon/hop.nvim", config = lua_path("hop") })
 
 	-- Multiple Select Cursor
-	use("terryma/vim-multiple-cursors")
+	use({ "mg979/vim-visual-multi", branch = "master" })
 
 	-- nvim-surround
 	use({ "kylechui/nvim-surround", config = lua_path("nvim-surround") })
@@ -314,7 +314,7 @@ return packer.startup(function(use)
 	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate", config = lua_path("nvim-treesitter") })
 	use({ "nvim-treesitter/nvim-treesitter-context" })
 	use({ "nvim-treesitter/nvim-treesitter-textobjects" })
-  use({ "nvim-treesitter/playground" })
+  -- use({ "nvim-treesitter/playground" })
 	use("JoosepAlviste/nvim-ts-context-commentstring")
 	use({ "p00f/nvim-ts-rainbow" })
 	use({ "windwp/nvim-autopairs", config = lua_path("nvim-autopairs") })
@@ -366,6 +366,7 @@ return packer.startup(function(use)
 	-- use { "sunjon/stylish.nvim" } -- stylish UI Components for Neovim
   -- https://github.com/is0n/jaq-nvim
   -- https://github.com/B4mbus/nvim-headband -- soon. a simple and opinionated winbar
+  -- use {'kevinhwang91/nvim-ufo', requires = 'kevinhwang91/promise-async'} -- code folding
 
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins
