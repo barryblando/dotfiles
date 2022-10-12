@@ -236,10 +236,10 @@ return {
 		{ key = "C", mods = "CTRL", action = wezterm.action({ CopyTo = "ClipboardAndPrimarySelection" }) },
 
 		-- paste from the clipboard
-		{ key = "v", mods = "CTRL", action = wezterm.action({ PasteFrom = "Clipboard" }) },
+		{ key = "V", mods = "CTRL", action = wezterm.action({ PasteFrom = "Clipboard" }) },
 
 		-- paste from the primary selection
-		{ key = "v", mods = "CTRL", action = wezterm.action({ PasteFrom = "PrimarySelection" }) },
+		{ key = "V", mods = "CTRL", action = wezterm.action({ PasteFrom = "PrimarySelection" }) },
 
 		-- close current pane
 		{ key = "w", mods = "CTRL|SHIFT", action = wezterm.action({ CloseCurrentPane = { confirm = true } }) },
