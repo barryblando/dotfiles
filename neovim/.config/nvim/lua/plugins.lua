@@ -250,7 +250,7 @@ return packer.startup(function(use)
 	use("williamboman/mason.nvim")
 	use("williamboman/mason-lspconfig.nvim")
 	use("jose-elias-alvarez/null-ls.nvim") -- for formatters and linters
-	use("folke/lua-dev.nvim") -- full signature help, docs and completion for the nvim lua API
+	use("folke/neodev.nvim") -- full signature help, docs and completion for the nvim lua API
 	use("b0o/schemastore.nvim") -- providing access to the SchemaStore catalog.
 
   -- LSP partial implementation inlay-hints
