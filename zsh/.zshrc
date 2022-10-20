@@ -138,6 +138,9 @@ source ~/.oh-my-zsh/custom/themes/powerlevel10k/powerlevel10k.zsh-theme
 eval "$(fnm env --use-on-cd)"
 eval "$(goenv init -)"
 
+# bun completions
+[ -s "/home/bblando0x15/.bun/_bun" ] && source "/home/bblando0x15/.bun/_bun"
+
 # eval "$(starship init zsh)" # -- I find starship slow in WSL2. Powerlevel10k is better
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
