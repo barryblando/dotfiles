@@ -1,0 +1,9 @@
+theme = "gruvbox_dark_hard"
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
+
+[keys.insert]
+j = { k = "normal_mode" }
