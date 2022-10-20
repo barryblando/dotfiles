@@ -10,7 +10,7 @@ return {
 				enable = false,
 			},
 			hint = {
-				enable = true,
+				enable = false,
 				arrayIndex = "Disable", -- "Enable", "Auto", "Disable"
 				await = true,
 				paramName = "Disable", -- "All", "Literal", "Disable"
