@@ -29,7 +29,6 @@ local servers = {
 	"emmet_ls",
 	"ansiblels",
 	"eslint",
-	"rust_analyzer",
 }
 
 local settings = {
@@ -66,19 +65,18 @@ for _, server in pairs(servers) do
 
 	server = vim.split(server, "@")[1]
 
-	if server == "sumneko_lua" then
-		local n_status_ok, neodev = pcall(require, "neodev")
+  if server == "sumneko_lua" then
+    local n_status_ok, neodev = pcall(require, "neodev")
+    if not n_status_ok then
+      return
+    end
 
-		if not n_status_ok then
-			return
-		end
+    neodev.setup({})
 
-		neodev.setup({})
-
-		local sumneko_opts = require("lsp.settings.sumneko_lua")
-		lspconfig.sumneko_lua.setup(sumneko_opts)
-		goto continue
-	end
+    local sumneko_opts = require("lsp.settings.sumneko_lua")
+    lspconfig.sumneko_lua.setup(sumneko_opts)
+    goto continue
+  end
 
 	if server == "rust_analyzer" then
 		local rust_opts = require("lsp.settings.rust_analyzer")
