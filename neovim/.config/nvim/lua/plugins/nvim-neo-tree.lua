@@ -28,6 +28,7 @@ neotree.setup({
 		indent_size = 1,
 		name = {
 			trailing_slash = true,
+      use_git_status_colors = true,
 		},
 	},
   -- source_selector = {
@@ -88,16 +89,16 @@ neotree.setup({
         end
       end
     },
-    renderers = {
-      file = {
-        {"icon"},
-        {"name", use_git_status_colors = true},
-        {"harpoon_index"}, --> This is what actually adds the component in where you want it
-        {"diagnostics"},
-        {"git_status", highlight = "NeoTreeDimText"},
-      }
-    }
 	},
+  renderers = {
+    file = {
+      {"icon"},
+      {"name", use_git_status_colors = true},
+      {"harpoon_index"}, --> This is what actually adds the component in where you want it
+      {"diagnostics"},
+      {"git_status", highlight = "NeoTreeDimText"},
+    }
+  },
 	buffers = {
 		follow_current_file = true, -- This will find and focus the file in the active buffer every
 		-- time the current file is changed while the tree is open.
