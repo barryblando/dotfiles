@@ -201,11 +201,14 @@ local mappings = {
 		name = "LSP",
 		a = { "<cmd>CodeActionMenu<cr>", "Code Action" },
 		--[[ c = { "<cmd>lua require('lsp').server_capabilities()<cr>", "Get Capabilities" }, ]]
-		-- d = { "<cmd>TroubleToggle<cr>", "Diagnostics" },
-		w = {
-			"<cmd>Telescope lsp_workspace_diagnostics<cr>",
-			"Workspace Diagnostics",
-		},
+		d = {
+      "<cmd>Telescope diagnostics bufnr=0<cr>",
+      "Document Diagnostics",
+    },
+    w = {
+      "<cmd>Telescope diagnostics<cr>",
+      "Workspace Diagnostics",
+    },
 		f = { "<cmd>lua vim.lsp.buf.format({ async = true })<cr>", "Format" },
 		F = { "<cmd>LspToggleAutoFormat<cr>", "Toggle Autoformat" },
 		h = { "<cmd>IlluminationToggle<cr>", "Toggle Doc HL" },
@@ -221,7 +224,7 @@ local mappings = {
 		},
     v = { "<cmd>lua require('lsp_lines').toggle()<cr>", "Virtual Lines" },
 		l = { "<cmd>lua vim.lsp.codelens.run()<cr>", "CodeLens Action" },
-		q = { "<cmd>lua vim.lsp.diagnostic.set_loclist()<cr>", "Quickfix" },
+		q = { "<cmd>lua vim.diagnostic.setloclist()<cr>", "Quickfix" },
 		r = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
 		-- R = { "<cmd>TroubleToggle lsp_references<cr>", "References" },
 		s = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
