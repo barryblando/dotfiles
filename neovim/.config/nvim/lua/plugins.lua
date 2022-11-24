@@ -288,7 +288,14 @@ return packer.startup(function(use)
   use ({ "Saecki/crates.nvim", config = lua_path("crates") })
 
   -- GOLANG
-  use ({ "https://github.com/ray-x/go.nvim" })
+  -- use ({ "https://github.com/ray-x/go.nvim" })
+
+  -- Code Folding
+  use ({
+    'kevinhwang91/nvim-ufo',
+    requires = 'kevinhwang91/promise-async',
+    config = lua_path("nvim-ufo")
+  })
 
 	---------------------
 	--    Debugging    --
@@ -366,7 +373,6 @@ return packer.startup(function(use)
 	-- use { "sunjon/stylish.nvim" } -- stylish UI Components for Neovim
   -- https://github.com/is0n/jaq-nvim
   -- https://github.com/B4mbus/nvim-headband -- soon. a simple and opinionated winbar
-  -- use {'kevinhwang91/nvim-ufo', requires = 'kevinhwang91/promise-async'} -- code folding
 
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins
