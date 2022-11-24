@@ -177,7 +177,7 @@ local function lsp_keymaps(bufnr)
   local keymap = vim.api.nvim_buf_set_keymap
   local keymaps = {
     { "gd", "<cmd>lua vim.lsp.buf.definition()<CR>" },
-    { "gD", "<cmd>Telescope lsp_definitions<CR>"},
+    { "gD", "<cmd>Telescope lsp_definitions<CR>" },
     -- { "gD", "<cmd>lua vim.lsp.buf.definition()<CR>" },
     -- { "K", "<cmd>lua vim.lsp.buf.hover()<CR>" }, -- I put the config in nvim-ufo to include code folding preview
     { "gI", "<cmd>Telescope lsp_implementations<CR>" },
@@ -195,8 +195,8 @@ local function lsp_keymaps(bufnr)
     { "<leader>lq", "<cmd>lua vim.diagnostic.setloclist()<CR>" },
   }
 
-  for i, k in ipairs(keymaps) do
-    keymap(bufnr, "n", k[i][0], k[i][1], opts)
+  for _, k in ipairs(keymaps) do
+    keymap(bufnr, "n", k[1], k[2], opts)
   end
   
 	vim.cmd([[ command! Format execute 'lua vim.lsp.buf.format({ async = false })' ]])
