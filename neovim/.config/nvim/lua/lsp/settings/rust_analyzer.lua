@@ -8,14 +8,15 @@ return {
 	},
 	tools = {
 		-- autoSetHints = false,
-		on_initialized = function()
-			vim.api.nvim_create_autocmd({ "BufWritePost", "BufEnter", "CursorHold", "InsertLeave" }, {
-				pattern = { "*.rs" },
-				callback = function()
-					vim.lsp.codelens.refresh()
-				end,
-			})
-		end,
+		-- https://alpha2phi.medium.com/neovim-lsp-codelens-for-rust-44f6df52ead9
+    --  on_initialized = function()
+    --   	vim.api.nvim_create_autocmd({ "BufWritePost", "BufEnter", "CursorHold", "InsertLeave" }, {
+		-- 		pattern = { "*.rs" },
+		-- 		callback = function()
+		-- 			vim.lsp.codelens.refresh()
+		-- 		end,
+		-- 	})
+		-- end,
 
 		auto = false,
 		inlay_hints = {
@@ -40,13 +41,13 @@ return {
 
 			-- prefix for parameter hints
 			-- default: "<-"
-			-- parameter_hints_prefix = "<- ",
-			parameter_hints_prefix = " ",
+			parameter_hints_prefix = "<- ",
+			-- parameter_hints_prefix = " ",
 
 			-- prefix for all the other hints (type, chaining)
 			-- default: "=>"
-			-- other_hints_prefix = "=> ",
-			other_hints_prefix = " ",
+			other_hints_prefix = "=> ",
+			-- other_hints_prefix = " ",
 
 			-- whether to align to the lenght of the longest line in the file
 			max_len_align = false,
