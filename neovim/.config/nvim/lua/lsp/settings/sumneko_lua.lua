@@ -50,7 +50,8 @@ return {
         -- Make the server aware of Neovim runtime files
         library = library,
         maxPreload = 2000,
-        preloadFileSize = 50000
+        preloadFileSize = 50000,
+        checkThirdParty = false,
       },
       -- Do not send telemetry data containing a randomized but unique identifier
       telemetry = { enable = false }
