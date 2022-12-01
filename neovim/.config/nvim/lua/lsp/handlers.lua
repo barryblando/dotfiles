@@ -198,7 +198,7 @@ local function lsp_keymaps(bufnr)
   for _, k in ipairs(keymaps) do
     keymap(bufnr, "n", k[1], k[2], opts)
   end
-  
+
 	vim.cmd([[ command! Format execute 'lua vim.lsp.buf.format({ async = false })' ]])
 end
 
@@ -228,6 +228,11 @@ M.on_attach = function(client, bufnr)
 		client.server_capabilities.documentFormattingProvider = false
 	end
   
+  local client_to_detach_UFO = "dockerls yamlls jsonls"
+  if client_to_detach_UFO:find(client.name) then
+    vim.cmd('UfoDetach')
+  end
+
 	local client_to_skip = "dockerls cssls bashls" -- clients that navic doesn't support
 	if client_to_skip:find(client.name) then
 		goto continue
