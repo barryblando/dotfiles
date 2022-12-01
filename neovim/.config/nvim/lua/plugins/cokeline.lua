@@ -72,7 +72,13 @@ local components = {
 			return buffer.unique_prefix
 		end,
 		fg = comments_fg,
-		style = "italic",
+		-- style = "italic",
+		style = function(buffer)
+			return ((buffer.is_focused and buffer.diagnostics.errors ~= 0) and "undercurl") -- "bold,italic"
+				or (buffer.is_focused and "NONE") -- "bold,italic"
+				or (buffer.diagnostics.errors ~= 0 and "undercurl")
+				or nil
+		end,
 		truncation = {
 			priority = 3,
 			direction = "left",
@@ -84,9 +90,9 @@ local components = {
 			return buffer.filename
 		end,
 		style = function(buffer)
-			return ((buffer.is_focused and buffer.diagnostics.errors ~= 0) and "bold") -- "bold,italic"
-				or (buffer.is_focused and "bold") -- "bold,italic"
-				or (buffer.diagnostics.errors ~= 0 and "underline")
+			return ((buffer.is_focused and buffer.diagnostics.errors ~= 0) and "bold,undercurl") -- "bold,italic"
+				or (buffer.is_focused and "NONE") -- "bold,italic"
+				or (buffer.diagnostics.errors ~= 0 and "undercurl")
 				or nil
 		end,
 		truncation = {
