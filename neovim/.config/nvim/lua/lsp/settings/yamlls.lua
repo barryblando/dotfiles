@@ -7,7 +7,7 @@ return {
 					"/infra/k8s/*.yml",
 					"/*.k8s.yml",
 				},
-				["https://raw.githubusercontent.com/GoogleContainerTools/skaffold/master/docs/content/en/schemas/v2beta29.json"] = "skaffold.yml",
+				["https://raw.githubusercontent.com/GoogleContainerTools/skaffold/main/docs-v2/content/en/schemas/v4beta1.json"] = "skaffold.yml",
 				-- other schemas
 			},
 		},
