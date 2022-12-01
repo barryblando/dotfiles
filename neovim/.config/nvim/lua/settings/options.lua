@@ -27,7 +27,7 @@ local options = {
   cursorline = true,                       -- highlight the current line
   -- cursorcolumn = true,
   number = true,                           -- set numbered lines
-  relativenumber = false,                  -- set relative numbered lines
+  relativenumber = true,                  -- set relative numbered lines
   numberwidth = 4,                         -- set number column width to 2 {default 4}
 
   signcolumn = "yes",                      -- always show the sign column, otherwise it would shift the text each time
