@@ -61,11 +61,17 @@ null_ls.setup({
 
 		-- Protocol Buffers
 		formatting.buf,
+    
+    -- Go
+    formatting.goimports,
+    -- formatting.goimports_reviser,
+    -- formatting.golines,
 
 		-- null_ls.builtins.code_actions.refactoring,
 
 		-- shell scripts
 		-- diagnostics.shellcheck,
+    
 	},
   
   -- gitsigns integration
