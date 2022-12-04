@@ -39,7 +39,7 @@ neotree.setup({
 		position = "float",
 		width = "30%",
 		popup = {
-			position = { col = "100%", row = "2" },
+			position = { col = "100%", row = "3" },
 			size = function(state)
 				local root_name = vim.fn.fnamemodify(state.path, ":~")
 				local root_len = string.len(root_name) + 4
@@ -89,16 +89,16 @@ neotree.setup({
         end
       end
     },
+    renderers = {
+      file = {
+        {"icon"},
+        {"name", use_git_status_colors = true},
+        {"harpoon_index"}, --> This is what actually adds the component in where you want it
+        {"diagnostics"},
+        {"git_status", highlight = "NeoTreeDimText"},
+      }
+    },
 	},
-  renderers = {
-    file = {
-      {"icon"},
-      {"name", use_git_status_colors = true},
-      {"harpoon_index"}, --> This is what actually adds the component in where you want it
-      {"diagnostics"},
-      {"git_status", highlight = "NeoTreeDimText"},
-    }
-  },
 	buffers = {
 		follow_current_file = true, -- This will find and focus the file in the active buffer every
 		-- time the current file is changed while the tree is open.
