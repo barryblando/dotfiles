@@ -253,6 +253,20 @@ return packer.startup(function(use)
 	use("folke/neodev.nvim") -- full signature help, docs and completion for the nvim lua API
 	use("b0o/schemastore.nvim") -- providing access to the SchemaStore catalog.
 
+  use({
+    "j-hui/fidget.nvim",
+    config = function ()
+      require"fidget".setup{
+        text = {
+          done = "",
+        },
+        window = {
+          blend = 0 -- &winblend for the window
+        },
+      }
+    end
+  })
+
   -- LSP partial implementation inlay-hints
   use({ "lvimuser/lsp-inlayhints.nvim", config = lua_path("lsp-inlayhints") })
 
