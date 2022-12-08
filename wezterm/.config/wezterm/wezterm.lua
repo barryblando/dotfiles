@@ -92,7 +92,7 @@ return {
 	font = wezterm.font_with_fallback({
 		{
 			family = "MonoLisa",
-			harfbuzz_features = { "calt=1", "liga=1", "zero=1", "ss02=1", "ss08=1", "ss09=1" },
+			harfbuzz_features = { "calt=1", "liga=1", "zero=1", "ss02=1" },
 		},
 		"JetBrains Mono",
 	}),
@@ -107,7 +107,7 @@ return {
 					family = "MonoLisa",
 					weight = "Medium",
 					italic = true,
-					harfbuzz_features = { "calt=1", "liga=1", "zero=1", "ss02=1", "ss08=1", "ss09=1" },
+					harfbuzz_features = { "calt=1", "liga=1", "zero=1", "ss02=1" },
 				},
 				"JetBrains Mono",
 			}),
@@ -120,7 +120,7 @@ return {
 				{
 					family = "MonoLisa",
 					weight = "Medium",
-					harfbuzz_features = { "calt=1", "liga=1", "zero=1", "ss02=1", "ss08=1", "ss09=1" },
+					harfbuzz_features = { "calt=1", "liga=1", "zero=1", "ss02=1" },
 				},
 				"JetBrains Mono",
 			}),
