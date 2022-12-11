@@ -387,6 +387,7 @@ return packer.startup(function(use)
 	-- use { "sunjon/stylish.nvim" } -- stylish UI Components for Neovim
   -- https://github.com/is0n/jaq-nvim
   -- https://github.com/B4mbus/nvim-headband -- soon. a simple and opinionated winbar
+  -- https://github.com/Pocco81/auto-save.nvim -- https://github.com/jose-elias-alvarez/null-ls.nvim/issues/879
 
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins
