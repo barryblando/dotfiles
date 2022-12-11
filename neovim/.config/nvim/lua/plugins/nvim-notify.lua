@@ -18,6 +18,7 @@ notify.setup({
 	end,
 
 	-- Function called when a window is closed
+  ---@diagnostic disable-next-line: assign-type-mismatch
 	on_close = nil,
 
 	-- Render function for notifications. See notify-render()
