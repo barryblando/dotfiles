@@ -105,7 +105,7 @@ return {
 			font = wezterm.font_with_fallback({
 				{
 					family = "MonoLisa static",
-					weight = "Medium Italic",
+					weight = "Regular",
 					italic = true,
 					-- harfbuzz_features = { "calt=1", "liga=1", "zero=1", "ss02=1" },
 					harfbuzz_features = { "calt=1", "liga=1", "zero=1", "ss02=1", "ss10=1", "ss11=1", "ss12=1" },
@@ -120,7 +120,7 @@ return {
 			font = wezterm.font_with_fallback({
 				{
 					family = "MonoLisa static",
-					weight = "Medium",
+					weight = "Regular",
 					-- harfbuzz_features = { "calt=1", "liga=1", "zero=1", "ss02=1" },
 					harfbuzz_features = { "calt=1", "liga=1", "zero=1", "ss02=1", "ss10=1", "ss11=1", "ss12=1" },
 				},
