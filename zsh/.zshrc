@@ -81,6 +81,7 @@ alias ovim="vim"
 alias v="nvim"
 alias pip="pip3"
 alias python="python3"
+alias freecachemem='sync && echo 3 | sudo tee /proc/sys/vm/drop_caches > /dev/null'
 
 # Set up the prompt
 plugins=(
@@ -136,7 +137,6 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#757575'
 source ~/.oh-my-zsh/custom/themes/powerlevel10k/powerlevel10k.zsh-theme
 
 eval "$(fnm env --use-on-cd)"
-eval "$(goenv init -)"
 
 # bun completions
 [ -s "/home/bblando0x15/.bun/_bun" ] && source "/home/bblando0x15/.bun/_bun"
