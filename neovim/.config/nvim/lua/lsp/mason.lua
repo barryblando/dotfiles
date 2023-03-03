@@ -24,7 +24,7 @@ local servers = {
 	"terraformls",
 	"taplo",
 	"jsonls",
-	"sumneko_lua",
+	"lua_ls",
 	"marksman",
 	"emmet_ls",
 	"ansiblels",
@@ -65,7 +65,7 @@ for _, server in pairs(servers) do
 
 	server = vim.split(server, "@")[1]
 
-  if server == "sumneko_lua" then
+  if server == "lua_ls" then
     local n_status_ok, neodev = pcall(require, "neodev")
     if not n_status_ok then
       return
@@ -73,8 +73,8 @@ for _, server in pairs(servers) do
 
     neodev.setup({})
 
-    local sumneko_opts = require("lsp.settings.sumneko_lua")
-    lspconfig.sumneko_lua.setup(sumneko_opts)
+    local lua_opts = require("lsp.settings.lua_ls")
+    lspconfig.lua_ls.setup(lua_opts)
     goto continue
   end
 
