@@ -63,7 +63,7 @@ null_ls.setup({
 		formatting.buf,
     
     -- Go
-    formatting.goimports,
+    -- formatting.goimports,
     -- formatting.goimports_reviser,
     -- formatting.golines,
 
