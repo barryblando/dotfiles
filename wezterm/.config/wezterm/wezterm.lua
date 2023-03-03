@@ -91,7 +91,7 @@ return {
 	hide_tab_bar_if_only_one_tab = true,
 	font = wezterm.font_with_fallback({
 		{
-			family = "MonoLisa",
+			family = "MonoLisa static",
 			harfbuzz_features = { "calt=1", "liga=1", "zero=1", "ss02=1", "ss10=1", "ss11=1", "ss12=1" },
 		},
 		"JetBrains Mono",
@@ -104,11 +104,11 @@ return {
 			intensity = "Bold",
 			font = wezterm.font_with_fallback({
 				{
-					family = "MonoLisa",
-					weight = "Medium",
+					family = "MonoLisa static",
+					weight = "Medium Italic",
 					italic = true,
-					harfbuzz_features = { "calt=1", "liga=1", "zero=1", "ss02=1" },
-					-- harfbuzz_features = { "calt=1", "liga=1", "zero=1", "ss02=1", "ss10=1", "ss11=1", "ss12=1" },
+					-- harfbuzz_features = { "calt=1", "liga=1", "zero=1", "ss02=1" },
+					harfbuzz_features = { "calt=1", "liga=1", "zero=1", "ss02=1", "ss10=1", "ss11=1", "ss12=1" },
 				},
 				"JetBrains Mono",
 			}),
@@ -119,10 +119,10 @@ return {
 			intensity = "Bold",
 			font = wezterm.font_with_fallback({
 				{
-					family = "MonoLisa",
+					family = "MonoLisa static",
 					weight = "Medium",
-					harfbuzz_features = { "calt=1", "liga=1", "zero=1", "ss02=1" },
-					-- harfbuzz_features = { "calt=1", "liga=1", "zero=1", "ss02=1", "ss10=1", "ss11=1", "ss12=1" },
+					-- harfbuzz_features = { "calt=1", "liga=1", "zero=1", "ss02=1" },
+					harfbuzz_features = { "calt=1", "liga=1", "zero=1", "ss02=1", "ss10=1", "ss11=1", "ss12=1" },
 				},
 				"JetBrains Mono",
 			}),
@@ -163,7 +163,7 @@ return {
 		-- Whatever font is selected here, it will have the
 		-- main font setting appended to it to pick up any
 		-- fallback fonts you may have used there.
-		font = wezterm.font({ family = "MonoLisa", weight = "Regular" }),
+		font = wezterm.font({ family = "MonoLisa static", weight = "Regular" }),
 
 		-- The size of the font in the tab bar.
 		-- Default to 10. on Windows but 12.0 on other systems
