@@ -183,7 +183,7 @@ local function lsp_keymaps(bufnr)
     { "gI", "<cmd>Telescope lsp_implementations<CR>" },
     { "gr", "<cmd>Telescope lsp_references<CR>" },
     { "gl", "<cmd>lua vim.diagnostic.open_float(nil, { focusable = false })<CR>" },
-    { "gs", "<cmd>lua vim.lsp.buf.signature_help()<CR>" },
+    { "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>" },
     { "<leader>lf", "<cmd>lua vim.lsp.buf.format{ async = true }<cr>" },
     { "<leader>li", "<cmd>LspInfo<cr>" },
     { "<leader>lI", "<cmd>LspInstallInfo<cr>" },
