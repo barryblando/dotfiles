@@ -20,3 +20,4 @@ PATH="$PATH:/home/linuxbrew/.linuxbrew/bin/nvim"
 
 # GOPATH="/usr/local/go"
 # PATH="$PATH:$GOPATH/bin"
+export GOROOT="$(brew --prefix golang)/libexec"
