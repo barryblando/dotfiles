@@ -5,6 +5,36 @@ end
 
 nvim_web_devicons.setup {
   override = {
+    ["containerfile"] = {
+      icon = "",
+      color = "#458ee6",
+      cterm_color = "68",
+      name = "Dockerfile"
+    },
+    ["dockerfile"] = {
+      icon = "",
+      color = "#458ee6",
+      cterm_color = "68",
+      name = "Dockerfile"
+    },
+    [".dockerignore"] = {
+      icon = "",
+      color = "#458ee6",
+      cterm_color = "68",
+      name = "Dockerfile"
+    },
+    ["docker-compose.yml"] = {
+      icon = "",
+      color = "#458ee6",
+      cterm_color = "68",
+      name = "Dockerfile"
+    },
+    ["docker-compose.yaml"] = {
+      icon = "",
+      color = "#458ee6",
+      cterm_color = "68",
+      name = "Dockerfile"
+    },
     sh = {
       icon = "",
       color = "#1DC123",
