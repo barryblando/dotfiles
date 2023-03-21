@@ -233,13 +233,6 @@ return {
 
 	default_domain = "WSL:WLinux",
 
-  unix_domains = {
-    {
-      name = 'wsl',
-      serve_command = { 'wsl', 'wezterm-mux-server', '--daemonize' },
-    },
-  },
-  
 	keys = {
 		-- capital C so it won't conflict buffer window, CTRL-SHIFT + C to copy
 		{ key = "C", mods = "CTRL", action = wezterm.action({ CopyTo = "ClipboardAndPrimarySelection" }) },
