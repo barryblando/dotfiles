@@ -130,7 +130,7 @@ return {
 	},
 
 	font_size = 12,
-	font_antialias = "Subpixel",
+	freetype_load_target = "HorizontalLcd",
 
 	default_cursor_style = "BlinkingBlock",
 	animation_fps = 1,
