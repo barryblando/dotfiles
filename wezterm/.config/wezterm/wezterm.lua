@@ -239,8 +239,6 @@ return {
       serve_command = { 'wsl', 'wezterm-mux-server', '--daemonize' },
     },
   },
-
-  default_gui_startup_args = { 'connect', 'wsl' },
   
 	keys = {
 		-- capital C so it won't conflict buffer window, CTRL-SHIFT + C to copy
