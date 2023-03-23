@@ -6,7 +6,7 @@ if wezterm.target_triple == "x86_64-pc-windows-msvc" then
 	table.insert(launch_menu, {
 		label = "PowerShell",
 		args = { "pwsh.exe", "-NoLogo" },
-		cwd = "C:\\Program Files\\PowerShell\7\\",
+		cwd = "C:\\Program Files\\PowerShell\\7\\",
 	})
 
 	-- Enumerate any WSL distributions that are installed and add those to the menu
