@@ -6,7 +6,7 @@ if wezterm.target_triple == "x86_64-pc-windows-msvc" then
 	table.insert(launch_menu, {
 		label = "PowerShell",
 		args = { "pwsh.exe", "-NoLogo" },
-		cwd = "C:\\Program Files\\PowerShell\\7\\",
+		-- cwd = "C:\\Program Files\\PowerShell\\7\\",
 	})
 
 	-- Enumerate any WSL distributions that are installed and add those to the menu
@@ -26,7 +26,7 @@ if wezterm.target_triple == "x86_64-pc-windows-msvc" then
 			-- Add an entry that will spawn into the distro with the default shell
 			table.insert(launch_menu, {
 				label = distro .. " (WSL default shell)",
-				args = { "wsl.exe", "--distribution", distro, "--exec", "usr/bin/zsh", "-l" },
+				args = { "wsl.exe", "--distribution", distro, "--exec", "usr/bin/bash", "-l" },
 			})
 
 			-- Here's how to jump directly into some other program; in this example
