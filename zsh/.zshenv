@@ -18,6 +18,7 @@ PATH="$PATH:/home/linuxbrew/.linuxbrew/bin/nvim"
 
 # TERMINFO="/home/bblando0x15/.terminfo/"
 
-# GOPATH="/usr/local/go"
+export GOPATH=$HOME/go
 # PATH="$PATH:$GOPATH/bin"
 export GOROOT="$(brew --prefix golang)/libexec"
+export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
