@@ -126,7 +126,7 @@ return packer.startup(function(use)
 
 	-- Tabs
 	use({
-		"noib3/nvim-cokeline",
+		"willothy/nvim-cokeline",
 		config = lua_path("cokeline"),
 	})
 
@@ -386,7 +386,7 @@ return packer.startup(function(use)
 	-- use { "kevinhwang91/nvim-bqf", ft = "qf" }
 	-- use { "sunjon/stylish.nvim" } -- stylish UI Components for Neovim
   -- https://github.com/is0n/jaq-nvim
-  -- https://github.com/B4mbus/nvim-headband -- soon. a simple and opinionated winbar
+  -- https://github.com/utilyre/barbecue.nvim -- better winbar
   -- https://github.com/Pocco81/auto-save.nvim -- https://github.com/jose-elias-alvarez/null-ls.nvim/issues/879
 
 	-- Automatically set up your configuration after cloning packer.nvim
