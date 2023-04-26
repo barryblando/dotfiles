@@ -1,10 +1,15 @@
-local ok_status, colorizer = pcall(require, "colorizer")
+return {
+  "norcalli/nvim-colorizer.lua",
+  config = function ()
+    local ok_status, colorizer = pcall(require, "colorizer")
 
-if not ok_status then
-	return
-end
+    if not ok_status then
+      return
+    end
 
-colorizer.setup({
-	-- Highlight all files
-	"*",
-})
+    colorizer.setup({
+      -- Highlight all files
+      "*",
+    })
+  end
+}
