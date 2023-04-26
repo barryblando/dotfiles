@@ -10,8 +10,8 @@ return {
 	-- Useful lua functions used by lots of plugins
 	"nvim-lua/plenary.nvim",
 
-  -- UI Component Library for Neovim
-  "MunifTanjim/nui.nvim",
+	-- UI Component Library for Neovim
+	"MunifTanjim/nui.nvim",
 
 	-- Speeding up startup
 	{
@@ -19,7 +19,7 @@ return {
 		config = function()
 			require("impatient").enable_profile()
 		end,
-  },
+	},
 
 	-- Closing buffers
 	"moll/vim-bbye",
@@ -45,6 +45,7 @@ return {
 
 	-- Tracking Code stats
 	"wakatime/vim-wakatime",
+
 	-- Markdown Previewer
 	{
 		"iamcco/markdown-preview.nvim",
@@ -81,14 +82,14 @@ return {
 			{
 				"tzachar/cmp-tabnine",
 				build = "./install.sh",
-				config = function ()
+				config = function()
 					local status_ok, tabnine = pcall(require, "cmp_tabnine.config")
 
 					if not status_ok then
 						return
 					end
 
-					tabnine.setup {
+					tabnine.setup({
 						max_lines = 1000,
 						max_num_results = 20,
 						sort = true,
@@ -98,11 +99,9 @@ return {
 							-- uncomment to ignore in lua:
 							-- lua = true
 						},
-					}
-
-				end
+					})
+				end,
 			},
-
 		},
 	},
 
@@ -117,30 +116,30 @@ return {
 	--      LSP        --
 	---------------------
 
-  {
-    "neovim/nvim-lspconfig", -- enable LSP
-    dependencies = {
-      "williamboman/mason.nvim",
-      "williamboman/mason-lspconfig.nvim",
-      "jose-elias-alvarez/null-ls.nvim", -- for formatters and linters
-      "folke/neodev.nvim", -- full signature help, docs and completion for the nvim lua API
-      "b0o/schemastore.nvim", -- providing access to the SchemaStore catalog.
+	{
+		"neovim/nvim-lspconfig", -- enable LSP
+		dependencies = {
+			"williamboman/mason.nvim",
+			"williamboman/mason-lspconfig.nvim",
+			"jose-elias-alvarez/null-ls.nvim", -- for formatters and linters
+			"folke/neodev.nvim", -- full signature help, docs and completion for the nvim lua API
+			"b0o/schemastore.nvim", -- providing access to the SchemaStore catalog.
 
-      {
-        "j-hui/fidget.nvim",
-        config = function ()
-          require"fidget".setup{
-            text = {
-              done = "",
-            },
-            window = {
-              blend = 0 -- &winblend for the window
-            },
-          }
-        end
-      },
-    },
-  },
+			{
+				"j-hui/fidget.nvim",
+				config = function()
+					require("fidget").setup({
+						text = {
+							done = "",
+						},
+						window = {
+							blend = 0, -- &winblend for the window
+						},
+					})
+				end,
+			},
+		},
+	},
 
 	-- LSP signature help
 	"ray-x/lsp_signature.nvim",
@@ -151,17 +150,17 @@ return {
 		cmd = "CodeActionMenu", -- lazy loaded, only activate plugin when CodeActionMenu initiated
 	},
 
-  -- RUST
-  { "simrat39/rust-tools.nvim" },
+	-- RUST
+	{ "simrat39/rust-tools.nvim" },
 
-  -- GOLANG
-  -- use ({ "https://github.com/ray-x/go.nvim" })
+	-- GOLANG
+	-- use ({ "https://github.com/ray-x/go.nvim" })
 
 	---------------------
 	--    Debugging    --
 	---------------------
 
-  "rcarriga/nvim-dap-ui",
+	"rcarriga/nvim-dap-ui",
 
 	---------------------
 	--   TREESITTER    --
@@ -175,9 +174,9 @@ return {
 	{
 		"folke/twilight.nvim",
 		cmd = { "Twilight" },
-    keys = {
-      { "<C-z>", "<cmd>Twilight<cr>", desc = "Dim Surroundings" },
-    },
+		keys = {
+			{ "<C-z>", "<cmd>Twilight<cr>", desc = "Dim Surroundings" },
+		},
 		-- setup = function()
 		-- 	vim.keymap.set("n", "<C-z>", "<Cmd>Twilight<CR>", { desc = "dim inactive surroundings" })
 		-- end,
@@ -196,15 +195,15 @@ return {
 	---------------------
 	--      GIT        --
 	---------------------
-  {
-    "akinsho/git-conflict.nvim",
-    version = "1.0.0",
-    config = true
-  },
+	{
+		"akinsho/git-conflict.nvim",
+		version = "1.0.0",
+		config = true,
+	},
 
 	---------------------
 	--   EXPIREMENT    --
-  ---------------------
+	---------------------
 
 	-- Plugins to Experiment in spare time
 	-- https://github.com/axieax/dotconfig/blob/main/nvim/lua/axie/plugins/init.lua
@@ -214,10 +213,9 @@ return {
 	-- use { "junegunn/vim-easy-align" }
 	-- use { "kevinhwang91/nvim-bqf", ft = "qf" }
 	-- use { "sunjon/stylish.nvim" } -- stylish UI Components for Neovim
-  -- https://github.com/is0n/jaq-nvim
-  -- https://github.com/utilyre/barbecue.nvim -- better winbar
-  -- https://github.com/Pocco81/auto-save.nvim -- https://github.com/jose-elias-alvarez/null-ls.nvim/issues/879
-  -- https://github.com/vonheikemen/fine-cmdline.nvim
-  -- https://github.com/VonHeikemen/searchbox.nvim
-
+	-- https://github.com/is0n/jaq-nvim
+	-- https://github.com/utilyre/barbecue.nvim -- better winbar
+	-- https://github.com/Pocco81/auto-save.nvim -- https://github.com/jose-elias-alvarez/null-ls.nvim/issues/879
+	-- https://github.com/vonheikemen/fine-cmdline.nvim
+	-- https://github.com/VonHeikemen/searchbox.nvim
 }
