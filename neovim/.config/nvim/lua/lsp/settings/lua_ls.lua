@@ -21,8 +21,7 @@ add("~/.dotfiles/neovim/.config/nvim")
 
 -- add plugins
 -- if you're not using packer, then you might need to change the paths below
-add("~/.local/share/nvim/site/pack/packer/opt/*")
-add("~/.local/share/nvim/site/pack/packer/start/*")
+-- add("~/.local/share/nvim/lazy/*")
 
 return {
   cmd = { os.getenv("HOME") .. "/.local/share/nvim/mason/bin/lua-language-server" },
