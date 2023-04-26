@@ -52,7 +52,7 @@ vim.cmd([[
 ]])
 
 -- Set bufferline bg transparent
-vim.cmd([[ highlight TabLineFill guibg=NONE ]])
+vim.cmd([[ highlight TabLine guibg=NONE ]])
 
 -- Hide non-text from buffers i.e ~ (tilde)
 vim.cmd([[ set fillchars=eob:\ ]])
