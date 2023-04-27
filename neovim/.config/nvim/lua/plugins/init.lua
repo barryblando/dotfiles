@@ -8,18 +8,18 @@ return {
 	"nvim-lua/popup.nvim",
 
 	-- Useful lua functions used by lots of plugins
-	"nvim-lua/plenary.nvim",
+	{ "nvim-lua/plenary.nvim", lazy = true },
 
 	-- UI Component Library for Neovim
-	"MunifTanjim/nui.nvim",
+	{ "MunifTanjim/nui.nvim"},
 
-	-- Speeding up startup
-	{
-		"lewis6991/impatient.nvim",
-		config = function()
-			require("impatient").enable_profile()
-		end,
-	},
+	{ 
+    "rmagatti/session-lens",
+    dependencies = {
+      "nvim-telescope/telescope.nvim",
+      "rmagatti/auto-session",
+    }
+  },
 
 	-- Closing buffers
 	"moll/vim-bbye",
@@ -34,9 +34,6 @@ return {
 		end,
 	},
 
-	-- This is need to fix some plugins cursor problems
-	"antoinemadec/FixCursorHold.nvim",
-
 	-- For jumping cursor in every word
 	-- "unblevable/quick-scope",
 
@@ -44,7 +41,7 @@ return {
 	{ "mg979/vim-visual-multi", branch = "master" },
 
 	-- Tracking Code stats
-	"wakatime/vim-wakatime",
+	{ "wakatime/vim-wakatime", lazy = true },
 
 	-- Markdown Previewer
 	{
@@ -59,7 +56,7 @@ return {
 	},
 
 	-- plugin to specify, or on the fly, mark and create persisting key strokes to go to the files you want.
-	"ThePrimeagen/harpoon",
+	{ "ThePrimeagen/harpoon", lazy = true },
 
 	---------------------
 	--  COLOR SCHEMES  --
@@ -118,6 +115,7 @@ return {
 
 	{
 		"neovim/nvim-lspconfig", -- enable LSP
+    event = { "BufReadPre", "BufNewFile" },
 		dependencies = {
 			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
@@ -216,6 +214,4 @@ return {
 	-- https://github.com/is0n/jaq-nvim
 	-- https://github.com/utilyre/barbecue.nvim -- better winbar
 	-- https://github.com/Pocco81/auto-save.nvim -- https://github.com/jose-elias-alvarez/null-ls.nvim/issues/879
-	-- https://github.com/vonheikemen/fine-cmdline.nvim
-	-- https://github.com/VonHeikemen/searchbox.nvim
 }
