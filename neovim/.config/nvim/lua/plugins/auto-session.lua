@@ -1,8 +1,5 @@
 return { 
   "rmagatti/auto-session",
-  dependencies = {
-    "rmagatti/session-lens",
-  },
   config = function ()
     local status_ok, auto_session = pcall(require, "auto-session")
     if not status_ok then
