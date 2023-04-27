@@ -1,5 +1,3 @@
-
-
 return {
   "ahmedkhalf/project.nvim",
   config = function ()
