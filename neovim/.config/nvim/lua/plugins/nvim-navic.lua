@@ -1,5 +1,6 @@
 return {
   "SmiteshP/nvim-navic",
+  lazy = true,
   config = function ()
     local status_ok, navic = pcall(require, "nvim-navic")
     if not status_ok then
@@ -50,8 +51,8 @@ return {
         ["TypeParameter"] = "%#CmpItemKindTypeParameter#" .. icons.kind.TypeParameter .. "%*" .. space,
       },
       separator = " " .. icons.ui.ChevronRight .. " ",
-      depth = 0,
-      depth_limit_indicator = "..",
+      depth = 5,
+      -- depth_limit_indicator = "..",
       highlight = true,
     })
   end
