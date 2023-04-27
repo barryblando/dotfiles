@@ -1,7 +1,6 @@
 return {
   "nvim-telescope/telescope.nvim",
   dependencies = {
-    "rmagatti/session-lens",
     "nvim-telescope/telescope-media-files.nvim",
     "nvim-telescope/telescope-ui-select.nvim",
     "nvim-telescope/telescope-file-browser.nvim",
@@ -165,7 +164,6 @@ return {
     telescope.load_extension("fzf")
     telescope.load_extension("notify")
     telescope.load_extension("harpoon")
-    telescope.load_extension("session-lens")
 
   end
 }
