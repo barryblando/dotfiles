@@ -35,7 +35,7 @@ return {
       sources = { "nvim_diagnostic" },
       sections = { "error", "warn" },
       symbols = { error = icons.diagnostics.Error, warn = icons.diagnostics.Warning },
-      colored = false,
+      colored = true,
       update_in_insert = true,
       always_visible = true,
     }
@@ -130,7 +130,7 @@ return {
           end
         end
 
-        local clients = vim.lsp.buf_get_clients()
+        local clients = vim.lsp.get_active_clients()
         local client_names = {}
         local copilot_active = false
 
