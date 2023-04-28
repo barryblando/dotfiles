@@ -11,7 +11,7 @@ return {
 	{ "nvim-lua/plenary.nvim", lazy = true },
 
 	-- UI Component Library for Neovim
-	{ "MunifTanjim/nui.nvim"},
+	{ "MunifTanjim/nui.nvim", lazy = true },
 
 	{ 
     "rmagatti/session-lens",
@@ -135,7 +135,7 @@ return {
 	},
 
 	-- LSP signature help
-	"ray-x/lsp_signature.nvim",
+	{ "ray-x/lsp_signature.nvim", lazy = true },
 
 	-- LSP code action menu with diff preview
 	{
@@ -144,7 +144,7 @@ return {
 	},
 
 	-- RUST
-	{ "simrat39/rust-tools.nvim" },
+	{ "simrat39/rust-tools.nvim", lazy = true },
 
 	-- GOLANG
 	-- use ({ "https://github.com/ray-x/go.nvim" })
