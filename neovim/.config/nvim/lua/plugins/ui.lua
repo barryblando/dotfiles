@@ -55,6 +55,9 @@ return {
         progress = {
           enabled = false
         },
+        hover = {
+          enabled = false
+        },
       },
       presets = {
         bottom_search = true,
