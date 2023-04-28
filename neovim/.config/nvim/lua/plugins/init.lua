@@ -76,6 +76,8 @@ return {
 			"hrsh7th/cmp-cmdline", -- cmdline completions
 			"hrsh7th/cmp-nvim-lsp", -- nvim-cmp source for neovim's built-in language server client
 			"saadparwaiz1/cmp_luasnip", -- snippet completions
+      "L3MON4D3/LuaSnip", -- snippet engine, requires cmp_luasnip in order to work
+      "rafamadriz/friendly-snippets", -- a bunch of snippets to use
 			{
 				"tzachar/cmp-tabnine",
 				build = "./install.sh",
@@ -101,13 +103,6 @@ return {
 			},
 		},
 	},
-
-	---------------------
-	--    SNIPPETS     --
-	---------------------
-
-	"L3MON4D3/LuaSnip", -- snippet engine, requires cmp_luasnip in order to work
-	"rafamadriz/friendly-snippets", -- a bunch of snippets to use
 
 	---------------------
 	--      LSP        --
