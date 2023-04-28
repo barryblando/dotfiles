@@ -17,7 +17,7 @@ end
 add("$VIMRUNTIME")
 
 -- add your config
-add("~/.dotfiles/neovim/.config/nvim")
+add("~/.config/nvim")
 
 -- add plugins
 -- if you're not using packer, then you might need to change the paths below
