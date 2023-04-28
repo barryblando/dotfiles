@@ -15,6 +15,14 @@ return {
         return vim.ui.input(...)
       end
     end,
+    opts = {
+      input = {
+        border =  { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" },
+        win_options = {
+          winblend = 0
+        }
+      }
+    }
   },
 
   -- noicer ui
