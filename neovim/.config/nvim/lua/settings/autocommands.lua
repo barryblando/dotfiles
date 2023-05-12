@@ -211,8 +211,10 @@ local noice_cmd_types = {
   Filter     = cmdGroup,
   Rename     = cmdGroup,
   Substitute = "Define",
-  Help       = "TransparentHelp",
-  Search     = "TransparentSearch"
+  -- Help       = "TransparentHelp",
+  -- Search     = "TransparentSearch"
+  Help       = "Constant",
+  Search     = "Constant"
 }
 
 local noice_hl = vim.api.nvim_create_augroup("NoiceHighlights", {})
