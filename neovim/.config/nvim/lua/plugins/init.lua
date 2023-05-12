@@ -13,14 +13,6 @@ return {
 	-- UI Component Library for Neovim
 	{ "MunifTanjim/nui.nvim", lazy = true },
 
-	{ 
-    "rmagatti/session-lens",
-    dependencies = {
-      "nvim-telescope/telescope.nvim",
-      "rmagatti/auto-session",
-    }
-  },
-
 	-- Closing buffers
 	"moll/vim-bbye",
 
@@ -78,31 +70,33 @@ return {
 			"saadparwaiz1/cmp_luasnip", -- snippet completions
       "L3MON4D3/LuaSnip", -- snippet engine, requires cmp_luasnip in order to work
       "rafamadriz/friendly-snippets", -- a bunch of snippets to use
-			{
-				"tzachar/cmp-tabnine",
-				build = "./install.sh",
-				config = function()
-					local status_ok, tabnine = pcall(require, "cmp_tabnine.config")
-
-					if not status_ok then
-						return
-					end
-
-					tabnine.setup({
-						max_lines = 1000,
-						max_num_results = 20,
-						sort = true,
-						run_on_every_keystroke = true,
-						snippet_placeholder = "..",
-						ignored_file_types = { -- default is not to ignore
-							-- uncomment to ignore in lua:
-							-- lua = true
-						},
-					})
-				end,
-			},
 		},
 	},
+
+  {
+    "tzachar/cmp-tabnine",
+    build = "./install.sh",
+    dependencies = 'hrsh7th/nvim-cmp',
+    config = function()
+      local status_ok, tabnine = pcall(require, "cmp_tabnine.config")
+
+      if not status_ok then
+        return
+      end
+
+      tabnine:setup({
+        max_lines = 1000,
+        max_num_results = 20,
+        sort = true,
+        run_on_every_keystroke = true,
+        snippet_placeholder = "..",
+        ignored_file_types = { -- default is not to ignore
+          -- uncomment to ignore in lua:
+          -- lua = true
+        },
+      })
+    end,
+  },
 
 	---------------------
 	--      LSP        --
