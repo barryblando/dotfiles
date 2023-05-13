@@ -20,7 +20,8 @@ return {
       close_on_exit = true,
       shell = vim.o.shell,
       float_opts = {
-        border = { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" },
+        border = { "┌", "─", "┐", "│", "┘", "─", "└", "│" },
+        -- border = { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" },
         -- border = "curved",
         winblend = 0,
         highlights = {
@@ -40,7 +41,7 @@ return {
       local opts = { noremap = true }
       -- toggleterm esc keymap doesn't work if this one's set
       -- vim.api.nvim_buf_set_keymap(0, 't', '<esc>', [[<C-\><C-n>]], opts)
-      vim.api.nvim_buf_set_keymap(0, "t", "jk", [[<C-\><C-n>]], opts)
+      -- vim.api.nvim_buf_set_keymap(0, "t", "jk", [[<C-\><C-n>]], opts)
       vim.api.nvim_buf_set_keymap(0, "t", "<C-h>", [[<C-\><C-n><C-W>h]], opts)
       vim.api.nvim_buf_set_keymap(0, "t", "<C-j>", [[<C-\><C-n><C-W>j]], opts)
       vim.api.nvim_buf_set_keymap(0, "t", "<C-k>", [[<C-\><C-n><C-W>k]], opts)
