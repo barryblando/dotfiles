@@ -17,11 +17,29 @@ return {
     end,
     opts = {
       input = {
-        border =  { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" },
+        border = { "┌", "─", "┐", "│", "┘", "─", "└", "│" },
         win_options = {
           winblend = 0
         }
-      }
+      },
+      select = {
+        winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
+        -- telescope = {
+        --   theme = require('telescope.themes').get_dropdown { -- or 'cursor'
+        --     borderchars = {
+        --       { '─', '│', '─', '│', '┌', '┐', '┘', '└'},
+        --       prompt = {"─", "│", " ", "│", '┌', '┐', "│", "│"},
+        --       results = {"─", "│", "─", "│", "├", "┤", "┘", "└"},
+        --       preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└'},
+        --     },
+        --     -- layout_config = {
+        --     --   height = function(self, _, max_lines)
+        --     --     return random_height_i_computed
+        --     --   end,
+        --     -- },
+        --   },
+        -- },
+      },
     }
   },
 
