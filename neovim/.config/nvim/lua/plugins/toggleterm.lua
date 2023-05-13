@@ -41,6 +41,8 @@ return {
       local opts = { noremap = true }
       -- toggleterm esc keymap doesn't work if this one's set
       -- vim.api.nvim_buf_set_keymap(0, 't', '<esc>', [[<C-\><C-n>]], opts)
+      -- disable this as it makes long press with `j` not rendering until sometime after the key release.
+      -- see https://github.com/akinsho/toggleterm.nvim/issues/63 for more details
       -- vim.api.nvim_buf_set_keymap(0, "t", "jk", [[<C-\><C-n>]], opts)
       vim.api.nvim_buf_set_keymap(0, "t", "<C-h>", [[<C-\><C-n><C-W>h]], opts)
       vim.api.nvim_buf_set_keymap(0, "t", "<C-j>", [[<C-\><C-n><C-W>j]], opts)
