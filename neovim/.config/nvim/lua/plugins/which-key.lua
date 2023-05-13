@@ -140,7 +140,7 @@ return {
         r = { "<cmd>SessionRestore<cr>", "Restore" },
         x = { "<cmd>SessionDelete<cr>", "Delete" },
         f = { "<cmd>Telescope session-lens search_session<cr>", "Find" },
-        -- f = { '<cmd>lua require("auto-session.session-lens").search_session<cr>', "Find" },
+        -- f = { '<cmd>lua require("auto-session.session-lens").search_session()<cr>', "Find" },
         d = { "<cmd>Autosession delete<cr>", "Find Delete" },
       },
 
