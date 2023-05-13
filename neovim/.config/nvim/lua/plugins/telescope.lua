@@ -154,6 +154,12 @@ return {
           require("telescope.themes").get_dropdown({
             previewer = false,
             -- even more opts
+            borderchars = {
+              { '─', '│', '─', '│', '┌', '┐', '┘', '└'},
+              prompt = {"─", "│", " ", "│", '┌', '┐', "│", "│"},
+              results = {"─", "│", "─", "│", "├", "┤", "┘", "└"},
+              preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└'},
+            },
           }),
         },
       },
