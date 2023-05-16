@@ -138,7 +138,7 @@ return {
 	cursor_blink_ease_out = "Constant",
 
 	initial_rows = 58,
-	initial_cols = 165,
+	initial_cols = 166,
 
 	color_scheme = "gruvbox_material_dark_hard",
 	color_schemes = {
