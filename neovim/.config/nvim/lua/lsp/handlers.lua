@@ -50,8 +50,7 @@ M.setup = function()
 
 	-- Hover rounded border with transparency effect from cmp
 	local function custom_handler(handler)
-		local overrides = { border = { "╔", "═", "╗", "║", "╝", "═", "╚", "║" } }
-		-- border = { "┏", "━", "┓", "┃", "┛","━", "┗", "┃" },
+		local overrides = { border = icons.ui.Border_Single_Line }
 		return vim.lsp.with(function(...)
 			local buf, winnr = handler(...)
 			if buf then
@@ -174,30 +173,30 @@ end
 
 local function lsp_keymaps(bufnr)
 	local opts = { noremap = true, silent = true }
-  local keymap = vim.api.nvim_buf_set_keymap
-  local keymaps = {
-    { "gd", "<cmd>lua vim.lsp.buf.definition()<CR>" },
-    { "gD", "<cmd>Telescope lsp_definitions<CR>" },
-    -- { "gD", "<cmd>lua vim.lsp.buf.definition()<CR>" },
-    -- { "K", "<cmd>lua vim.lsp.buf.hover()<CR>" }, -- I put the config in nvim-ufo to include code folding preview
-    { "gI", "<cmd>Telescope lsp_implementations<CR>" },
-    { "gr", "<cmd>Telescope lsp_references<CR>" },
-    { "gl", "<cmd>lua vim.diagnostic.open_float(nil, { focusable = false })<CR>" },
-    { "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>" },
-    { "<leader>lf", "<cmd>lua vim.lsp.buf.format{ async = true }<cr>" },
-    { "<leader>li", "<cmd>LspInfo<cr>" },
-    { "<leader>lI", "<cmd>LspInstallInfo<cr>" },
-    { "<leader>la", "<cmd>LspInstallInfo<cr>" },
-    { "<leader>lj", "<cmd>lua vim.diagnostic.goto_next({buffer=0})<cr>" },
-    { "<leader>lk", "<cmd>lua vim.diagnostic.goto_prev({buffer=0})<cr>" },
-    { "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>" },
-    { "<leader>ls", "<cmd>lua vim.lsp.buf.signature_help()<CR>" },
-    { "<leader>lq", "<cmd>lua vim.diagnostic.setloclist()<CR>" },
-  }
+	local keymap = vim.api.nvim_buf_set_keymap
+	local keymaps = {
+		{ "gd", "<cmd>lua vim.lsp.buf.definition()<CR>" },
+		{ "gD", "<cmd>Telescope lsp_definitions<CR>" },
+		-- { "gD", "<cmd>lua vim.lsp.buf.definition()<CR>" },
+		-- { "K", "<cmd>lua vim.lsp.buf.hover()<CR>" }, -- I put the config in nvim-ufo to include code folding preview
+		{ "gI", "<cmd>Telescope lsp_implementations<CR>" },
+		{ "gr", "<cmd>Telescope lsp_references<CR>" },
+		{ "gl", "<cmd>lua vim.diagnostic.open_float(nil, { focusable = false })<CR>" },
+		{ "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>" },
+		{ "<leader>lf", "<cmd>lua vim.lsp.buf.format{ async = true }<cr>" },
+		{ "<leader>li", "<cmd>LspInfo<cr>" },
+		{ "<leader>lI", "<cmd>LspInstallInfo<cr>" },
+		{ "<leader>la", "<cmd>LspInstallInfo<cr>" },
+		{ "<leader>lj", "<cmd>lua vim.diagnostic.goto_next({buffer=0})<cr>" },
+		{ "<leader>lk", "<cmd>lua vim.diagnostic.goto_prev({buffer=0})<cr>" },
+		{ "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>" },
+		{ "<leader>ls", "<cmd>lua vim.lsp.buf.signature_help()<CR>" },
+		{ "<leader>lq", "<cmd>lua vim.diagnostic.setloclist()<CR>" },
+	}
 
-  for _, k in ipairs(keymaps) do
-    keymap(bufnr, "n", k[1], k[2], opts)
-  end
+	for _, k in ipairs(keymaps) do
+		keymap(bufnr, "n", k[1], k[2], opts)
+	end
 
 	vim.cmd([[ command! Format execute 'lua vim.lsp.buf.format({ async = false })' ]])
 end
@@ -207,12 +206,12 @@ end
 ------------------------
 
 local function attach_navic(client, bufnr)
-  vim.g.navic_silence = true
-  local status_ok, navic = pcall(require, "nvim-navic")
-  if not status_ok then
-    return
-  end
-  navic.attach(client, bufnr)
+	vim.g.navic_silence = true
+	local status_ok, navic = pcall(require, "nvim-navic")
+	if not status_ok then
+		return
+	end
+	navic.attach(client, bufnr)
 end
 
 ------------------------
@@ -220,18 +219,18 @@ end
 ------------------------
 
 M.on_attach = function(client, bufnr)
-  if client.name == "tsserver" then
+	if client.name == "tsserver" then
 		client.server_capabilities.documentFormattingProvider = false
 	end
 
 	if client.name == "sumneko_lua" then
 		client.server_capabilities.documentFormattingProvider = false
 	end
-  
-  local client_to_detach_UFO = "dockerls yamlls jsonls"
-  if client_to_detach_UFO:find(client.name) then
-    vim.cmd('UfoDetach')
-  end
+
+	local client_to_detach_UFO = "dockerls yamlls jsonls"
+	if client_to_detach_UFO:find(client.name) then
+		vim.cmd("UfoDetach")
+	end
 
 	local client_to_skip = "dockerls cssls bashls" -- clients that navic doesn't support
 	if client_to_skip:find(client.name) then
@@ -239,7 +238,7 @@ M.on_attach = function(client, bufnr)
 	end
 
 	if client.supports_method("textDocument/documentSymbol") then
-    attach_navic(client, bufnr)
+		attach_navic(client, bufnr)
 	end
 
 	::continue::
@@ -253,8 +252,8 @@ end
 function M.enable_format_on_save()
 	vim.cmd([[
     augroup format_on_save
-      autocmd! 
-      autocmd BufWritePre * lua vim.lsp.buf.format({ async = false }) 
+      autocmd!
+      autocmd BufWritePre * lua vim.lsp.buf.format({ async = false })
     augroup end
   ]])
 	vim.notify("Enabled format on save")

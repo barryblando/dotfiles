@@ -1,3 +1,11 @@
+-- local function tabnine_build_path()
+-- 	if vim.loop.os_uname().sysname == "Windows_NT" then
+-- 		return "pwsh.exe -file .\\dl_binaries.ps1"
+-- 	else
+-- 		return "./dl_binaries.sh"
+-- 	end
+-- end
+
 return {
 
 	---------------------
@@ -24,6 +32,13 @@ return {
 				mapping = { "jk", "kj" },
 			})
 		end,
+	},
+
+	-- auto-save, default config used
+	{
+		"Pocco81/auto-save.nvim",
+		cmd = "ASToggle",
+		event = { "InsertLeave", "TextChanged" },
 	},
 
 	-- For jumping cursor in every word
@@ -68,35 +83,49 @@ return {
 			"hrsh7th/cmp-cmdline", -- cmdline completions
 			"hrsh7th/cmp-nvim-lsp", -- nvim-cmp source for neovim's built-in language server client
 			"saadparwaiz1/cmp_luasnip", -- snippet completions
-      "L3MON4D3/LuaSnip", -- snippet engine, requires cmp_luasnip in order to work
-      "rafamadriz/friendly-snippets", -- a bunch of snippets to use
+			"L3MON4D3/LuaSnip", -- snippet engine, requires cmp_luasnip in order to work
+			"rafamadriz/friendly-snippets", -- a bunch of snippets to use
 		},
 	},
 
-  {
-    "tzachar/cmp-tabnine",
-    build = "./install.sh",
-    dependencies = 'hrsh7th/nvim-cmp',
-    config = function()
-      local status_ok, tabnine = pcall(require, "cmp_tabnine.config")
+	--  {
+	--    "codota/tabnine-nvim",
+	--    build = tabnine_build_path(),
+	--    opts = {
+	--      disable_auto_comment=true,
+	--      accept_keymap="<Tab>",
+	--      dismiss_keymap = "<C-]>",
+	--      debounce_ms = 800,
+	--      suggestion_color = {gui = "#808080", cterm = 244},
+	--      exclude_filetypes = {"TelescopePrompt"},
+	--      log_file_path = nil, -- absolute path to Tabnine log file
+	--    }
+	--  },
 
-      if not status_ok then
-        return
-      end
+	-- {
+	-- 	"tzachar/cmp-tabnine",
+	-- 	build = "./install.sh",
+	-- 	dependencies = "hrsh7th/nvim-cmp",
+	-- 	config = function()
+	-- 		local status_ok, tabnine = pcall(require, "cmp_tabnine.config")
 
-      tabnine:setup({
-        max_lines = 1000,
-        max_num_results = 20,
-        sort = true,
-        run_on_every_keystroke = true,
-        snippet_placeholder = "..",
-        ignored_file_types = { -- default is not to ignore
-          -- uncomment to ignore in lua:
-          -- lua = true
-        },
-      })
-    end,
-  },
+	-- 		if not status_ok then
+	-- 			return
+	-- 		end
+
+	-- 		tabnine:setup({
+	-- 			max_lines = 1000,
+	-- 			max_num_results = 20,
+	-- 			sort = true,
+	-- 			run_on_every_keystroke = true,
+	-- 			snippet_placeholder = "..",
+	-- 			ignored_file_types = { -- default is not to ignore
+	-- 				-- uncomment to ignore in lua:
+	-- 				-- lua = true
+	-- 			},
+	-- 		})
+	-- 	end,
+	-- },
 
 	---------------------
 	--      LSP        --
@@ -104,7 +133,7 @@ return {
 
 	{
 		"neovim/nvim-lspconfig", -- enable LSP
-    event = { "BufReadPre", "BufNewFile" },
+		event = { "BufReadPre", "BufNewFile" },
 		dependencies = {
 			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
@@ -199,8 +228,6 @@ return {
 	-- use { "NTBBloodbath/rest.nvim" }
 	-- use { "junegunn/vim-easy-align" }
 	-- use { "kevinhwang91/nvim-bqf", ft = "qf" }
-	-- use { "sunjon/stylish.nvim" } -- stylish UI Components for Neovim
 	-- https://github.com/is0n/jaq-nvim
 	-- https://github.com/utilyre/barbecue.nvim -- better winbar
-	-- https://github.com/Pocco81/auto-save.nvim -- https://github.com/jose-elias-alvarez/null-ls.nvim/issues/879
 }
