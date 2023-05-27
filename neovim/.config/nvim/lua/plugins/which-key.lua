@@ -6,6 +6,8 @@ return {
 			return
 		end
 
+		local icons = require("utils.icons")
+
 		local setup = {
 			plugins = {
 				marks = false, -- shows a list of your marks on ' and `
@@ -46,7 +48,7 @@ return {
 				scroll_up = "<c-u>", -- binding to scroll up inside the popup
 			},
 			window = {
-				border = { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" },
+				border = icons.ui.Border_Single_Line,
 				position = "bottom", -- bottom, top
 				margin = { 1, 0, 1, 0 }, -- extra window margin [top, right, bottom, left]
 				padding = { 2, 2, 2, 2 }, -- extra window padding [top, right, bottom, left]

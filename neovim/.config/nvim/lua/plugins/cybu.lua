@@ -19,6 +19,9 @@ return {
     if not ok then
       return
     end
+    
+		local icons = require("utils.icons")
+    
     cybu.setup {
       position = {
         relative_to = "win", -- win, editor, cursor
@@ -34,7 +37,7 @@ return {
       display_time = 1750, -- time the cybu window is displayed
       style = {
         path = "relative", -- absolute, relative, tail (filename only)
-        border = { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" }, -- single, double, rounded, none
+        border = icons.ui.Border_Single_Line, -- single, double, rounded, none
         separator = " ", -- string used as separator
         prefix = "…", -- string used as prefix for truncated paths
         padding = 1, -- left & right padding in number of spaces
