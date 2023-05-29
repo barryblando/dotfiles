@@ -31,9 +31,11 @@ local servers = {
 	"eslint",
 }
 
+local icons = require("utils.icons")
+
 local settings = {
 	ui = {
-		border = { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" },
+		border = icons.ui.Border_Single_Line,
 		icons = {
 			package_installed = "✓",
 			package_pending = "➜",
@@ -99,4 +101,4 @@ for _, server in pairs(servers) do
 	::continue::
 end
 
-require("lspconfig.ui.windows").default_options.border = { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" }
+require("lspconfig.ui.windows").default_options.border = settings.ui.border
