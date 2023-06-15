@@ -17,8 +17,8 @@ return {
 		lazy = false,
 		priority = 1000,
 		config = function()
-      -- load the colorscheme here
-      vim.cmd([[
+			-- load the colorscheme here
+			vim.cmd([[
         " Important!! https://github.com/sainnhe/gruvbox-material/blob/master/doc/gruvbox-material.txt
         " if has('termguicolors')
         " set termguicolors
@@ -42,7 +42,7 @@ return {
 
         colorscheme gruvbox-material
       ]])
-    end,
+		end,
 	},
 
 	---------------------
@@ -174,6 +174,8 @@ return {
 
 			{
 				"j-hui/fidget.nvim",
+				-- NOTE: fidget.nvim will soon be completely rewritten. In the meantime, tag legacy to avoid breaking changes.
+				tag = "legacy",
 				config = function()
 					require("fidget").setup({
 						text = {
