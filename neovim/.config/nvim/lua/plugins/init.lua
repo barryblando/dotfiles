@@ -59,7 +59,7 @@ return {
 	{ "MunifTanjim/nui.nvim", lazy = true },
 
 	-- Closing buffers
-	"moll/vim-bbye",
+	"famiu/bufdelete.nvim",
 
 	-- Remove mapping escape delay
 	{
