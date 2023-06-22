@@ -113,12 +113,13 @@ return {
 			-- ["x"] = { "<cmd>!chmod +x %<cr>", "Make Script Executable" },
 
 			p = {
-				name = "Packer",
-				c = { "<cmd>PackerCompile<cr>", "Compile" },
-				i = { "<cmd>PackerInstall<cr>", "Install" },
-				s = { "<cmd>PackerSync<cr>", "Sync" },
-				S = { "<cmd>PackerStatus<cr>", "Status" },
-				u = { "<cmd>PackerUpdate<cr>", "Update" },
+				name = "Lazy Plugin Manager",
+				c = { "<cmd>Lazy clean<cr>", "Clean [plugins]" },
+				d = { "<cmd>Lazy debug<cr>", "Debug" },
+				h = { "<cmd>Lazy health<cr>", "Health" },
+				p = { "<cmd>Lazy profile<cr>", "Profile" },
+				s = { "<cmd>Lazy sync<cr>", "Sync" },
+				u = { "<cmd>Lazy update<cr>", "Update" },
 			},
 
 			o = {
@@ -217,7 +218,6 @@ return {
 				F = { "<cmd>LspToggleAutoFormat<cr>", "Toggle Autoformat" },
 				h = { "<cmd>IlluminationToggle<cr>", "Toggle Doc HL" },
 				i = { "<cmd>LspInfo<cr>", "Info" },
-				I = { "<cmd>LspInstallInfo<cr>", "Installer Info" },
 				j = {
 					"<cmd>lua vim.lsp.diagnostic.goto_next({buffer=0})<CR>",
 					"Next Diagnostic",
