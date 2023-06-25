@@ -70,7 +70,13 @@ return {
 		local mode = {
 			"mode",
 			fmt = function(str)
-				return "  " .. str .. "  "
+				if not string.find(str, "-") then
+					return "⌞" .. str:sub(1, 1) .. "⌝"
+				end
+
+				for s1, s2 in string.gmatch(str, "(%w+)-(%w+)") do
+					return "⌞" .. s1:sub(1, 1) .. "-" .. s2:sub(1, 1) .. "⌝"
+				end
 			end,
 		}
 
