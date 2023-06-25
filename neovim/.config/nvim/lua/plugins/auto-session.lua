@@ -23,7 +23,8 @@ return {
 			session_lens = {
 				path_display = { "shorten" },
 				theme_conf = {
-					border = true,
+					borderchars = icons.ui.Border_Chars,
+					winblend = 0,
 				},
 				previewer = false,
 				prompt_title = "Sessions",
