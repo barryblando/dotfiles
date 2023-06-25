@@ -122,10 +122,6 @@ return {
 					find_cmd = "rg", -- find command (defaults to `fd`)
 				},
 				file_browser = {
-					require("telescope.themes").get_dropdown({
-						previewer = false,
-						-- even more opts
-					}),
 					-- set this to true if you don't have any file explorer plugin installed when starting nvim
 					hijack_netrw = false,
 					mappings = {
