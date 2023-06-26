@@ -138,22 +138,25 @@ return {
 
 				local clients = vim.lsp.get_active_clients()
 				local client_names = {}
-				local copilot_active = false
+				-- local copilot_active = false
 
 				-- add client
 				for _, client in pairs(clients) do
-					if client.name ~= "copilot" and client.name ~= "null-ls" then
+					-- if client.name ~= "copilot" and client.name ~= "null-ls" then
+					if client.name ~= "null-ls" then
 						table.insert(client_names, client.name)
 					end
-					if client.name == "copilot" then
-						copilot_active = true
-					end
+
+					-- if client.name == "copilot" then
+					-- 	copilot_active = true
+					-- end
 				end
 
 				-- add formatter
 				local s = require("null-ls.sources")
 				local available_sources = s.get_available(buf_ft)
 				local registered = {}
+
 				for _, source in ipairs(available_sources) do
 					for method in pairs(source.methods) do
 						registered[method] = registered[method] or {}
@@ -163,9 +166,11 @@ return {
 
 				local formatter = registered["NULL_LS_FORMATTING"]
 				local linter = registered["NULL_LS_DIAGNOSTICS"]
+
 				if formatter ~= nil then
 					vim.list_extend(client_names, formatter)
 				end
+
 				if linter ~= nil then
 					vim.list_extend(client_names, linter)
 				end
@@ -176,14 +181,17 @@ return {
 				-- check client_names_str if empty
 				local language_servers = ""
 				local client_names_str_len = #client_names_str
+
 				if client_names_str_len ~= 0 then
 					language_servers = " ⎢" .. client_names_str .. "⎢ "
 				end
-				if copilot_active then
-					language_servers = language_servers .. "%#SLCopilot#" .. " " .. icons.git.Octoface .. "%*"
-				end
 
-				if client_names_str_len == 0 and not copilot_active then
+				-- if copilot_active then
+				-- 	language_servers = language_servers .. "%#SLCopilot#" .. " " .. icons.git.Octoface .. "%*"
+				-- end
+
+				-- if client_names_str_len == 0 and not copilot_active then
+				if client_names_str_len == 0 then
 					return ""
 				else
 					M.language_servers = language_servers
