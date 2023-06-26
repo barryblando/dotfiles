@@ -85,7 +85,7 @@ return {
 	{ "mg979/vim-visual-multi", branch = "master" },
 
 	-- Tracking Code stats
-	{ "wakatime/vim-wakatime", lazy = true },
+	{ "wakatime/vim-wakatime" },
 
 	-- Markdown Previewer
 	{
@@ -176,6 +176,7 @@ return {
 				"j-hui/fidget.nvim",
 				-- NOTE: fidget.nvim will soon be completely rewritten. In the meantime, tag legacy to avoid breaking changes.
 				tag = "legacy",
+				enabled = false,
 				config = function()
 					require("fidget").setup({
 						text = {
@@ -189,6 +190,8 @@ return {
 			},
 		},
 	},
+
+	{ "WhoIsSethDaniel/lualine-lsp-progress.nvim" },
 
 	-- LSP signature help
 	{ "ray-x/lsp_signature.nvim", lazy = true },
