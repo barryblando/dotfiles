@@ -305,7 +305,7 @@ return {
 			sections = {
 				lualine_a = { mode },
 				lualine_b = { branch, diff },
-				lualine_c = { lsp_progress },
+				lualine_c = { }, -- lsp_progress
 				-- lualine_x = { "encoding", "fileformat", "filetype" },
 				-- lualine_x = { diagnostics, language_server, spaces, "encoding", filetype },
 				lualine_x = { diagnostics, spaces, "encoding", filetype },
@@ -323,5 +323,13 @@ return {
 			tabline = {},
 			extensions = {},
 		})
+
+		-- refresh lualine
+		vim.cmd([[
+    augroup lualine_augroup
+      autocmd!
+      autocmd User LspProgressStatusUpdated lua require("lualine").refresh()
+    augroup END
+    ]])
 	end,
 }
