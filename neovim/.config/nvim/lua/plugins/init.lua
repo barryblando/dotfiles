@@ -176,7 +176,7 @@ return {
 				"j-hui/fidget.nvim",
 				-- NOTE: fidget.nvim will soon be completely rewritten. In the meantime, tag legacy to avoid breaking changes.
 				tag = "legacy",
-				enabled = false,
+				-- enabled = false,
 				config = function()
 					require("fidget").setup({
 						text = {
@@ -191,7 +191,7 @@ return {
 		},
 	},
 
-	{ "WhoIsSethDaniel/lualine-lsp-progress.nvim" },
+	{ "WhoIsSethDaniel/lualine-lsp-progress.nvim", enabled = false },
 
 	-- LSP signature help
 	{ "ray-x/lsp_signature.nvim", lazy = true },
