@@ -107,7 +107,7 @@ return {
 			icon = "",
 		}
 
-		local lanuage_server = {
+		local language_server = {
 			function()
 				local buf_ft = vim.bo.filetype
 				local ui_filetypes = {
@@ -224,6 +224,58 @@ return {
 			return "Spaces: " .. vim.api.nvim_buf_get_option(0, "shiftwidth")
 		end
 
+		local colors = {
+			yellow = "#D79921",
+			cyan = "#689D6A",
+			darkblue = "#3C3836",
+			green = "#98971A",
+			orange = "#D65D0E",
+			violet = "#a9a1e1",
+			magenta = "#B16286",
+			blue = "#3C8588",
+			red = "#CC241D",
+		}
+
+		local lsp_progress = {
+			"lsp_progress",
+			colors = {
+				percentage = colors.cyan,
+				title = colors.cyan,
+				message = colors.cyan,
+				spinner = colors.cyan,
+				lsp_client_name = colors.magenta,
+				use = true,
+			},
+			separators = {
+				component = " ",
+				progress = " | ",
+				message = { pre = "(", post = ")" },
+				percentage = { pre = "", post = "%% " },
+				title = { pre = "", post = ": " },
+				lsp_client_name = { pre = "[", post = "]" },
+				spinner = { pre = "", post = "" },
+			},
+			-- never show status for this list of servers;
+			-- can be useful if your LSP server does not emit
+			-- status messages
+			hide = { "null-ls", "pyright" },
+			-- by default this is false. If set to true will
+			-- only show the status of LSP servers attached
+			-- to the currently active buffer
+			only_show_attached = true,
+			display_components = { "lsp_client_name", "spinner", { "title", "percentage", "message" } },
+			timer = {
+				progress_enddelay = 500,
+				spinner = 1000,
+				lsp_client_name_enddelay = 1000,
+				attached_delay = 3000,
+			},
+			-- spinner_symbols = { "🌑 ", "🌒 ", "🌓 ", "🌔 ", "🌕 ", "🌖 ", "🌗 ", "🌘 " },
+			spinner_symbols = { "⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷" },
+			message = { initializing = "Initializing…", commenced = "In Progress", completed = "Completed" },
+			max_message_length = 30,
+		}
+
 		lualine.setup({
 			options = {
 				icons_enabled = true,
@@ -245,9 +297,10 @@ return {
 			sections = {
 				lualine_a = { mode },
 				lualine_b = { branch, diff },
-				lualine_c = {},
+				lualine_c = { lsp_progress },
 				-- lualine_x = { "encoding", "fileformat", "filetype" },
-				lualine_x = { diagnostics, lanuage_server, spaces, "encoding", filetype },
+				-- lualine_x = { diagnostics, language_server, spaces, "encoding", filetype },
+				lualine_x = { diagnostics, spaces, "encoding", filetype },
 				lualine_y = { location },
 				lualine_z = { progress },
 			},
