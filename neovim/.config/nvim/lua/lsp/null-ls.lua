@@ -61,21 +61,44 @@ null_ls.setup({
 
 		-- Protocol Buffers
 		formatting.buf,
-    
-    -- Go
-    -- formatting.goimports,
-    -- formatting.goimports_reviser,
-    -- formatting.golines,
+
+		-- Go
+		-- formatting.goimports,
+		-- formatting.goimports_reviser,
+		-- formatting.golines,
+		formatting.gofumpt,
 
 		-- null_ls.builtins.code_actions.refactoring,
 
 		-- shell scripts
 		-- diagnostics.shellcheck,
-    
+
+		-- gitsigns integration
+		code_actions.gitsigns,
 	},
-  
-  -- gitsigns integration
-  code_actions.gitsigns,
+
+	-- https://github.com/jose-elias-alvarez/null-ls.nvim/issues/879#issuecomment-1345440978
+	on_attach = function(client, bufnr)
+		local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+
+		if client.supports_method("textDocument/formatting") then
+			vim.api.nvim_buf_create_user_command(bufnr, "LspFormatting", function()
+				vim.lsp.buf.format({
+					bufnr = bufnr,
+					filter = function(clientLS)
+						return clientLS.name == "null-ls"
+					end,
+				})
+			end, {})
+
+			vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+			vim.api.nvim_create_autocmd("BufWritePre", {
+				group = augroup,
+				buffer = bufnr,
+				command = "undojoin | LspFormatting",
+			})
+		end
+	end,
 })
 
 local unwrap = {

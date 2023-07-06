@@ -1,5 +1,6 @@
 return {
   "filipdutescu/renamer.nvim",
+  enabled = false,
   branch = "master",
   keys = {
     { "<F2>", '<cmd>lua require("renamer").rename()<cr>', mode = "i" },

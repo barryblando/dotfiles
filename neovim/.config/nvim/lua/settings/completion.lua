@@ -34,7 +34,7 @@ require("luasnip/loaders/from_vscode").lazy_load()
 -- end
 
 local check_backspace = function()
-	local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+	local line, col = table.unpack(vim.api.nvim_win_get_cursor(0))
 	return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
@@ -49,15 +49,25 @@ vim.api.nvim_set_hl(0, "CmpItemKindTabnine", { fg = "#CA42F0" })
 -- vim.api.nvim_set_hl(0, "CmpItemKindEmoji", { fg = "#FDE030" })
 vim.api.nvim_set_hl(0, "CmpItemKindCrate", { fg = "#F64D00" })
 
-vim.g.cmp_active = true
+-- vim.g.cmp_active = true
 
 cmp.setup({
 	enabled = function()
+		-- disable completion in comments
+		local context = require("cmp.config.context")
+		-- buftype
 		local buftype = vim.api.nvim_buf_get_option(0, "buftype")
+
 		if buftype == "prompt" then
 			return false
 		end
-		return vim.g.cmp_active
+
+		if not vim.api.nvim_get_mode().mode == "c" then
+			return not context.in_treesitter_capture("comment") and not context.in_syntax_group("Comment")
+		end
+
+		-- keep command mode completion enabled when cursor is in a comment
+		return vim.g.cmp_active or true
 	end,
 	snippet = {
 		expand = function(args)
@@ -113,10 +123,10 @@ cmp.setup({
 			-- Kind icons
 			vim_item.kind = string.format("%s", kind_icons[vim_item.kind])
 
-			if entry.source.name == "cmp_tabnine" then
-				vim_item.kind = icons.misc.Robot
-				vim_item.kind_hl_group = "CmpItemKindTabnine"
-			end
+			-- if entry.source.name == "cmp_tabnine" then
+			-- 	vim_item.kind = icons.misc.Robot
+			-- 	vim_item.kind_hl_group = "CmpItemKindTabnine"
+			-- end
 
 			if entry.source.name == "crates" then
 				vim_item.kind = icons.misc.Package
@@ -124,13 +134,16 @@ cmp.setup({
 			end
 
 			-- vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
+      
+      vim_item.abbr = string.sub(vim_item.abbr, 1, 25)
 
 			vim_item.menu = ({
-				nvim_lsp = "",
-				nvim_lua = "",
-				luasnip = "",
-				buffer = "",
-				path = "",
+				nvim_lsp = "[LSP]",
+				nvim_lua = "[Lua]",
+				luasnip = "[luasnip]",
+				buffer = "[Buffer]",
+				-- cmp_tabnine = "[TN]",
+				path = "[Path]",
 			})[entry.source.name]
 
 			return vim_item
@@ -163,7 +176,7 @@ cmp.setup({
 				end
 			end,
 		},
-		{ name = "cmp_tabnine", group_index = 2 },
+		-- { name = "cmp_tabnine", group_index = 2 },
 		{ name = "path", group_index = 2 },
 	},
 	sorting = {
@@ -192,11 +205,11 @@ cmp.setup({
 	window = {
 		-- if you want transparent background for completion and documentation set winhighlight
 		documentation = {
-			border = { "╔", "═", "╗", "║", "╝", "═", "╚", "║" },
+			border = icons.ui.Border_Single_Line,
 			winhighlight = "Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:None",
 		},
 		completion = {
-			border = { "╔", "═", "╗", "║", "╝", "═", "╚", "║" },
+			border = icons.ui.Border_Single_Line,
 			winhighlight = "Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:None",
 		},
 	},
@@ -204,3 +217,26 @@ cmp.setup({
 		ghost_text = false,
 	},
 })
+
+-- `/` cmdline setup.
+-- cmp.setup.cmdline({ "/", "?" }, {
+-- 	mapping = cmp.mapping.preset.cmdline(),
+-- 	sources = {
+-- 		{ name = "buffer" },
+-- 	},
+-- })
+
+-- `:` cmdline setup.
+-- cmp.setup.cmdline(":", {
+-- 	mapping = cmp.mapping.preset.cmdline(),
+-- 	sources = cmp.config.sources({
+-- 		{ name = "path" },
+-- 	}, {
+-- 		{
+-- 			name = "cmdline",
+-- 			option = {
+-- 				ignore_cmds = { "Man", "!" },
+-- 			},
+-- 		},
+-- 	}),
+-- })

@@ -200,6 +200,16 @@ else
 			CloudDownload = " ",
 			TriangleRight = "",
 			TriangleLeft = "",
+			Border_Single_Line = { "┌", "─", "┐", "│", "┘", "─", "└", "│" },
+			Border_Solid_Line = { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" },
+			Border_Double_Line = { "╔", "═", "╗", "║", "╝", "═", "╚", "║" },
+			Border_Chars_Single_Line = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+			Border_Chars = {
+				{ "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+				prompt = { "─", "│", " ", "│", "┌", "┐", "│", "│" },
+				results = { "─", "│", "─", "│", "├", "┤", "┘", "└" },
+				preview = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+			},
 		},
 		diagnostics = {
 			Error = " ",
