@@ -20,7 +20,7 @@ return {
 
 			require("dressing").setup({
 				input = {
-					border = icons.ui.Border_Chars_Single_Line,
+					border = icons.ui.Border_Single_Line,
 					win_options = {
 						winblend = 0,
 					},
