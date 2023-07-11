@@ -99,6 +99,9 @@ return {
 				checkOnSave = {
 					command = "clippy",
 				},
+				cargo = {
+					allFeatures = true,
+				},
 			},
 		},
 	},
