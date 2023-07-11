@@ -214,7 +214,7 @@ return {
 					"<cmd>Telescope diagnostics<cr>",
 					"Workspace Diagnostics",
 				},
-				f = { "<cmd>lua vim.lsp.buf.format({ async = true })<cr>", "Format" },
+				f = { "<cmd>lua vim.lsp.buf.format({ async = false })<cr>", "Format" },
 				F = { "<cmd>LspToggleAutoFormat<cr>", "Toggle Autoformat" },
 				h = { "<cmd>IlluminationToggle<cr>", "Toggle Doc HL" },
 				i = { "<cmd>LspInfo<cr>", "Info" },
