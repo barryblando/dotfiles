@@ -20,7 +20,7 @@ local servers = {
 	"tailwindcss",
 	"yamlls",
 	"cssls",
-	"tsserver",
+	-- "tsserver", -- will use typescript tools
 	"terraformls",
 	"taplo",
 	"jsonls",
