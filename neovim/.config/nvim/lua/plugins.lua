@@ -39,7 +39,7 @@ require("lazy").setup("plugins", {
 			keys = " ",
 			loaded = "●",
 			not_loaded = "○",
-			plugin = "📦",
+			plugin = " ",
 			runtime = " ",
 			source = " ",
 			start = "",
