@@ -29,6 +29,28 @@ local icons = require("utils.icons")
 require("lazy").setup("plugins", {
 	ui = {
 		border = icons.ui.Border_Single_Line,
+		icons = {
+			cmd = " ",
+			config = " ",
+			event = "",
+			ft = " ",
+			init = " ",
+			import = " ",
+			keys = " ",
+			loaded = "●",
+			not_loaded = "○",
+			plugin = "📦",
+			runtime = " ",
+			source = " ",
+			start = "",
+			task = "✔ ",
+			list = {
+				"●",
+				"➜",
+				"★",
+				"‒",
+			},
+		},
 	},
 	checker = {
 		-- automatically check for plugin updates and in order for lualine status to work
