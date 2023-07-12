@@ -312,8 +312,6 @@ return {
 				lualine_a = { mode },
 				lualine_b = { branch, diff },
 				lualine_c = { diagnostics }, -- lsp_progress
-				-- lualine_x = { "encoding", "fileformat", "filetype" },
-				-- lualine_x = { diagnostics, language_server, spaces, "encoding", filetype },
 				lualine_x = { lazy_status, language_server, spaces, "encoding", filetype },
 				lualine_y = { location },
 				lualine_z = { progress },
