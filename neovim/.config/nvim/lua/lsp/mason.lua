@@ -8,6 +8,7 @@ if not mlsp_status_ok then
 	return
 end
 
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 local servers = {
 	"bashls",
 	"denols",
