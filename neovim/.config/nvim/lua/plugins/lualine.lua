@@ -284,6 +284,12 @@ return {
 			max_message_length = 30,
 		}
 
+		local lazy_status = {
+			require("lazy.status").updates,
+			cond = require("lazy.status").has_updates,
+			color = { fg = "#ff9e64" },
+		}
+
 		lualine.setup({
 			options = {
 				icons_enabled = true,
@@ -305,10 +311,10 @@ return {
 			sections = {
 				lualine_a = { mode },
 				lualine_b = { branch, diff },
-				lualine_c = { }, -- lsp_progress
+				lualine_c = {}, -- lsp_progress
 				-- lualine_x = { "encoding", "fileformat", "filetype" },
 				-- lualine_x = { diagnostics, language_server, spaces, "encoding", filetype },
-				lualine_x = { diagnostics, spaces, "encoding", filetype },
+				lualine_x = { lazy_status, diagnostics, spaces, "encoding", filetype },
 				lualine_y = { location },
 				lualine_z = { progress },
 			},

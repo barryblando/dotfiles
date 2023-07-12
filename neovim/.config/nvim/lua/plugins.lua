@@ -30,4 +30,11 @@ require("lazy").setup("plugins", {
 	ui = {
 		border = icons.ui.Border_Single_Line,
 	},
+	checker = {
+		-- automatically check for plugin updates and in order for lualine status to work
+		enabled = true,
+		concurrency = nil, -- @type number? set to 1 to check for updates very slowly
+		notify = true, -- get a notification when new updates are found
+		frequency = 3600, -- check for updates every hour
+	},
 })
