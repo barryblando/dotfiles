@@ -13,7 +13,7 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 
-vim.o.termguicolors = true
+vim.opt.termguicolors = true
 
 local opts = { noremap = true, silent = true }
 local keymap = vim.api.nvim_set_keymap
@@ -37,6 +37,7 @@ require("lazy").setup("plugins", {
 			init = " ",
 			import = " ",
 			keys = " ",
+			lazy = "💤 ",
 			loaded = "●",
 			not_loaded = "○",
 			plugin = " ",
