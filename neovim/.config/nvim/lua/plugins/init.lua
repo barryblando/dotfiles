@@ -219,7 +219,9 @@ return {
 	---------------------
 
 	"JoosepAlviste/nvim-ts-context-commentstring",
-	"p00f/nvim-ts-rainbow",
+	-- https://github.com/hiphish/rainbow-delimiters.nvim
+  -- This plugin is deprecated! Please use rainbow-delimiters.nvim but after it becomes stable
+	"HiPhish/nvim-ts-rainbow2",
 	"windwp/nvim-ts-autotag",
 
 	-- Treesitter text dimming
