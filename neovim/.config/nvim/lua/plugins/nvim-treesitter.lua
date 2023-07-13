@@ -103,14 +103,16 @@ return {
 				enable = true, -- false will disable the whole extension
 				-- disable for big files
 				disable = {
-					function(_, bufnr)
-						local buf_name = vim.api.nvim_buf_get_name(bufnr)
-						local file_size = vim.api.nvim_call_function("getfsize", { buf_name })
-						return file_size > 256 * 1024
+					function(_, buf)
+						local max_filesize = 100 * 1024 -- 100 KB
+						local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+						if ok and stats and stats.size > max_filesize then
+							return true
+						end
 					end,
 					"latex",
 				},
-				additional_vim_regex_highlighting = true,
+				additional_vim_regex_highlighting = false,
 			},
 			rainbow = {
 				enable = true,
