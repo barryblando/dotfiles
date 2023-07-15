@@ -136,7 +136,7 @@ return {
 					end
 				end
 
-				local clients = vim.lsp.get_active_clients()
+				local clients = vim.lsp.get_active_clients({ bufnr = vim.api.nvim_get_current_buf() })
 				local client_names = {}
 				-- local copilot_active = false
 
@@ -183,7 +183,7 @@ return {
 				local client_names_str_len = #client_names_str
 
 				if client_names_str_len ~= 0 then
-					language_servers = " ⎢" .. client_names_str .. "⎢ "
+					language_servers = "  ⎢" .. client_names_str .. "⎢ "
 				end
 
 				-- if copilot_active then
@@ -284,6 +284,12 @@ return {
 			max_message_length = 30,
 		}
 
+		local lazy_status = {
+			require("lazy.status").updates,
+			cond = require("lazy.status").has_updates,
+			color = { fg = "#ff9e64" },
+		}
+
 		lualine.setup({
 			options = {
 				icons_enabled = true,
@@ -305,10 +311,8 @@ return {
 			sections = {
 				lualine_a = { mode },
 				lualine_b = { branch, diff },
-				lualine_c = { }, -- lsp_progress
-				-- lualine_x = { "encoding", "fileformat", "filetype" },
-				-- lualine_x = { diagnostics, language_server, spaces, "encoding", filetype },
-				lualine_x = { diagnostics, spaces, "encoding", filetype },
+				lualine_c = { diagnostics }, -- lsp_progress
+				lualine_x = { lazy_status, language_server, spaces, "encoding", filetype },
 				lualine_y = { location },
 				lualine_z = { progress },
 			},
@@ -323,13 +327,5 @@ return {
 			tabline = {},
 			extensions = {},
 		})
-
-		-- refresh lualine
-		vim.cmd([[
-    augroup lualine_augroup
-      autocmd!
-      autocmd User LspProgressStatusUpdated lua require("lualine").refresh()
-    augroup END
-    ]])
 	end,
 }

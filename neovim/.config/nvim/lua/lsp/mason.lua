@@ -8,6 +8,7 @@ if not mlsp_status_ok then
 	return
 end
 
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 local servers = {
 	"bashls",
 	"denols",
@@ -20,7 +21,7 @@ local servers = {
 	"tailwindcss",
 	"yamlls",
 	"cssls",
-	"tsserver",
+	-- "tsserver", -- will use typescript tools
 	"terraformls",
 	"taplo",
 	"jsonls",

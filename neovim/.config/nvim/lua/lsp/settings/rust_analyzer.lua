@@ -1,4 +1,4 @@
-local extension_path = vim.env.HOME .. "/.vscode-server/extensions/vadimcn.vscode-lldb-1.8.1/"
+local extension_path = vim.env.HOME .. "/.vscode-server/extensions/vadimcn.vscode-lldb-1.9.2/"
 local codelldb_path = extension_path .. "adapter/codelldb"
 local liblldb_path = extension_path .. "lldb/lib/liblldb.so"
 
@@ -9,8 +9,8 @@ return {
 	tools = {
 		-- autoSetHints = false,
 		-- https://alpha2phi.medium.com/neovim-lsp-codelens-for-rust-44f6df52ead9
-    --  on_initialized = function()
-    --   	vim.api.nvim_create_autocmd({ "BufWritePost", "BufEnter", "CursorHold", "InsertLeave" }, {
+		--  on_initialized = function()
+		--   	vim.api.nvim_create_autocmd({ "BufWritePost", "BufEnter", "CursorHold", "InsertLeave" }, {
 		-- 		pattern = { "*.rs" },
 		-- 		callback = function()
 		-- 			vim.lsp.codelens.refresh()
@@ -98,6 +98,9 @@ return {
 				},
 				checkOnSave = {
 					command = "clippy",
+				},
+				cargo = {
+					allFeatures = true,
 				},
 			},
 		},

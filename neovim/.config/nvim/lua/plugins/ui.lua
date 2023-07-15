@@ -20,7 +20,7 @@ return {
 
 			require("dressing").setup({
 				input = {
-					border = icons.ui.Border_Chars_Single_Line,
+					border = icons.ui.Border_Single_Line,
 					win_options = {
 						winblend = 0,
 					},
@@ -96,6 +96,7 @@ return {
 					override = {
 						["vim.lsp.util.convert_input_to_markdown_lines"] = true,
 						["vim.lsp.util.stylize_markdown"] = true,
+            ["cmp.entry.get_documentation"] = true,
 					},
 					signature = {
 						enabled = false,

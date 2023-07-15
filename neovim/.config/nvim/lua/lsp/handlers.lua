@@ -183,7 +183,7 @@ local function lsp_keymaps(bufnr)
 		{ "gr", "<cmd>Telescope lsp_references<CR>" },
 		{ "gl", "<cmd>lua vim.diagnostic.open_float(nil, { focusable = false })<CR>" },
 		{ "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>" },
-		{ "<leader>lf", "<cmd>lua vim.lsp.buf.format{ async = true }<cr>" },
+		{ "<leader>lf", "<cmd>lua vim.lsp.buf.format{ async = false }<cr>" },
 		{ "<leader>li", "<cmd>LspInfo<cr>" },
 		{ "<leader>la", "<cmd>CodeActionMenu<cr>" },
 		{ "<leader>lj", "<cmd>lua vim.diagnostic.goto_next({buffer=0})<cr>" },
@@ -218,9 +218,10 @@ end
 ------------------------
 
 M.on_attach = function(client, bufnr)
-	if client.name == "tsserver" then
-		client.server_capabilities.documentFormattingProvider = false
-	end
+  -- will use typescript tools
+	-- if client.name == "tsserver" then
+	-- 	client.server_capabilities.documentFormattingProvider = false
+	-- end
 
 	if client.name == "sumneko_lua" then
 		client.server_capabilities.documentFormattingProvider = false
