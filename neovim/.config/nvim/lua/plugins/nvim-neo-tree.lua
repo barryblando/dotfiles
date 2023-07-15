@@ -43,31 +43,12 @@ return {
 			end
 		end
 
-		-- local function getTelescopeOpts(state, path)
-		--   return {
-		--     cwd = path,
-		--     search_dirs = { path },
-		--     attach_mappings = function (prompt_bufnr, map)
-		--       local actions = require "telescope.actions"
-		--       actions.select_default:replace(function()
-		--         actions.close(prompt_bufnr)
-		--         local action_state = require "telescope.actions.state"
-		--         local selection = action_state.get_selected_entry()
-		--         local filename = selection.filename
-		--         if (filename == nil) then
-		--           filename = selection[1]
-		--         end
-		--         -- any way to open the file without triggering auto-close event of neo-tree?
-		--         require("neo-tree.sources.filesystem").navigate(state, state.path, filename)
-		--       end)
-		--       return true
-		--     end
-		--   }
-		-- end
+		local icons = require("utils.icons")
+
 		neotree.setup({
 			close_if_last_window = false,
 			use_popups_for_input = true,
-			popup_border_style = { "┌", "─", "┐", "│", "┘", "─", "└", "│" },
+			popup_border_style = icons.ui.Border_Single_Line,
 			close_floats_on_escape_key = false,
 			-- popup_border_style = "rounded",
 			enable_git_status = true,
@@ -80,6 +61,34 @@ return {
 				name = {
 					trailing_slash = true,
 					use_git_status_colors = true,
+				},
+				icon = {
+					folder_closed = "",
+					folder_open = "",
+					folder_empty = "",
+					-- The next two settings are only a fallback, if you use nvim-web-devicons and configure default icons there
+					-- then these will never be used.
+					default = "*",
+					highlight = "NeoTreeFileIcon",
+				},
+				modified = {
+					symbol = "[+]",
+					highlight = "NeoTreeModified",
+				},
+				git_status = {
+					symbols = {
+						-- Change type
+						added = "", -- or "✚", but this is redundant info if you use git_status_colors on the name
+						modified = "", -- or "", but this is redundant info if you use git_status_colors on the name
+						deleted = "✖", -- this can only be used in the git_status source
+						renamed = "󰷬", -- this can only be used in the git_status source
+						-- Status type
+						untracked = "",
+						ignored = "",
+						unstaged = "",
+						staged = "",
+						conflict = "",
+					},
 				},
 			},
 			-- source_selector = {
@@ -114,8 +123,6 @@ return {
 						"add",
 						config = { show_path = "absolute" },
 					},
-					-- ["tf"] = "telescope_find",
-					-- ["tg"] = "telescope_grep",
 					["h"] = function(state)
 						local node = state.tree:get_node()
 						if node.type == "directory" and node:is_expanded() then
@@ -169,18 +176,6 @@ return {
 						{ "git_status", highlight = "NeoTreeDimText" },
 					},
 				},
-				commands = {
-					-- telescope_find = function(state)
-					--   local node = state.tree:get_node()
-					--   local path = node:get_id()
-					--   require('telescope.builtin').find_files(getTelescopeOpts(state, path))
-					-- end,
-					-- telescope_grep = function(state)
-					--   local node = state.tree:get_node()
-					--   local path = node:get_id()
-					--   require('telescope.builtin').live_grep(getTelescopeOpts(state, path))
-					-- end,
-				},
 			},
 			buffers = {
 				follow_current_file = true, -- This will find and focus the file in the active buffer every
@@ -199,7 +194,7 @@ return {
 				{
 					-- auto close
 					event = "file_opened",
-					handler = function(file_path)
+					handler = function()
 						require("neo-tree").close_all()
 					end,
 				},
