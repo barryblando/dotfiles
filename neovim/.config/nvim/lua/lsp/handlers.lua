@@ -8,7 +8,25 @@ if not status_cmp_ok then
 	return
 end
 
-M.capabilities.textDocument.completion.completionItem.snippetSupport = true
+-- M.capabilities.textDocument.completion.completionItem.snippetSupport = true
+M.capabilities.textDocument.completion.completionItem = {
+	documentationFormat = { "markdown", "plaintext" },
+	snippetSupport = true,
+	preselectSupport = true,
+	insertReplaceSupport = true,
+	labelDetailsSupport = true,
+	deprecatedSupport = true,
+	commitCharactersSupport = true,
+	tagSupport = { valueSet = { 1 } },
+	resolveSupport = {
+		properties = {
+			"documentation",
+			"detail",
+			"additionalTextEdits",
+		},
+	},
+}
+
 M.capabilities = cmp_nvim_lsp.default_capabilities(M.capabilities)
 
 ------------------------
@@ -218,13 +236,11 @@ end
 ------------------------
 
 M.on_attach = function(client, bufnr)
-  -- will use typescript tools
-	-- if client.name == "tsserver" then
-	-- 	client.server_capabilities.documentFormattingProvider = false
-	-- end
-
-	if client.name == "sumneko_lua" then
+	-- disables formatting on this servers, will use null-ls and typescript-tools
+	local servers_to_disable = "tsserver lua_ls"
+	if servers_to_disable:find(client.name) then
 		client.server_capabilities.documentFormattingProvider = false
+		client.server_capabilities.documentRangeFormattingProvider = false
 	end
 
 	local client_to_detach_UFO = "dockerls yamlls jsonls"
