@@ -1,4 +1,4 @@
-	-- Put anything you want to happen only in Neovide here
+-- Put anything you want to happen only in Neovide here
 vim.cmd([[
   let g:neovide_scale_factor = 1.0
   let g:neovide_transparency=0.9
