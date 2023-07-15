@@ -137,8 +137,8 @@ return {
 	cursor_blink_ease_in = "Constant",
 	cursor_blink_ease_out = "Constant",
 
-	initial_rows = 58,
-	initial_cols = 166,
+	initial_rows = 60,
+	initial_cols = 170,
 
 	color_scheme = "gruvbox_material_dark_hard",
 	color_schemes = {
@@ -220,12 +220,12 @@ return {
 	enable_scroll_bar = false,
 	tab_bar_at_bottom = true,
 
-	window_padding = {
-		left = "15px",
-		right = "15px",
-		top = "15px",
-		bottom = "15px",
-	},
+	-- window_padding = {
+	-- 	left = "15px",
+	-- 	right = "15px",
+	-- 	top = "15px",
+	-- 	bottom = "15px",
+	-- },
 
 	enable_wayland = true,
 	use_ime = true,
