@@ -1,6 +1,6 @@
 return {
 	"nvim-neo-tree/neo-tree.nvim",
-	branch = "v2.x",
+	branch = "v3.x",
 	dependencies = {
 		"nvim-lua/plenary.nvim",
 		"nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
@@ -49,8 +49,6 @@ return {
 			close_if_last_window = false,
 			use_popups_for_input = true,
 			popup_border_style = icons.ui.Border_Single_Line,
-			close_floats_on_escape_key = false,
-			-- popup_border_style = "rounded",
 			enable_git_status = true,
 			enable_diagnostics = true,
 			default_component_configs = {
@@ -65,7 +63,7 @@ return {
 				icon = {
 					folder_closed = "",
 					folder_open = "",
-					folder_empty = "",
+					-- folder_empty = "",
 					-- The next two settings are only a fallback, if you use nvim-web-devicons and configure default icons there
 					-- then these will never be used.
 					default = "*",
@@ -75,21 +73,21 @@ return {
 					symbol = "[+]",
 					highlight = "NeoTreeModified",
 				},
-				git_status = {
-					symbols = {
-						-- Change type
-						added = "", -- or "✚", but this is redundant info if you use git_status_colors on the name
-						modified = "", -- or "", but this is redundant info if you use git_status_colors on the name
-						deleted = "✖", -- this can only be used in the git_status source
-						renamed = "󰷬", -- this can only be used in the git_status source
-						-- Status type
-						untracked = "",
-						ignored = "",
-						unstaged = "",
-						staged = "",
-						conflict = "",
-					},
-				},
+				-- git_status = {
+				-- 	symbols = {
+				-- 		-- Change type
+				-- 		added = "", -- or "✚", but this is redundant info if you use git_status_colors on the name
+				-- 		modified = "", -- or "", but this is redundant info if you use git_status_colors on the name
+				-- 		deleted = "✖", -- this can only be used in the git_status source
+				-- 		renamed = "󰷬", -- this can only be used in the git_status source
+				-- 		-- Status type
+				-- 		untracked = "",
+				-- 		ignored = "",
+				-- 		unstaged = "",
+				-- 		staged = "",
+				-- 		conflict = "",
+				-- 	},
+				-- },
 			},
 			-- source_selector = {
 			--   winbar = true,
@@ -112,6 +110,8 @@ return {
 				mappings = {
 					["<2-leftmouse>"] = openWithFocus,
 					["<cr>"] = openWithFocus,
+					["<esc>"] = "cancel",
+					["P"] = { "toggle_preview", config = { use_float = true } },
 					-- relative path in add prompt
 					a = {
 						"add",
@@ -191,13 +191,13 @@ return {
 				},
 			},
 			event_handlers = {
-				{
-					-- auto close
-					event = "file_opened",
-					handler = function()
-						require("neo-tree").close_all()
-					end,
-				},
+				-- {
+				-- 	-- auto close
+				-- 	event = "file_opened",
+				-- 	handler = function()
+				-- 		require("neo-tree").close_all()
+				-- 	end,
+				-- },
 				{
 					-- show netrw hijacked buffer in buffer list
 					event = "neo_tree_buffer_enter",
