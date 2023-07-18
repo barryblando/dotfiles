@@ -84,16 +84,36 @@ alias python="python3"
 alias freecachemem='sync && echo 3 | sudo tee /proc/sys/vm/drop_caches > /dev/null'
 
 # auto-rename zellij tab to current directory
+# zellij_tab_name_update() {
+#     if [[ -n $ZELLIJ ]]; then
+#         local current_dir=$PWD
+#         if [[ $current_dir == $HOME ]]; then
+#             current_dir="~"
+#         else
+#             current_dir=${current_dir##*/}
+#         fi
+#         command nohup zellij action rename-tab $current_dir >/dev/null 2>&1
+#     fi
+# }
+
+# will also rename the tab from the repo root when in sub directory
 zellij_tab_name_update() {
-    if [[ -n $ZELLIJ ]]; then
-        local current_dir=$PWD
-        if [[ $current_dir == $HOME ]]; then
-            current_dir="~"
-        else
-            current_dir=${current_dir##*/}
-        fi
-        command nohup zellij action rename-tab $current_dir >/dev/null 2>&1
+  if [[ -n $ZELLIJ ]]; then
+    tab_name=''
+    if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+      tab_name+=$(basename "$(git rev-parse --show-toplevel)")/
+      tab_name+=$(git rev-parse --show-prefix)
+      tab_name=${tab_name%/}
+    else
+      tab_name=$PWD
+      if [[ $tab_name == $HOME ]]; then
+        tab_name="~"
+      else
+        tab_name=${tab_name##*/}
+      fi
     fi
+    command nohup zellij action rename-tab $tab_name >/dev/null 2>&1
+  fi
 }
 
 zellij_tab_name_update
