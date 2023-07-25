@@ -92,7 +92,7 @@ return {
 	font = wezterm.font_with_fallback({
 		{
 			family = "MonoLisa Static-Script",
-			harfbuzz_features = { "calt=1", "liga=1", "zero=1", "ss02=1", "ss10=1", "ss11=1", "ss12=1" },
+			harfbuzz_features = { "calt=1", "liga=1", "frac=1", "zero=1", "ss02=1", "ss03=1", "ss06=1", "ss07=1", "ss08=1", "ss10=1", "ss11=1", "ss12=1" },
 		},
 		"JetBrains Mono",
 	}),
@@ -107,8 +107,7 @@ return {
 					family = "MonoLisa Static-Script",
 					weight = "Regular",
 					italic = true,
-					-- harfbuzz_features = { "calt=1", "liga=1", "zero=1", "ss02=1" },
-					harfbuzz_features = { "calt=1", "liga=1", "zero=1", "ss02=1", "ss10=1", "ss11=1", "ss12=1" },
+					harfbuzz_features = { "calt=1", "liga=1", "frac=1", "zero=1", "ss02=1", "ss03=1", "ss06=1", "ss07=1", "ss08=1", "ss10=1", "ss11=1", "ss12=1" },
 				},
 				"JetBrains Mono",
 			}),
@@ -121,8 +120,7 @@ return {
 				{
 					family = "MonoLisa Static-Script",
 					weight = "Regular",
-					-- harfbuzz_features = { "calt=1", "liga=1", "zero=1", "ss02=1" },
-					harfbuzz_features = { "calt=1", "liga=1", "zero=1", "ss02=1", "ss10=1", "ss11=1", "ss12=1" },
+					harfbuzz_features = { "calt=1", "liga=1", "frac=1", "zero=1", "ss02=1", "ss03=1", "ss06=1", "ss07=1", "ss08=1", "ss10=1", "ss11=1", "ss12=1" },
 				},
 				"JetBrains Mono",
 			}),
