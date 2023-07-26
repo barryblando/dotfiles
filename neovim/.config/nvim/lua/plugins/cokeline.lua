@@ -30,13 +30,23 @@ return {
 				truncation = { priority = 1 },
 			},
 
+			-- left_bracket = {
+			-- 	text = "[",
+			-- 	truncation = { priority = 1 },
+			-- },
+
+			-- right_bracket = {
+			-- 	text = "]",
+			-- 	truncation = { priority = 1 },
+			-- },
+
 			left_bracket = {
-				text = "[",
+				text = "⌞",
 				truncation = { priority = 1 },
 			},
 
 			right_bracket = {
-				text = "]",
+				text = "⌝",
 				truncation = { priority = 1 },
 			},
 
@@ -108,9 +118,9 @@ return {
 				text = function(buffer)
 					return (
 						buffer.diagnostics.errors ~= 0
-						and "[" .. icons.diagnostics.Error .. buffer.diagnostics.errors .. "]"
+						and "⌞" .. icons.diagnostics.Error .. buffer.diagnostics.errors .. "⌝"
 					)
-						or (buffer.diagnostics.warnings ~= 0 and "[" .. icons.diagnostics.Warning .. buffer.diagnostics.warnings .. "]")
+						or (buffer.diagnostics.warnings ~= 0 and "⌞" .. icons.diagnostics.Warning .. buffer.diagnostics.warnings .. "⌝")
 						or ""
 				end,
 				fg = function(buffer)
@@ -123,7 +133,7 @@ return {
 
 			close_or_unsaved = {
 				text = function(buffer)
-					return buffer.is_modified and "[●]" or "" -- "×"
+					return buffer.is_modified and "⌜●⌟" or "" -- "×"
 				end,
 				fg = function(buffer)
 					return buffer.is_modified and "#e5c463" or nil
@@ -166,7 +176,7 @@ return {
 				components.space,
 				-- components.devicon,
 				-- components.space,
-				components.index,
+				-- components.index,
 				components.left_bracket,
 				components.unique_prefix,
 				components.filename,
@@ -177,7 +187,7 @@ return {
 				-- components.space,
 				components.close_or_unsaved,
 				components.is_readonly,
-				components.space,
+				-- components.space,
 			},
 		})
 	end,
