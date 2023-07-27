@@ -183,7 +183,7 @@ return {
 				local client_names_str_len = #client_names_str
 
 				if client_names_str_len ~= 0 then
-					language_servers = "  ⎢" .. client_names_str .. "⎢ "
+					language_servers = "  ⌜" .. client_names_str .. "⌟ "
 				end
 
 				-- if copilot_active then
