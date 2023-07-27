@@ -20,12 +20,6 @@ vim.cmd([[
 -- Hide non-text from buffers i.e ~ (tilde)
 vim.cmd([[ set fillchars=eob:\ ]])
 
--- Set statusline in nvim_tree transparent
-vim.cmd([[
-  hi StatusLine gui=NONE guibg=NonText guisp=NonText
-  hi StatusLineNc gui=NONE guibg=NonText guisp=NonText
-]])
-
 -- Make Float have transparency effect not blend
 vim.cmd([[
   hi ErrorFloat guibg=NONE
