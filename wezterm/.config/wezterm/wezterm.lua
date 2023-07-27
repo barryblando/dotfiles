@@ -211,7 +211,9 @@ return {
 			},
 		},
 	},
-	window_background_opacity = 0.99,
+
+	window_background_opacity = 0,
+	win32_system_backdrop = 'Mica',
 
 	use_fancy_tab_bar = true,
 	enable_tab_bar = true,
