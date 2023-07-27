@@ -133,17 +133,17 @@ cmp.setup({
 				vim_item.kind_hl_group = "CmpItemKindCrate"
 			end
 
-			-- vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
-      
-      vim_item.abbr = string.sub(vim_item.abbr, 1, 25)
+			-- vim_item.kind = string.format("%s %s", kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
+
+			vim_item.abbr = string.sub(vim_item.abbr, 1, 25)
 
 			vim_item.menu = ({
-				nvim_lsp = "[LSP]",
-				nvim_lua = "[Lua]",
-				luasnip = "[luasnip]",
-				buffer = "[Buffer]",
-				-- cmp_tabnine = "[TN]",
-				path = "[Path]",
+				nvim_lsp = "⌞LSP⌝",
+				nvim_lua = "⌞Lua⌝",
+				luasnip = "⌞luasnip⌝",
+				buffer = "⌞Buffer⌝",
+				-- cmp_tabnine = "⌞TN⌝",
+				path = "⌞Path⌝",
 			})[entry.source.name]
 
 			return vim_item
