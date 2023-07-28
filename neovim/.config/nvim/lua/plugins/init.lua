@@ -269,5 +269,4 @@ return {
 	-- use { "junegunn/vim-easy-align" }
 	-- use { "kevinhwang91/nvim-bqf", ft = "qf" }
 	-- https://github.com/is0n/jaq-nvim
-	-- https://github.com/utilyre/barbecue.nvim -- better winbar
 }
