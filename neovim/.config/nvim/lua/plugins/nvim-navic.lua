@@ -1,5 +1,6 @@
 return {
   "SmiteshP/nvim-navic",
+  -- enabled = false, -- NOTE: remove for dropbar alternative but after neovim 0.10 releases
   lazy = true,
   config = function ()
     local status_ok, navic = pcall(require, "nvim-navic")
@@ -50,7 +51,7 @@ return {
         ["Operator"] = "%#CmpItemKindOperator#" .. icons.kind.Operator .. "%*" .. space,
         ["TypeParameter"] = "%#CmpItemKindTypeParameter#" .. icons.kind.TypeParameter .. "%*" .. space,
       },
-      separator = " " .. icons.ui.ChevronRight .. " ",
+      separator = "" .. icons.ui.ChevronRight .. " ",
       depth = 5,
       -- depth_limit_indicator = "..",
       highlight = true,
