@@ -52,18 +52,6 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 	end,
 })
 
-vim.api.nvim_create_autocmd(
-	{ "CursorMoved", "CursorHold", "BufWinEnter", "BufFilePost", "InsertEnter", "BufWritePost", "TabClosed" },
-	{
-		callback = function()
-			local status_ok, _ = pcall(vim.api.nvim_buf_get_var, 0, "lsp_floating_window")
-			if not status_ok then
-				require("settings.winbar").get_winbar()
-			end
-		end,
-	}
-)
-
 -- Highlight on yank
 vim.api.nvim_create_autocmd("TextYankPost", {
 	group = augroup("highlight_yank"),
