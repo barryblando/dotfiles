@@ -75,7 +75,8 @@ return {
 	{
 		"Pocco81/auto-save.nvim",
 		cmd = "ASToggle",
-		event = { "InsertLeave", "TextChanged" },
+		event = { "InsertLeave" },
+		-- event = { "InsertLeave", "TextChanged" },
 	},
 
 	-- For jumping cursor in every word
