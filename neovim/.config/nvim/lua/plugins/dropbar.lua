@@ -1,6 +1,6 @@
 return {
 	"Bekaboo/dropbar.nvim",
-  enabled = false, -- NOTE: enable back when neovim 0.10 releases
+	enabled = false, -- NOTE: enable back when neovim 0.10 releases
 	config = function()
 		local sources = require("dropbar.sources")
 
@@ -41,16 +41,16 @@ return {
 
 		vim.cmd([[hi WinBar guisp=#665c54 gui=underline guibg=#313131]])
 		vim.cmd([[hi WinBarNC guisp=#665c54 gui=underline guibg=#313131]])
-    
+
 		require("dropbar").setup({
-      general = { 
-        enable = function(buf, win)
-          return not vim.api.nvim_win_get_config(win).zindex
-            and vim.bo[buf].buftype == ''
-            and vim.api.nvim_buf_get_name(buf) ~= ''
-            and not vim.wo[win].diff
-        end,
-      },
+			general = {
+				enable = function(buf, win)
+					return not vim.api.nvim_win_get_config(win).zindex
+						and vim.bo[buf].buftype == ""
+						and vim.api.nvim_buf_get_name(buf) ~= ""
+						and not vim.wo[win].diff
+				end,
+			},
 			bar = {
 				sources = function(_, _)
 					return {
