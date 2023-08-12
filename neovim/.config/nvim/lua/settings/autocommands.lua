@@ -1,3 +1,5 @@
+local autocmd = vim.api.nvim_create_autocmd
+
 -- #########################
 --    AUTOCOMMANDS START
 -- #########################
@@ -7,7 +9,7 @@ local function augroup(name)
 end
 
 -- Remove statusline and tabline when in Alpha
-vim.api.nvim_create_autocmd({ "User" }, {
+autocmd({ "User" }, {
 	pattern = { "AlphaReady" },
 	callback = function()
 		vim.cmd([[
@@ -18,7 +20,7 @@ vim.api.nvim_create_autocmd({ "User" }, {
 })
 
 -- close some filetypes with <q>
-vim.api.nvim_create_autocmd("FileType", {
+autocmd("FileType", {
 	group = augroup("close_with_q"),
 	pattern = {
 		"Jaq",
@@ -41,7 +43,7 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
-vim.api.nvim_create_autocmd({ "FileType" }, {
+autocmd({ "FileType" }, {
 	pattern = { "Jaq" },
 	callback = function()
 		vim.cmd([[
@@ -53,21 +55,21 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 })
 
 -- Highlight on yank
-vim.api.nvim_create_autocmd("TextYankPost", {
+autocmd("TextYankPost", {
 	group = augroup("highlight_yank"),
 	callback = function()
 		vim.highlight.on_yank()
 	end,
 })
 
-vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
+autocmd({ "BufWinEnter" }, {
 	callback = function()
 		vim.cmd("set formatoptions-=cro")
 	end,
 })
 
 -- Set wrap and spell in markdown and gitcommit
-vim.api.nvim_create_autocmd({ "FileType" }, {
+autocmd({ "FileType" }, {
 	pattern = { "gitcommit", "markdown" },
 	callback = function()
 		vim.opt_local.wrap = true
@@ -75,19 +77,19 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 	end,
 })
 
-vim.api.nvim_create_autocmd({ "VimResized" }, {
+autocmd({ "VimResized" }, {
 	callback = function()
 		vim.cmd("tabdo wincmd =")
 	end,
 })
 
-vim.api.nvim_create_autocmd({ "VimEnter" }, {
+autocmd({ "VimEnter" }, {
 	callback = function()
 		vim.cmd("hi link illuminatedWord LspReferenceText")
 	end,
 })
 
-vim.api.nvim_create_autocmd({ "CursorHold" }, {
+autocmd({ "CursorHold" }, {
 	callback = function()
 		local status_ok, luasnip = pcall(require, "luasnip")
 		if not status_ok then
@@ -103,7 +105,7 @@ vim.api.nvim_create_autocmd({ "CursorHold" }, {
 
 local group = vim.api.nvim_create_augroup("__env", { clear = true })
 
-vim.api.nvim_create_autocmd("BufEnter", {
+autocmd("BufEnter", {
 	pattern = "*.env*",
 	group = group,
 	callback = function(args)
@@ -112,7 +114,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
 })
 
 -- Auto create dir when saving a file, in case some intermediate directory does not exist
-vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+autocmd({ "BufWritePre" }, {
 	group = augroup("auto_create_dir"),
 	callback = function(event)
 		if event.match:match("^%w%w+://") then
@@ -124,7 +126,7 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 })
 
 -- resize splits if window got resized
-vim.api.nvim_create_autocmd({ "VimResized" }, {
+autocmd({ "VimResized" }, {
 	group = augroup("resize_splits"),
 	callback = function()
 		vim.cmd("tabdo wincmd =")
@@ -132,7 +134,7 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
 })
 
 -- go to last loc when opening a buffer
-vim.api.nvim_create_autocmd("BufReadPost", {
+autocmd("BufReadPost", {
 	group = augroup("last_loc"),
 	callback = function()
 		local mark = vim.api.nvim_buf_get_mark(0, '"')
@@ -174,7 +176,7 @@ local conceal_html_class = function(bufnr)
 	end
 end
 
-vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "TextChanged", "InsertLeave" }, {
+autocmd({ "BufEnter", "BufWritePost", "TextChanged", "InsertLeave" }, {
 	group = hgroup,
 	pattern = "*.html",
 	callback = function()
@@ -205,7 +207,7 @@ local noice_cmd_types = {
 
 -- local noice_hl = vim.api.nvim_create_augroup("NoiceHighlights", {})
 -- vim.api.nvim_clear_autocmds({ group = noice_hl })
--- vim.api.nvim_create_autocmd("BufEnter", {
+-- autocmd("BufEnter", {
 -- 	group = noice_hl,
 -- 	callback = function()
 -- 		for type, hl in pairs(noice_cmd_types) do
@@ -217,7 +219,7 @@ local noice_cmd_types = {
 -- })
 
 -- show cursor line only in active window
-vim.api.nvim_create_autocmd({ "InsertLeave", "WinEnter" }, {
+autocmd({ "InsertLeave", "WinEnter" }, {
 	callback = function()
 		local ok, cl = pcall(vim.api.nvim_win_get_var, 0, "auto-cursorline")
 		if ok and cl then
@@ -227,12 +229,54 @@ vim.api.nvim_create_autocmd({ "InsertLeave", "WinEnter" }, {
 	end,
 })
 
-vim.api.nvim_create_autocmd({ "InsertEnter", "WinLeave" }, {
+autocmd({ "InsertEnter", "WinLeave" }, {
 	callback = function()
 		local cl = vim.wo.cursorline
 		if cl then
 			vim.api.nvim_win_set_var(0, "auto-cursorline", cl)
 			vim.wo.cursorline = false
+		end
+	end,
+})
+
+-- LAZY AUTOSESSION
+
+local lazy_did_show_install_view = false
+
+local function auto_session_restore()
+	-- important! without vim.schedule other necessary plugins might not load (eg treesitter) after restoring the session
+	vim.schedule(function()
+		require("auto-session").AutoRestoreSession()
+	end)
+end
+
+autocmd("User", {
+	pattern = "VeryLazy",
+	callback = function()
+		local lazy_view = require("lazy.view")
+
+		if lazy_view.visible() then
+			-- if lazy view is visible do nothing with auto-session
+			lazy_did_show_install_view = true
+		else
+			-- otherwise load (by require'ing) and restore session
+			auto_session_restore()
+		end
+	end,
+})
+
+autocmd("WinClosed", {
+	pattern = "*",
+	callback = function(ev)
+		local lazy_view = require("lazy.view")
+
+		-- if lazy view is currently visible and was shown at startup
+		if lazy_view.visible() and lazy_did_show_install_view then
+			-- if the window to be closed is actually the lazy view window
+			if ev.match == tostring(lazy_view.view.win) then
+				lazy_did_show_install_view = false
+				auto_session_restore()
+			end
 		end
 	end,
 })
