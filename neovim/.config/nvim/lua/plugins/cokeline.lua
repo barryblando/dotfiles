@@ -118,9 +118,9 @@ return {
 				text = function(buffer)
 					return (
 						buffer.diagnostics.errors ~= 0
-						and "⌞" .. icons.diagnostics.Error .. buffer.diagnostics.errors .. "⌝"
+						and "⌜" .. icons.diagnostics.Error .. buffer.diagnostics.errors .. "⌟"
 					)
-						or (buffer.diagnostics.warnings ~= 0 and "⌞" .. icons.diagnostics.Warning .. buffer.diagnostics.warnings .. "⌝")
+						or (buffer.diagnostics.warnings ~= 0 and "⌜" .. icons.diagnostics.Warning .. buffer.diagnostics.warnings .. "⌟")
 						or ""
 				end,
 				fg = function(buffer)
@@ -133,7 +133,12 @@ return {
 
 			close_or_unsaved = {
 				text = function(buffer)
-					return buffer.is_modified and "⌜●⌟" or "" -- "×"
+					return (
+						(buffer.is_modified and (buffer.diagnostics.errors ~= 0 or buffer.diagnostics.warnings ~= 0))
+						and "⌞●⌝"
+					)
+						or buffer.is_modified and "⌜●⌟"
+						or "" -- "×"
 				end,
 				fg = function(buffer)
 					return buffer.is_modified and "#e5c463" or nil
