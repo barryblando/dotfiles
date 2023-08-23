@@ -1,6 +1,7 @@
 return {
 	"nvim-neo-tree/neo-tree.nvim",
 	branch = "v3.x",
+	-- commit = "1424449",
 	dependencies = {
 		"nvim-lua/plenary.nvim",
 		"nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
@@ -63,8 +64,8 @@ return {
 					use_git_status_colors = true,
 				},
 				icon = {
-					folder_closed = "",
-					folder_open = "",
+					-- folder_closed = "",
+					-- folder_open = "",
 					-- folder_empty = "",
 					-- The next two settings are only a fallback, if you use nvim-web-devicons and configure default icons there
 					-- then these will never be used.
