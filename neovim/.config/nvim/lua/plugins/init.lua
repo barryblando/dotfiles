@@ -169,8 +169,8 @@ return {
 		dependencies = {
 			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
-      -- NOTE: null-ls will be archive on Aug 11, 2023, https://github.com/jose-elias-alvarez/null-ls.nvim/issues/1621
-      -- INFO: alternative: https://github.com/nvimdev/guard.nvim
+			-- NOTE: null-ls will be archive on Aug 11, 2023, https://github.com/jose-elias-alvarez/null-ls.nvim/issues/1621
+			-- INFO: alternative: https://github.com/nvimdev/guard.nvim
 			"jose-elias-alvarez/null-ls.nvim", -- for formatters and linters
 			"folke/neodev.nvim", -- full signature help, docs and completion for the nvim lua API
 			"b0o/schemastore.nvim", -- providing access to the SchemaStore catalog.
@@ -222,9 +222,7 @@ return {
 	---------------------
 
 	"JoosepAlviste/nvim-ts-context-commentstring",
-	-- https://github.com/hiphish/rainbow-delimiters.nvim
-  -- This plugin is deprecated! Please use rainbow-delimiters.nvim but after it becomes stable
-	"HiPhish/nvim-ts-rainbow2",
+	"HiPhish/rainbow-delimiters.nvim",
 	"windwp/nvim-ts-autotag",
 
 	-- Treesitter text dimming
