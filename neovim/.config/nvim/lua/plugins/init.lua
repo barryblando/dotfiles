@@ -208,9 +208,6 @@ return {
 	-- RUST
 	{ "simrat39/rust-tools.nvim", lazy = true },
 
-	-- GOLANG
-	-- use ({ "https://github.com/ray-x/go.nvim" })
-
 	---------------------
 	--    Debugging    --
 	---------------------
