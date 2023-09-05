@@ -1,10 +1,14 @@
 return {
 	"crispgm/nvim-go",
-  ft = {"go", 'gomod'},
+  ft = { "go", 'gomod' },
   init = function ()
-    require('go').config.update_tool('quicktype', function(tool)
-      tool.pkg_mgr = 'npm'
-    end)
+    -- Show Lint Issues without Focusing
+    vim.cmd[[
+      augroup NvimGo
+        autocmd!
+        autocmd User NvimGoLintPopupPost wincmd p
+      augroup END
+    ]]
   end,
 	opts = {
 		-- notify: use nvim-notify
