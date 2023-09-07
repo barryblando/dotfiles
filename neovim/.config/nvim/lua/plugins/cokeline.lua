@@ -8,6 +8,7 @@ return {
 		end
 
 		local icons = require("utils.icons")
+		local ns = vim.api.nvim_create_namespace("cokeline_diagnostics")
 
 		local get_hex = require("cokeline/utils").get_hex
 		local mappings = require("cokeline/mappings")
@@ -106,6 +107,11 @@ return {
 					return ((buffer.is_focused and buffer.diagnostics.errors ~= 0) and "bold,undercurl") -- "bold,italic"
 						or (buffer.is_focused and "NONE") -- "bold,italic"
 						or (buffer.diagnostics.errors ~= 0 and "undercurl")
+						or nil
+				end,
+				fg = function(buffer)
+					return (buffer.diagnostics.errors ~= 0 and errors_fg)
+						or (buffer.diagnostics.warnings ~= 0 and warnings_fg)
 						or nil
 				end,
 				truncation = {
