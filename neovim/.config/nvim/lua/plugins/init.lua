@@ -157,8 +157,8 @@ return {
 		cmd = "CodeActionMenu", -- lazy loaded, only activate plugin when CodeActionMenu initiated
 	},
 
-  -- LSP Trouble, pretty handy diagnostics
-  { "folke/trouble.nvim" },
+	-- LSP Trouble, pretty handy diagnostics
+	{ "folke/trouble.nvim" },
 
 	-- RUST
 	{ "simrat39/rust-tools.nvim", lazy = true },
