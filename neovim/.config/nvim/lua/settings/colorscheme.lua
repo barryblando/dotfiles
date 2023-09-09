@@ -43,4 +43,5 @@ vim.cmd([[
 vim.cmd([[
   hi NeoTreeNormal guibg=NONE
   hi NeoTreeEndOfBuffer guibg=NONE
+  hi NeoTreeFloatTitle guibg=NONE
 ]])
