@@ -1,3 +1,4 @@
+return {}
 -- Easy motion. Crazy fast jumping cursor
 -- ALT - https://github.com/ggandor/leap.nvim
 -- return {
