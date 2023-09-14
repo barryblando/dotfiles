@@ -27,11 +27,12 @@ local icons = require("utils.icons")
 
 -- Install your plugins here
 require("lazy").setup("plugins", {
+	install = { colorscheme = { "gruvbox-material" } },
 	ui = {
 		border = icons.ui.Border_Single_Line,
 		icons = {
 			cmd = " ",
-			config = " ",
+			config = "🛠",
 			event = "",
 			ft = " ",
 			init = " ",

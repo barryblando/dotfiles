@@ -7,7 +7,7 @@ return {
 		"sainnhe/gruvbox-material",
 		lazy = false,
 		priority = 1000,
-		config = function()
+		init = function()
 			-- load the colorscheme here
 			vim.cmd([[
         " Important!! https://github.com/sainnhe/gruvbox-material/blob/master/doc/gruvbox-material.txt
