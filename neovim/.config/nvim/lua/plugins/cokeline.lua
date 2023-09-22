@@ -10,15 +10,22 @@ return {
 		local icons = require("utils.icons")
 		local ns = vim.api.nvim_create_namespace("cokeline_diagnostics")
 
-		local get_hex = require("cokeline/utils").get_hex
+		local get_hl_attr = require("cokeline.hlgroups").get_hl_attr
 		local mappings = require("cokeline/mappings")
 
-		local comments_fg = get_hex("Comment", "fg")
-		local errors_fg = get_hex("DiagnosticSignError", "fg")
-		local warnings_fg = get_hex("DiagnosticSignWarn", "fg")
+		local normal_fg = get_hl_attr("Normal", "fg")
+		local comment_fg = get_hl_attr("Comment", "fg")
+		local error_fg = get_hl_attr("DiagnosticSignError", "fg")
+		local warning_fg = get_hl_attr("DiagnosticSignWarn", "fg")
 
 		local red = vim.g.terminal_color_1
 		local yellow = vim.g.terminal_color_3
+
+		local diagnostic_fg = function(buffer)
+			return (buffer.diagnostics.errors ~= 0 and "#f2594b")
+				or (buffer.diagnostics.warnings ~= 0 and "#e9b143")
+				or nil
+		end
 
 		local components = {
 			space = {
@@ -31,24 +38,16 @@ return {
 				truncation = { priority = 1 },
 			},
 
-			-- left_bracket = {
-			-- 	text = "[",
-			-- 	truncation = { priority = 1 },
-			-- },
-
-			-- right_bracket = {
-			-- 	text = "]",
-			-- 	truncation = { priority = 1 },
-			-- },
-
 			left_bracket = {
 				text = "⌞",
 				truncation = { priority = 1 },
+				fg = diagnostic_fg,
 			},
 
 			right_bracket = {
 				text = "⌝",
 				truncation = { priority = 1 },
+				fg = diagnostic_fg,
 			},
 
 			separator = {
@@ -85,7 +84,7 @@ return {
 				text = function(buffer)
 					return buffer.unique_prefix
 				end,
-				fg = comments_fg,
+				fg = comment_fg,
 				-- style = "italic",
 				style = function(buffer)
 					return ((buffer.is_focused and buffer.diagnostics.errors ~= 0) and "undercurl") -- "bold,italic"
@@ -109,11 +108,7 @@ return {
 						or (buffer.diagnostics.errors ~= 0 and "undercurl")
 						or nil
 				end,
-				fg = function(buffer)
-					return (buffer.diagnostics.errors ~= 0 and errors_fg)
-						or (buffer.diagnostics.warnings ~= 0 and warnings_fg)
-						or nil
-				end,
+				fg = diagnostic_fg,
 				truncation = {
 					priority = 2,
 					direction = "left",
@@ -129,11 +124,7 @@ return {
 						or (buffer.diagnostics.warnings ~= 0 and "⌜" .. icons.diagnostics.Warning .. buffer.diagnostics.warnings .. "⌟")
 						or ""
 				end,
-				fg = function(buffer)
-					return (buffer.diagnostics.errors ~= 0 and errors_fg)
-						or (buffer.diagnostics.warnings ~= 0 and warnings_fg)
-						or nil
-				end,
+				fg = diagnostic_fg,
 				truncation = { priority = 1 },
 			},
 
@@ -170,10 +161,11 @@ return {
 			},
 			default_hl = {
 				fg = function(buffer)
-					return buffer.is_focused and get_hex("Normal", "fg") or get_hex("Comment", "fg")
+					-- return buffer.is_focused and get_hl_attr("Normal", "fg") or get_hl_attr("Comment", "fg")
+					return buffer.is_focused and "#e2cca9" or "#928374"
 				end,
-				-- bg = "none",
-				bg = get_hex("None", "bg"),
+				bg = "None",
+				-- bg = get_hl_attr("None", "bg"),
 			},
 			buffers = {
 				-- filter_valid = function(buffer) return buffer.type ~= 'terminal' end,
