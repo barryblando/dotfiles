@@ -102,7 +102,10 @@ null_ls.setup({
 			vim.api.nvim_create_autocmd("BufWritePre", {
 				group = augroup,
 				buffer = bufnr,
-				command = "undojoin | LspFormatting",
+				-- command = "undojoin | LspFormatting",
+				callback = function()
+					vim.lsp.buf.format({ bufnr = bufnr })
+				end,
 			})
 		end
 	end,
