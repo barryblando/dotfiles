@@ -1,8 +1,0 @@
-require("settings.colorscheme")
-require("settings.options")
-require("settings.keymaps")
-require("settings.completion")
-require("settings.quickscope")
-require("settings.multi-cursor")
-require("settings.winbar")
-require("settings.autocommands")
