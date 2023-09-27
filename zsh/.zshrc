@@ -97,7 +97,7 @@ alias freecachemem='sync && echo 3 | sudo tee /proc/sys/vm/drop_caches > /dev/nu
 # }
 
 # will also rename the tab from the repo root when in sub directory
-zellij_tab_name_update() {
+zellij_tmux_tabname_update() {
   if [[ -n $ZELLIJ ]]; then
     tab_name=''
     if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
@@ -114,10 +114,27 @@ zellij_tab_name_update() {
     fi
     command nohup zellij action rename-tab $tab_name >/dev/null 2>&1
   fi
+
+  if [[ -n $TMUX ]]; then
+    tab_name=''
+    if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+      tab_name+=$(basename "$(git rev-parse --show-toplevel)")/
+      tab_name+=$(git rev-parse --show-prefix)
+      tab_name=${tab_name%/}
+    else
+      tab_name=$PWD
+      if [[ $tab_name == $HOME ]]; then
+        tab_name="~"
+      else
+        tab_name=${tab_name##*/}
+      fi
+    fi
+    command nohup tmux rename-window $tab_name >/dev/null 2>&1
+  fi
 }
 
-zellij_tab_name_update
-chpwd_functions+=(zellij_tab_name_update)
+zellij_tmux_tabname_update
+chpwd_functions+=(zellij_tmux_tabname_update)
 
 # Set up the prompt
 plugins=(
@@ -171,8 +188,6 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#757575'
 # source ~/powerlevel10k/powerlevel10k.zsh-theme 
 # if you use oh-my-zsh https://github.com/ohmyzsh/ohmyzsh/wiki/Installing-ZSH
 source ~/.oh-my-zsh/custom/themes/powerlevel10k/powerlevel10k.zsh-theme
-
-eval "$(fnm env --use-on-cd)"
 
 # bun completions
 [ -s "/home/bblando0x15/.bun/_bun" ] && source "/home/bblando0x15/.bun/_bun"
