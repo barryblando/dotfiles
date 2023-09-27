@@ -236,8 +236,8 @@ end
 ------------------------
 
 M.on_attach = function(client, bufnr)
-	-- disables formatting on this servers, will use null-ls and typescript-tools
-	local servers_to_disable = "tsserver lua_ls"
+	-- disables formatting on this servers, will use null-ls, nvim-go and typescript-tools
+	local servers_to_disable = "tsserver lua_ls gopls"
 	if servers_to_disable:find(client.name) then
 		client.server_capabilities.documentFormattingProvider = false
 		client.server_capabilities.documentRangeFormattingProvider = false

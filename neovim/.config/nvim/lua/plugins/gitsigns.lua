@@ -8,6 +8,8 @@ return {
 
 		local icons = require("utils.icons")
 
+		-- local gs = package.loaded.gitsigns
+
 		gitsigns.setup({
 			signs = {
 				add = {

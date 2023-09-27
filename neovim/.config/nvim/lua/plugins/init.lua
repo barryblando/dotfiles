@@ -40,15 +40,6 @@ return {
 	-- Setup Utilities --
 	---------------------
 
-	-- An implementation of the Popup API from vim in Neovim
-	"nvim-lua/popup.nvim",
-
-	-- Useful lua functions used by lots of plugins
-	{ "nvim-lua/plenary.nvim", lazy = true },
-
-	-- UI Component Library for Neovim
-	{ "MunifTanjim/nui.nvim", lazy = true },
-
 	-- Closing buffers
 	"famiu/bufdelete.nvim",
 
@@ -108,6 +99,16 @@ return {
 			"saadparwaiz1/cmp_luasnip", -- snippet completions
 			"L3MON4D3/LuaSnip", -- snippet engine, requires cmp_luasnip in order to work
 			"rafamadriz/friendly-snippets", -- a bunch of snippets to use
+			{
+				"roobert/tailwindcss-colorizer-cmp.nvim",
+				ft = { "html", "javascriptreact", "typescriptreact", "svelte", "vue", "markdown" },
+				-- optionally, override the default options:
+				config = function()
+					require("tailwindcss-colorizer-cmp").setup({
+						color_square_width = 2,
+					})
+				end,
+			},
 		},
 	},
 
@@ -160,15 +161,6 @@ return {
 	-- LSP Trouble, pretty handy diagnostics
 	{ "folke/trouble.nvim" },
 
-	-- RUST
-	{ "simrat39/rust-tools.nvim", lazy = true },
-
-	---------------------
-	--    Debugging    --
-	---------------------
-
-	"rcarriga/nvim-dap-ui",
-
 	---------------------
 	--   TREESITTER    --
 	---------------------
@@ -215,7 +207,6 @@ return {
 	-- Plugins to Experiment in spare time
 	-- https://github.com/axieax/dotconfig/blob/main/nvim/lua/axie/plugins/init.lua
 	-- use "ThePrimeagen/refactoring.nvim"
-	-- use "windwp/nvim-spectre"
 	-- use { "NTBBloodbath/rest.nvim" }
 	-- use { "junegunn/vim-easy-align" }
 	-- use { "kevinhwang91/nvim-bqf", ft = "qf" }

@@ -1,5 +1,6 @@
 return {
   "mfussenegger/nvim-dap",
+  dependencies = "rcarriga/nvim-dap-ui",
   config = function ()
 
     local dap_status_ok, dap = pcall(require, "dap")
