@@ -192,6 +192,9 @@ source ~/.oh-my-zsh/custom/themes/powerlevel10k/powerlevel10k.zsh-theme
 # bun completions
 [ -s "/home/bblando0x15/.bun/_bun" ] && source "/home/bblando0x15/.bun/_bun"
 
+export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
+export PATH="/home/linuxbrew/.linuxbrew/sbin:$PATH"
+
 # eval "$(starship init zsh)" # -- I find starship slow in WSL2. Powerlevel10k is better
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
