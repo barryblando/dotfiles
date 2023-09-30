@@ -313,7 +313,7 @@ return {
 					left = icons.ui.TriangleRight,
 					right = icons.ui.TriangleLeft,
 				},
-				disabled_filetypes = { "alpha", "dashboard", "Outline", "neo-tree", "saga" },
+				disabled_filetypes = { "alpha", "dashboard", "outline", "saga" },
 				always_divide_middle = true,
 				globalstatus = true,
 			},
@@ -334,7 +334,7 @@ return {
 				lualine_z = {},
 			},
 			tabline = {},
-			extensions = {},
+			extensions = { "neo-tree", "toggleterm", "trouble", "lazy", "nvim-dap-ui" },
 		})
 	end,
 }
