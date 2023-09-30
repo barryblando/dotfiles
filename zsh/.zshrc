@@ -70,6 +70,11 @@ alias tns="tmux new-session"
 alias tnw="tmux new-window"
 alias ta="tmux a" # attach to current running session
 
+# Zellij Aliases
+alias z="zellij"
+alias zs="zellij -s"
+alias za="zellij attach"
+
 # Other Aliases
 alias zshrc="vim ~/.zshrc"
 alias zshhistory="vim ~/.zsh_history"
