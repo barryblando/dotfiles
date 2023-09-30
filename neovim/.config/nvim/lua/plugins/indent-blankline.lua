@@ -1,75 +1,109 @@
-return 	{
-  "lukas-reineke/indent-blankline.nvim",
-  config = function ()
-    local status_ok, indent_blankline = pcall(require, "indent_blankline")
-    if not status_ok then
-      return
-    end
+return {
+	"lukas-reineke/indent-blankline.nvim",
+	main = "ibl",
+	opts = {
+		indent = {
+			char = "│",
+			tab_char = "┆",
+		},
+		scope = {
+			include = {
+				node_type = {
+					lua = {
+						"chunk",
+						"do_statement",
+						"while_statement",
+						"repeat_statement",
+						"if_statement",
+						"for_statement",
+						"function_declaration",
+						"function_definition",
+						"table_constructor",
+						"assignment_statement",
+					},
+					go = {
+						"if_statement",
+						"function_declaration",
+						"function_definition",
+						"method_definition",
+						"for_statement",
+						"block",
+						"interface_type",
+						"struct_type",
+						"select_statement",
+						"communication_case",
+						"composite_literal",
+					},
+					typescript = {
+						"statement_block",
+						"function",
+						"arrow_function",
+						"function_declaration",
+						"method_definition",
+						"for_statement",
+						"for_in_statement",
+						"catch_clause",
+						"object_pattern",
+						"arguments",
+						"switch_case",
+						"switch_statement",
+						"switch_default",
+						"object",
+						"object_type",
+						"ternary_expression",
+					},
+				},
+			},
+		},
+		exclude = {
+			filetypes = { "help", "alpha", "dashboard", "neo-tree", "Trouble", "lazy", "mason" },
+			buftypes = { "terminal", "nofile" },
+		},
+	},
+	config = function(_, opts)
+		local highlight = {
+			"RainbowRed",
+			"RainbowYellow",
+			"RainbowBlue",
+			"RainbowOrange",
+			"RainbowGreen",
+			"RainbowViolet",
+			"RainbowCyan",
+		}
 
-    vim.g.indent_blankline_buftype_exclude = { "terminal", "nofile" }
-    vim.g.indent_blankline_filetype_exclude = {
-      "help",
-      "startify",
-      "dashboard",
-      "packer",
-      "neogitstatus",
-      "NvimTree",
-      "Trouble",
-    }
-    vim.g.indentLine_enabled = 1
-    -- vim.g.indent_blankline_char = "│"
-    vim.g.indent_blankline_char = "┆"
-    -- vim.g.indent_blankline_char = "▎"
-    vim.g.indent_blankline_show_trailing_blankline_indent = false
-    vim.g.indent_blankline_show_first_indent_level = true
-    vim.g.indent_blankline_use_treesitter = true
-    vim.g.indent_blankline_show_current_context = true
-    vim.g.indent_blankline_context_patterns = {
-      "class",
-      "return",
-      "function",
-      "method",
-      "^if",
-      "^while",
-      "jsx_element",
-      "^for",
-      "^object",
-      "^table",
-      "block",
-      "arguments",
-      "if_statement",
-      "else_clause",
-      "jsx_element",
-      "jsx_self_closing_element",
-      "try_statement",
-      "catch_clause",
-      "import_statement",
-      "operation_type",
-    }
-    -- HACK: work-around for https://github.com/lukas-reineke/indent-blankline.nvim/issues/59
-    vim.wo.colorcolumn = "99999"
+		local hooks = require("ibl.hooks")
 
-    -- vim.cmd [[highlight IndentBlanklineIndent1 guifg=#E06C75 gui=nocombine]]
-    -- vim.cmd [[highlight IndentBlanklineIndent2 guifg=#E5C07B gui=nocombine]]
-    -- vim.cmd [[highlight IndentBlanklineIndent3 guifg=#98C379 gui=nocombine]]
-    -- vim.cmd [[highlight IndentBlanklineIndent4 guifg=#56B6C2 gui=nocombine]]
-    -- vim.cmd [[highlight IndentBlanklineIndent5 guifg=#61AFEF gui=nocombine]]
-    -- vim.cmd [[highlight IndentBlanklineIndent6 guifg=#C678DD gui=nocombine]]
-    -- vim.opt.list = true
-    -- vim.opt.listchars:append "space:⋅"
-    -- vim.opt.listchars:append "space:"
-    -- vim.opt.listchars:append "eol:↴"
+		-- create the highlight groups in the highlight setup hook, so they are reset
+		-- every time the colorscheme changes
+		hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
+			vim.api.nvim_set_hl(0, "RainbowRed", { fg = "#FB4934" })
+			vim.api.nvim_set_hl(0, "RainbowYellow", { fg = "#FABD2F" })
+			vim.api.nvim_set_hl(0, "RainbowBlue", { fg = "#83A598" })
+			vim.api.nvim_set_hl(0, "RainbowOrange", { fg = "#FE8019" })
+			vim.api.nvim_set_hl(0, "RainbowGreen", { fg = "#B8BB26" })
+			vim.api.nvim_set_hl(0, "RainbowViolet", { fg = "#D3869B" })
+			vim.api.nvim_set_hl(0, "RainbowCyan", { fg = "#8EC07C" })
+		end)
 
-    indent_blankline.setup({
-      -- show_end_of_line = true,
-      -- space_char_blankline = " ",
-      show_current_context = true,
-      -- show_current_context_start = true,
-      -- char_highlight_list = {
-      --   "IndentBlanklineIndent1",
-      --   "IndentBlanklineIndent2",
-      --   "IndentBlanklineIndent3",
-      -- },
-    })
-  end
+		vim.g.rainbow_delimiters = { highlight = highlight }
+
+		require("ibl").setup({
+			scope = {
+				highlight = highlight,
+				char = opts.indent.char,
+				include = opts.scope.include,
+			},
+			indent = {
+				char = opts.indent.tab_char,
+				tab_char = opts.indent.tab_char,
+			},
+			whitespace = {
+				remove_blankline_trail = true,
+			},
+		})
+
+		hooks.register(hooks.type.SCOPE_HIGHLIGHT, hooks.builtin.scope_highlight_from_extmark)
+		hooks.register(hooks.type.WHITESPACE, hooks.builtin.hide_first_space_indent_level)
+		hooks.register(hooks.type.WHITESPACE, hooks.builtin.hide_first_tab_indent_level)
+	end,
 }
