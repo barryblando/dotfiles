@@ -232,7 +232,39 @@ return {
 	use_ime = true,
 	exit_behavior = "Close",
 
+	ssh_domains = {
+		{
+			name = 'my.server',
+			remote_address = '172.28.50.187:2222',
+			username = 'bblando0x15',
+			multiplexing = 'None',
+
+			ssh_option = {
+				identityfile = '"C:\\Users\\Retr0_0x315\\.ssh\\authorize_keys"',
+			},
+
+			-- When multiplexing == "None", default_prog can be used
+			-- to specify the default program to run in new tabs/panes.
+			-- Due to the way that ssh works, you cannot specify default_cwd,
+			-- but you could instead change your default_prog to put you
+			-- in a specific directory.
+			default_prog = { 'zsh' },
+
+			-- assume that we can use syntax like:
+			-- "env -C /some/where $SHELL"
+			-- using whatever the default command shell is on this
+			-- remote host, so that shell integration will respect
+			-- the current directory on the remote host.
+			assume_shell = 'Posix',
+
+			connect_automatically = true,
+			no_agent_auth = true,
+			remote_wezterm_path = "/usr/bin/wezterm"
+		},
+	},
+
 	default_domain = "WSL:WLinux",
+	-- default_domain = "my.server",
 
 	keys = {
 		-- capital C so it won't conflict buffer window, CTRL-SHIFT + C to copy

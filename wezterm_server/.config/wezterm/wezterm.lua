@@ -4,8 +4,8 @@ return {
 	hide_tab_bar_if_only_one_tab = true,
 	font = wezterm.font_with_fallback({
 		{
-			family = "MonoLisa Static-Script",
-			harfbuzz_features = { "calt=1", "liga=1", "zero=1", "ss02=1", "ss10=1", "ss11=1", "ss12=1" },
+			family = "MonoLisa Variable",
+			harfbuzz_features = { "calt=1", "liga=1", "frac=1", "zero=1", "ss02=1", "ss03=1", "ss06=1", "ss07=1", "ss08=1", "ss10=1", "ss11=1", "ss12=1" },
 		},
 		"JetBrains Mono",
 	}),
@@ -17,11 +17,10 @@ return {
 			intensity = "Bold",
 			font = wezterm.font_with_fallback({
 				{
-					family = "MonoLisa Static-Script",
+					family = "MonoLisa Variable",
 					weight = "Regular",
 					italic = true,
-					-- harfbuzz_features = { "calt=1", "liga=1", "zero=1", "ss02=1" },
-					harfbuzz_features = { "calt=1", "liga=1", "zero=1", "ss02=1", "ss10=1", "ss11=1", "ss12=1" },
+					harfbuzz_features = { "calt=1", "liga=1", "frac=1", "zero=1", "ss02=1", "ss03=1", "ss06=1", "ss07=1", "ss08=1", "ss10=1", "ss11=1", "ss12=1" },
 				},
 				"JetBrains Mono",
 			}),
@@ -32,15 +31,15 @@ return {
 			intensity = "Bold",
 			font = wezterm.font_with_fallback({
 				{
-					family = "MonoLisa Static-Script",
+					family = "MonoLisa Variable",
 					weight = "Regular",
-					-- harfbuzz_features = { "calt=1", "liga=1", "zero=1", "ss02=1" },
-					harfbuzz_features = { "calt=1", "liga=1", "zero=1", "ss02=1", "ss10=1", "ss11=1", "ss12=1" },
+					harfbuzz_features = { "calt=1", "liga=1", "frac=1", "zero=1", "ss02=1", "ss03=1", "ss06=1", "ss07=1", "ss08=1", "ss10=1", "ss11=1", "ss12=1" },
 				},
 				"JetBrains Mono",
 			}),
 		},
 	},
+
 
 	font_size = 12,
 	freetype_load_target = "HorizontalLcd",
