@@ -54,6 +54,13 @@ cd ~/.dotfiles
    output: None
   ```
   - I have to set target 'cause stow will put link under user directory not in .config folder
+
+  \
+  Better, using windows' **mklink**
+  
+  ```shell
+  mklink /D "C:\Users\<userName>\.config\wezterm\" "C:\Users\<userName>\.dotfiles\wezterm\.config\wezterm\"
+  ```
 ### 🖥️ Software
 
 - OS: Debian (Linux) under WSL2
