@@ -66,7 +66,7 @@ if [ -x "$(command -v exa)" ]; then
 fi
 
 # Tmux Aliases
-alias tns="tmux new-session"
+alias tns="tmux -u new-session"
 alias tnw="tmux new-window"
 alias ta="tmux a" # attach to current running session
 
