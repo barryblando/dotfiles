@@ -1,15 +1,15 @@
 return {
 	"crispgm/nvim-go",
-  ft = { "go", 'gomod' },
-  init = function ()
-    -- Show Lint Issues without Focusing
-    vim.cmd[[
+	ft = { "go", "gomod" },
+	init = function()
+		-- Show Lint Issues without Focusing
+		vim.cmd([[
       augroup NvimGo
         autocmd!
         autocmd User NvimGoLintPopupPost wincmd p
       augroup END
-    ]]
-  end,
+    ]])
+	end,
 	opts = {
 		-- notify: use nvim-notify
 		notify = false,
