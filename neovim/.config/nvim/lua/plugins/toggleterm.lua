@@ -83,7 +83,7 @@ return {
 			ncdu:toggle()
 		end
 
-		local btop = Terminal:new({ cmd = "btop", hidden = true })
+		local btop = Terminal:new({ cmd = "btop --utf-force", hidden = true })
 
 		function _BTOP_TOGGLE()
 			btop:toggle()
