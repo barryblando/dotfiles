@@ -40,10 +40,6 @@ if wezterm.target_triple == "x86_64-pc-windows-msvc" then
 	end
 end
 
-function baseName(s)
-	return string.gsub(s, "(.*[/\\])(.*)", "%2")
-end
-
 wezterm.on("format-window-title", function(tab, pane, tabs, panes, config)
 	local zoomed = ""
 	if tab.active_pane.is_zoomed then
@@ -88,12 +84,12 @@ end)
 
 return {
 	front_end = "OpenGL",
-	launch_menu = launch_menu,
+	-- launch_menu = launch_menu,
 	hide_tab_bar_if_only_one_tab = true,
 	font = wezterm.font_with_fallback({
 		{
 			family = "MonoLisa Variable",
-			harfbuzz_features = { "calt=1", "liga=1", "frac=1", "zero=1", "ss02=1", "ss03=1", "ss06=1", "ss07=1", "ss08=1", "ss10=1", "ss11=1", "ss12=1" },
+			harfbuzz_features = { "calt=1", "liga=1", "frac=0", "zero=1", "ss02=1", "ss03=1", "ss06=1", "ss07=0", "ss08=1", "ss10=1", "ss11=1", "ss12=1" },
 		},
 		"JetBrains Mono",
 	}),
@@ -108,7 +104,7 @@ return {
 					family = "MonoLisa Variable",
 					weight = "Regular",
 					italic = true,
-					harfbuzz_features = { "calt=1", "liga=1", "frac=1", "zero=1", "ss02=1", "ss03=1", "ss06=1", "ss07=1", "ss08=1", "ss10=1", "ss11=1", "ss12=1" },
+					harfbuzz_features = { "calt=1", "liga=1", "frac=0", "zero=1", "ss02=1", "ss03=1", "ss06=1", "ss07=0", "ss08=1", "ss10=1", "ss11=1", "ss12=1" },
 				},
 				"JetBrains Mono",
 			}),
@@ -121,7 +117,7 @@ return {
 				{
 					family = "MonoLisa Variable",
 					weight = "Regular",
-					harfbuzz_features = { "calt=1", "liga=1", "frac=1", "zero=1", "ss02=1", "ss03=1", "ss06=1", "ss07=1", "ss08=1", "ss10=1", "ss11=1", "ss12=1" },
+					harfbuzz_features = { "calt=1", "liga=1", "frac=0", "zero=1", "ss02=1", "ss03=1", "ss06=1", "ss07=0", "ss08=1", "ss10=1", "ss11=1", "ss12=1" },
 				},
 				"JetBrains Mono",
 			}),
@@ -235,7 +231,7 @@ return {
 	ssh_domains = {
 		{
 			name = 'my.server',
-			remote_address = '172.28.50.187:2222',
+			remote_address = '127.0.0.1:3153',
 			username = 'bblando0x15',
 			multiplexing = 'None',
 
@@ -263,8 +259,8 @@ return {
 		},
 	},
 
-	default_domain = "WSL:WLinux",
-	-- default_domain = "my.server",
+	-- default_domain = "WSL:WLinux",
+	default_domain = "my.server",
 
 	keys = {
 		-- capital C so it won't conflict buffer window, CTRL-SHIFT + C to copy
