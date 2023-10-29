@@ -124,7 +124,7 @@ return {
 			"williamboman/mason-lspconfig.nvim",
 			-- INFO: null-ls will be archive on Aug 11, 2023, https://github.com/jose-elias-alvarez/null-ls.nvim/issues/1621
 			-- NOTE: alternative: https://github.com/stevearc/conform.nvim & https://github.com/mfussenegger/nvim-lint
-			"jose-elias-alvarez/null-ls.nvim", -- for formatters and linters
+			"nvimtools/none-ls.nvim", -- for formatters and linters
 			"folke/neodev.nvim", -- full signature help, docs and completion for the nvim lua API
 			"b0o/schemastore.nvim", -- providing access to the SchemaStore catalog.
 
