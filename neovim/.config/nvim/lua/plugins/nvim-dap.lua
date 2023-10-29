@@ -73,7 +73,7 @@ return {
 
 		vim.fn.sign_define(
 			"DapBreakpoint",
-			{ text = icons.ui.Bug, texthl = "DiagnosticSignError", linehl = "", numhl = "" }
+			{ text = icons.ui.Circle, texthl = "DiagnosticSignError", linehl = "", numhl = "" }
 		)
 
 		dap.listeners.after.event_initialized["dapui_config"] = function()
