@@ -232,6 +232,13 @@ else
 			Question = " ",
 			Hint = " ",
 		},
+		diagnostics_alt = {
+			Error = "",
+			Warning = "",
+			Information = "󰙎",
+			Question = "",
+			Hint = "󰛨 ",
+		},
 		misc = {
 			Robot = " ",
 			Squirrel = " ",
