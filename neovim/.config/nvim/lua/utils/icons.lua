@@ -169,6 +169,7 @@ else
 			GitSignsAdd = "│",
 			GitSignsChange = "│",
 			GitSignsChangeDelete = "│",
+			GitSignsUntracked = "┆",
 			GitSignsDelete = "",
 			GitSignsTopDelete = "",
 			-- GitSignsAdd = "▎",
