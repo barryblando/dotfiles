@@ -9,6 +9,12 @@ return {
 				relculright = true,
 				setopt = true,
 				segments = {
+					{ text = { builtin.foldfunc }, click = "v:lua.ScFa" },
+					{ text = { " " } },
+					-- {
+					-- 	sign = { name = { "Diagnostic" }, maxwidth = 1, auto = false },
+					-- 	click = "v:lua.ScSa",
+					-- },
 					{
 						sign = {
 							name = {
@@ -16,16 +22,11 @@ return {
 								"neotest", --[[ "Diagnostic" ]]
 							},
 							maxwidth = 1,
-							colwidth = 1,
+							colwidth = 2,
 							auto = true,
 						},
 						click = "v:lua.ScSa",
 					},
-					{ text = { " " } },
-					{ text = { builtin.lnumfunc }, click = "v:lua.ScLa" },
-					{ text = { " " } },
-					{ text = { builtin.foldfunc }, click = "v:lua.ScFa" },
-					{ text = { " " } },
 					{
 						sign = {
 							name = { ".*" },
@@ -39,6 +40,8 @@ return {
 						},
 						click = "v:lua.ScSa",
 					},
+					{ text = { builtin.lnumfunc }, click = "v:lua.ScLa" },
+					{ text = { " " } },
 					-- {
 					-- 	text = { " ", builtin.foldfunc, " " },
 					-- 	condition = { builtin.not_empty, true, builtin.not_empty },
@@ -80,7 +83,7 @@ return {
 			--   return { "treesitter", "indent" }
 			-- end,
 			open_fold_hl_timeout = 400,
-			close_fold_kinds = { "imports", "comment" },
+			-- close_fold_kinds = { "imports", "comment" },
 			preview = {
 				win_config = {
 					border = { "", "─", "", "", "", "─", "", "" },
