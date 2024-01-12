@@ -152,12 +152,6 @@ return {
 	-- LSP signature help
 	{ "ray-x/lsp_signature.nvim", lazy = true },
 
-	-- LSP code action menu with diff preview
-	{
-		"weilbith/nvim-code-action-menu",
-		cmd = "CodeActionMenu", -- lazy loaded, only activate plugin when CodeActionMenu initiated
-	},
-
 	-- LSP Trouble, pretty handy diagnostics
 	{ "folke/trouble.nvim" },
 
