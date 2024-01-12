@@ -203,7 +203,7 @@ local function lsp_keymaps(bufnr)
 		{ "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>" },
 		{ "<leader>lf", "<cmd>lua vim.lsp.buf.format{ async = false }<cr>" },
 		{ "<leader>li", "<cmd>LspInfo<cr>" },
-		{ "<leader>la", "<cmd>CodeActionMenu<cr>" },
+		{ "<leader>la", "<cmd>lua require('actions-preview').code_actions()<cr>" },
 		{ "<leader>lj", "<cmd>lua vim.diagnostic.goto_next({buffer=0})<cr>" },
 		{ "<leader>lk", "<cmd>lua vim.diagnostic.goto_prev({buffer=0})<cr>" },
 		{ "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>" },
