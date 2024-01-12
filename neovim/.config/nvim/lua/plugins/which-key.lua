@@ -205,7 +205,7 @@ return {
 
 			l = {
 				name = "LSP",
-				a = { "<cmd>CodeActionMenu<cr>", "Code Action" },
+				a = { "<cmd>lua require('actions-preview').code_actions()<cr>", "Code Action" },
 				--[[ c = { "<cmd>lua require('lsp').server_capabilities()<cr>", "Get Capabilities" }, ]]
 				d = {
 					"<cmd>Telescope diagnostics bufnr=0<cr>",
