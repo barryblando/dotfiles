@@ -43,19 +43,6 @@ null_ls.setup({
 			prefer_local = "node_modules/.bin", -- find local prettier, fall back to global prettier if it can't find one locally
 		}),
 
-		-- Typescript, Javascript, React, Vue
-		formatting.eslint_d.with({
-			condition = function(utils)
-				return utils.root_has_file({
-					".eslintrc.js",
-					".eslintrc.cjs",
-					".eslintrc.yaml",
-					".eslintrc.yml",
-					".eslintrc.json",
-				})
-			end,
-		}),
-
 		-- Lua
 		formatting.stylua,
 
