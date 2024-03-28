@@ -30,6 +30,7 @@ require("lazy").setup("plugins", {
 	install = { colorscheme = { "gruvbox-material" } },
 	ui = {
 		border = icons.ui.Border_Single_Line,
+		backdrop = 100,
 		icons = {
 			cmd = " ",
 			config = "🛠",
