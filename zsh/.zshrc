@@ -67,8 +67,8 @@ fi
 
 # Tmux Aliases
 alias tns="tmux -u new-session"
-alias tnw="tmux new-window"
-alias ta="tmux a" # attach to current running session
+alias tnw="tmux -u new-window"
+alias ta="tmux -u a" # attach to current running session
 
 # Zellij Aliases
 alias z="zellij"
