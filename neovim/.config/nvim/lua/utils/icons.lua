@@ -103,7 +103,7 @@ if vim.fn.has("mac") == 1 or vim.g.use_nerd_icons then
 			Warning = " ",
 			Information = " ",
 			Question = " ",
-			Hint = "y ",
+			Hint = " ",
 		},
 		misc = {
 			Robot = "󰚩 ",
@@ -193,7 +193,7 @@ else
 			Dashboard = " ",
 			History = " ",
 			Comment = " ",
-			Bug = " ",
+			Bug = " ",
 			Code = " ",
 			Telescope = " ",
 			Gear = " ",
