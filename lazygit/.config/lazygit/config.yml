@@ -52,7 +52,6 @@ git:
     overrideGpg: false # prevents lazygit from spawning a separate process when using GPG
     disableForcePushing: false
     parseEmoji: false
-    diffContextSize: 3 # how many lines of context are shown around a change in diffs
 os:
     copyToClipboardCmd: '' # See 'Custom Command for Copying to Clipboard' section
     editPreset: '' # see 'Configuring File Editing' section
@@ -175,12 +174,10 @@ keybinding:
         pickCommit: 'p' # pick commit (when mid-rebase)
         revertCommit: 't'
         cherryPickCopy: 'c'
-        cherryPickCopyRange: 'C'
         pasteCommits: 'v'
         tagCommit: 'T'
         checkoutCommit: '<space>'
         resetCherryPick: '<c-R>'
-        copyCommitMessageToClipboard: '<c-y>'
         openLogMenu: '<c-l>'
         viewBisectOptions: 'b'
     stash:
@@ -188,8 +185,6 @@ keybinding:
     commitFiles:
         checkoutCommitFile: 'c'
     main:
-        toggleDragSelect: 'v'
-        toggleDragSelect-alt: 'V'
         toggleSelectHunk: 'a'
         pickBothHunks: 'b'
     submodules:
