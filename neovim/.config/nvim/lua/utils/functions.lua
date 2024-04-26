@@ -5,9 +5,9 @@ function M.isempty(s)
 end
 
 function M.toggle_option(option)
-  local value = not vim.api.nvim_get_option_value(option, {})
-  vim.opt[option] = value
-  vim.notify(option .. " set to " .. tostring(value))
+	local value = not vim.api.nvim_get_option_value(option, {})
+	vim.opt[option] = value
+	vim.notify(option .. " set to " .. tostring(value))
 end
 
 function M.get_buf_option(opt)
@@ -33,6 +33,26 @@ function M.smart_quit()
 	else
 		vim.cmd("q!")
 	end
+end
+
+-- basic telescope harpoon configuration
+function M.harpoon_ui(harpoon_files)
+	local conf = require("telescope.config").values
+	local file_paths = {}
+	for _, item in ipairs(harpoon_files.items) do
+		table.insert(file_paths, item.value)
+	end
+
+	require("telescope.pickers")
+		.new({}, {
+			prompt_title = "Harpoon",
+			finder = require("telescope.finders").new_table({
+				results = file_paths,
+			}),
+			previewer = conf.file_previewer({}),
+			sorter = conf.generic_sorter({}),
+		})
+		:find()
 end
 
 return M
