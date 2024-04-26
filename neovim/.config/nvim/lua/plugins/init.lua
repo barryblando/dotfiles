@@ -82,9 +82,6 @@ return {
 		ft = { "markdown" },
 	},
 
-	-- plugin to specify, or on the fly, mark and create persisting key strokes to go to the files you want.
-	{ "ThePrimeagen/harpoon", lazy = true },
-
 	---------------------
 	-- AUTO COMPLETION --
 	---------------------
@@ -200,6 +197,7 @@ return {
 
 	-- Plugins to Experiment in spare time
 	-- https://github.com/axieax/dotconfig/blob/main/nvim/lua/axie/plugins/init.lua
+	-- https://github.com/chrisgrieser/nvim-scissors
 	-- use "ThePrimeagen/refactoring.nvim"
 	-- use { "NTBBloodbath/rest.nvim" }
 	-- use { "junegunn/vim-easy-align" }
