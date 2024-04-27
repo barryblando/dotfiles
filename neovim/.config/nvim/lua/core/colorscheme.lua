@@ -7,7 +7,7 @@ vim.cmd([[
   let g:neovide_floating_blur_amount_y = 2.0
 
   let g:neovide_cursor_vfx_mode = "railgun"
-  set guifont=MonoLisa\ Static-Script,JetBrains\ Mono:h13:#e-subpixelantialias
+  set guifont=MonoLisa,JetBrains\ Mono:h13:#e-subpixelantialias
 ]])
 
 -- Set bufferline bg transparent
