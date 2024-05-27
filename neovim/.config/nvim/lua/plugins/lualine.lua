@@ -128,11 +128,13 @@ return {
 					"",
 				}
 
+				local language_servers = ""
+
 				if contains(ui_filetypes, buf_ft) then
-					if M.language_servers == nil then
+					if language_servers == nil then
 						return ""
 					else
-						return M.language_servers
+						return language_servers
 					end
 				end
 
@@ -179,7 +181,6 @@ return {
 				local client_names_str = table.concat(client_names, ", ")
 
 				-- check client_names_str if empty
-				local language_servers = ""
 				local client_names_str_len = #client_names_str
 
 				if client_names_str_len ~= 0 then
@@ -194,7 +195,7 @@ return {
 				if client_names_str_len == 0 then
 					return ""
 				else
-					M.language_servers = language_servers
+					language_servers = language_servers
 					return language_servers:gsub(", anonymous source", "")
 				end
 			end,
