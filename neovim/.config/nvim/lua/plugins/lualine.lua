@@ -334,6 +334,18 @@ return {
 				lualine_z = {},
 			},
 			tabline = {},
+			winbar = {
+				lualine_a = {
+					{ "filename", separator = { left = "", right = "" } },
+					{ "%{%v:lua.dropbar.get_dropbar_str()%}", separator = { left = "", right = "" }, color = "nil" },
+				},
+			},
+			inactive_winbar = {
+				lualine_a = {
+					{ "filename", separator = { left = "", right = "" } },
+					{ "%{%v:lua.dropbar.get_dropbar_str()%}", separator = { left = "", right = "" }, color = "nil" },
+				},
+			},
 			extensions = { "neo-tree", "toggleterm", "trouble", "lazy", "nvim-dap-ui", "mason", "quickfix" },
 		})
 	end,
