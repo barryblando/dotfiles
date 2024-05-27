@@ -32,7 +32,8 @@ vim.cmd([[
 
 -- disabled annoying bold texthl
 vim.cmd([[
-  hi WinBar gui=NONE
+  hi WinBar guibg=NONE
+  hi WinBarNC guibg=NONE
   hi ErrorMsg gui=NONE
   hi WarningMsg gui=NONE
   hi ModeMsg gui=NONE
