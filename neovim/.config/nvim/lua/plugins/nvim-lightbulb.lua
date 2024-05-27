@@ -41,7 +41,6 @@ return {
 		status_text = {
 			enabled = false,
 			text = " Code Action Available",
-			-- text = " Code Action Available",
 			text_unavailable = "",
 		},
 		autocmd = {
