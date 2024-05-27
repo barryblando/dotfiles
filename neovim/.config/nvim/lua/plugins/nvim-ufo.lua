@@ -9,44 +9,42 @@ return {
 				relculright = true,
 				setopt = true,
 				segments = {
-					{ text = { builtin.foldfunc }, click = "v:lua.ScFa" },
-					{ text = { " " } },
 					-- {
 					-- 	sign = { name = { "Diagnostic" }, maxwidth = 1, auto = false },
 					-- 	click = "v:lua.ScSa",
 					-- },
+					-- {
+					-- 	sign = {
+					-- 		name = {
+					-- 			"Dap",
+					-- 			"neotest", --[[ "Diagnostic" ]]
+					-- 		},
+					-- 		maxwidth = 1,
+					-- 		colwidth = 2,
+					-- 		auto = true,
+					-- 	},
+					-- 	click = "v:lua.ScSa",
+					-- },
 					{
-						sign = {
-							name = {
-								"Dap",
-								"neotest", --[[ "Diagnostic" ]]
-							},
-							maxwidth = 1,
-							colwidth = 2,
-							auto = true,
-						},
-						click = "v:lua.ScSa",
+						text = { builtin.lnumfunc, " " },
+						condition = { true, builtin.not_empty },
+						click = "v:lua.ScLa",
 					},
 					{
 						sign = {
 							name = { ".*" },
 							namespace = { "gitsigns" },
 							maxwidth = 1,
-							colwidth = 2,
+							colwidth = 1,
 							auto = false,
-							-- fillchar = require("utils.icons").ui.statuscol,
-							-- fillcharhl = "StatusColumnSeparator",
-							-- fillcharhl = "NONE",
 						},
 						click = "v:lua.ScSa",
 					},
-					{ text = { builtin.lnumfunc }, click = "v:lua.ScLa" },
-					{ text = { " " } },
-					-- {
-					-- 	text = { " ", builtin.foldfunc, " " },
-					-- 	condition = { builtin.not_empty, true, builtin.not_empty },
-					-- 	click = "v:lua.ScFa",
-					-- },
+					{
+						text = { " ", builtin.foldfunc, " " },
+						condition = { builtin.not_empty, true, builtin.not_empty },
+						click = "v:lua.ScFa",
+					},
 				},
 				ft_ignore = {
 					"help",
@@ -71,11 +69,12 @@ return {
 		},
 		event = "VeryLazy",
 		init = function()
+			-- vim.o.fillchars = [[eob: ,fold: ,foldopen:▼,foldsep: ,foldclose:⏵]]
+			vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
 			vim.o.foldcolumn = "1" -- '0' is not bad
 			vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
 			vim.o.foldlevelstart = 99
 			vim.o.foldenable = true
-			vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
 		end,
 		opts = {
 			-- INFO: Uncomment to use treeitter as fold provider, otherwise nvim lsp is used
