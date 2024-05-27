@@ -253,9 +253,9 @@ M.on_attach = function(client, bufnr)
 		goto continue
 	end
 
-	if client.supports_method("textDocument/documentSymbol") then
-		attach_navic(client, bufnr)
-	end
+	-- if client.supports_method("textDocument/documentSymbol") then
+	-- 	attach_navic(client, bufnr)
+	-- end
 
 	::continue::
 	lsp_keymaps(bufnr)
