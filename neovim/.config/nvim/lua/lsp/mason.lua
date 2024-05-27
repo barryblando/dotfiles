@@ -22,6 +22,7 @@ local servers = {
 	"yamlls",
 	"cssls",
 	-- "tsserver", -- will use typescript tools
+	"templ",
 	"terraformls",
 	"taplo",
 	"jsonls",
