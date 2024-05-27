@@ -3,7 +3,7 @@ return {
 	-- in the code structure you are - within functions, classes,
 	-- etc - in the statusline.
 	"SmiteshP/nvim-navic",
-	-- enabled = false, -- NOTE: remove for dropbar alternative but after neovim 0.10 releases
+	enabled = false, -- NOTE: remove for dropbar alternative but after neovim 0.10 releases
 	lazy = true,
 	config = function()
 		local status_ok, navic = pcall(require, "nvim-navic")
