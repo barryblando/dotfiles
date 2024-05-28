@@ -18,6 +18,9 @@ vim.g.maplocalleader = " "
 --   term_mode = "t",
 --   command_mode = "c",
 
+-- Escape and save changes.
+vim.keymap.set({ "s", "i", "n", "v" }, "<C-s>", "<esc>:w<cr>", { desc = "Exit insert mode and save changes." })
+
 -- Clear search, diff update and redraw
 -- taken from runtime/lua/_editor.lua
 keymap(
@@ -27,12 +30,16 @@ keymap(
 	{ desc = "Redraw / clear hlsearch / diff update" }
 )
 
+-- Open the package manager.
+keymap("n", "<leader>L", "<cmd>Lazy<cr>", { desc = "Lazy" })
+
 -- Normal --
--- Better window navigation
-keymap("n", "<C-h>", "<C-w>h", opts)
-keymap("n", "<C-j>", "<C-w>j", opts)
-keymap("n", "<C-k>", "<C-w>k", opts)
-keymap("n", "<C-l>", "<C-w>l", opts)
+
+-- Switch between windows.
+keymap("n", "<C-h>", "<C-w>h", { desc = "Move to the left window" })
+keymap("n", "<C-j>", "<C-w>j", { desc = "Move to the bottom window" })
+keymap("n", "<C-k>", "<C-w>k", { desc = "Move to the top window" })
+keymap("n", "<C-l>", "<C-w>l", { desc = "Move to the right window" })
 
 -- jump
 keymap("n", "<C-d>", "<C-d>zz", opts)
