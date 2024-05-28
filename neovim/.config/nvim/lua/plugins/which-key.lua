@@ -96,14 +96,14 @@ return {
 			m = { '<cmd>lua require("harpoon"):list():add()<cr>', "Harpoon" },
 			["."] = { '<cmd>lua require("harpoon"):list():next()<cr>', "Harpoon Next" },
 			[","] = { '<cmd>lua require("harpoon"):list():prev()<cr>', "Harpoon Prev" },
-			[";"] = { '<cmd>HarpoonUI<cr>', "Harpoon UI" },
+			[";"] = { "<cmd>HarpoonUI<cr>", "Harpoon UI" },
 		}
 
 		local mappings = {
 			["a"] = { "<cmd>Alpha<cr>", "Alpha" },
 			["A"] = { "<cmd>ASToggle<cr>", "Toggle Auto-Save" },
 			["e"] = { "<cmd>Neotree reveal<cr>", "Explorer" },
-			["w"] = { "<cmd>w!<CR>", "Save" },
+			-- ["w"] = { "<cmd>w!<CR>", "Save" },
 			["c"] = { "<cmd>Bdelete!<CR>", "Close Buffer" },
 			["h"] = { "<cmd>nohlsearch<CR>", "No Highlight" },
 			["q"] = { '<cmd>lua require("utils.functions").smart_quit()<CR>', "Quit" },
