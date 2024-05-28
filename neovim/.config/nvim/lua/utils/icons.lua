@@ -225,6 +225,12 @@ else
 				preview = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
 			},
 		},
+		arrows = {
+			right = "",
+			left = "",
+			up = "",
+			down = "",
+		},
 		diagnostics = {
 			Error = " ",
 			Warning = " ",
