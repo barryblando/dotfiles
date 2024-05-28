@@ -1,89 +1,194 @@
+local icon = require("utils.icons")
+
+-- Set up icons.
+local icons = {
+	Stopped = { "", "DiagnosticWarn", "DapStoppedLine" },
+	Breakpoint = "",
+	BreakpointCondition = "",
+	BreakpointRejected = { "", "DiagnosticError" },
+	LogPoint = icon.arrows.right,
+}
+
+for name, sign in pairs(icons) do
+	sign = type(sign) == "table" and sign or { sign }
+	vim.fn.sign_define("Dap" .. name, {
+    -- stylua: ignore
+    text = sign[1] --[[@as string]] .. ' ',
+		texthl = sign[2] or "DiagnosticInfo",
+		linehl = sign[3],
+		numhl = sign[3],
+	})
+end
+
+-- Debugging.
 return {
-	"mfussenegger/nvim-dap",
-	dependencies = "rcarriga/nvim-dap-ui",
-	config = function()
-		local dap_status_ok, dap = pcall(require, "dap")
-		if not dap_status_ok then
-			return
-		end
-
-		local dap_ui_status_ok, dapui = pcall(require, "dapui")
-		if not dap_ui_status_ok then
-			return
-		end
-
-		-- dapui.setup()
-		dapui.setup({
-			icons = { expanded = "▾", collapsed = "▸" },
-			mappings = {
-				-- Use a table to apply multiple mappings
-				expand = { "<CR>", "<2-LeftMouse>" },
-				open = "o",
-				remove = "d",
-				edit = "e",
-				repl = "r",
-				toggle = "t",
-			},
-			-- Expand lines larger than the window
-			-- Requires >= 0.7
-			expand_lines = vim.fn.has("nvim-0.8"),
-			-- Layouts define sections of the screen to place windows.
-			-- The position can be "left", "right", "top" or "bottom".
-			-- The size specifies the height/width depending on position. It can be an Int
-			-- or a Float. Integer specifies height/width directly (i.e. 20 lines/columns) while
-			-- Float value specifies percentage (i.e. 0.3 - 30% of available lines/columns)
-			-- Elements are the elements shown in the layout (in order).
-			-- Layouts are opened in order so that earlier layouts take priority in window sizing.
-			layouts = {
-				{
-					elements = {
-						-- Elements can be strings or table with id and size keys.
-						{ id = "scopes", size = 0.25 },
-						"breakpoints",
-						-- "stacks",
-						-- "watches",
+	{
+		"mfussenegger/nvim-dap",
+		dependencies = {
+			-- Fancy UI for the debugger
+			"nvim-neotest/nvim-nio",
+			{
+				"rcarriga/nvim-dap-ui",
+				keys = {
+					{
+						"<leader>de",
+						function()
+							-- Calling this twice to open and jump into the window.
+							require("dapui").eval()
+							require("dapui").eval()
+						end,
+						desc = "Evaluate expression",
 					},
-					size = 40, -- 40 columns
-					position = "right",
 				},
-				{
-					elements = {
-						"repl",
-						"console",
+				opts = {
+					icons = {
+						collapsed = icon.arrows.right,
+						current_frame = icon.arrows.right,
+						expanded = icon.arrows.down,
 					},
-					size = 0.25, -- 25% of total lines
-					position = "bottom",
+					floating = { border = "rounded" },
+					layouts = {
+						{
+							elements = {
+								{ id = "stacks", size = 0.30 },
+								{ id = "breakpoints", size = 0.20 },
+								{ id = "scopes", size = 0.50 },
+							},
+							position = "left",
+							size = 40,
+						},
+					},
 				},
 			},
-			floating = {
-				max_height = nil, -- These can be integers or a float between 0 and 1.
-				max_width = nil, -- Floats will be treated as percentage of your screen.
-				border = "single", -- Border style. Can be "single", "double" or "rounded"
-				mappings = {
-					close = { "q", "<Esc>" },
+			-- Virtual text.
+			{
+				"theHamsta/nvim-dap-virtual-text",
+				opts = { virt_text_pos = "eol" },
+			},
+			-- JS/TS debugging.
+			{
+				"mxsdev/nvim-dap-vscode-js",
+				enabled = false,
+				opts = {
+					debugger_path = vim.fn.stdpath("data") .. "/lazy/vscode-js-debug",
+					adapters = { "pwa-node", "pwa-chrome", "pwa-msedge", "node-terminal", "pwa-extensionHost" },
 				},
 			},
-			windows = { indent = 1 },
-			render = {
-				max_type_length = nil, -- Can be integer or nil.
+			{
+				"microsoft/vscode-js-debug",
+				enabled = false,
+				build = "npm i && npm run compile vsDebugServerBundle && rm -rf out && mv -f dist out",
 			},
-		})
+			-- Lua adapter.
+			{
+				"jbyuki/one-small-step-for-vimkind",
+				keys = {
+					{
+						"<leader>dl",
+						function()
+							require("osv").launch({ port = 8086 })
+						end,
+						desc = "Launch Lua adapter",
+					},
+				},
+			},
+		},
+		keys = {
+			{
+				"<leader>db",
+				function()
+					require("dap").toggle_breakpoint()
+				end,
+				desc = "Toggle breakpoint",
+			},
+			{
+				"<leader>dB",
+				"<cmd>FzfLua dap_breakpoints<cr>",
+				desc = "List breakpoints",
+			},
+			{
+				"<leader>dc",
+				function()
+					require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))
+				end,
+				desc = "Breakpoint condition",
+			},
+			{
+				"<F5>",
+				function()
+					require("dap").continue()
+				end,
+				desc = "Continue",
+			},
+			{
+				"<F10>",
+				function()
+					require("dap").step_over()
+				end,
+				desc = "Step over",
+			},
+			{
+				"<F11>",
+				function()
+					require("dap").step_into()
+				end,
+				desc = "Step into",
+			},
+			{
+				"<F12>",
+				function()
+					require("dap").step_out()
+				end,
+				desc = "Step Out",
+			},
+		},
+		config = function()
+			local dap = require("dap")
+			local dapui = require("dapui")
 
-		local icons = require("utils.icons")
+			-- Automatically open the UI when a new debug session is created.
+			dap.listeners.after.event_initialized["dapui_config"] = function()
+				dapui.open({})
+			end
+			dap.listeners.before.event_terminated["dapui_config"] = function()
+				dapui.close({})
+			end
+			dap.listeners.before.event_exited["dapui_config"] = function()
+				dapui.close({})
+			end
 
-		vim.fn.sign_define(
-			"DapBreakpoint",
-			{ text = icons.ui.Circle, texthl = "DiagnosticSignError", linehl = "", numhl = "" }
-		)
+			-- Use overseer for running preLaunchTask and postDebugTask.
+			require("overseer").patch_dap(true)
+			require("dap.ext.vscode").json_decode = require("overseer.json").decode
 
-		dap.listeners.after.event_initialized["dapui_config"] = function()
-			dapui.open({})
-		end
-		dap.listeners.before.event_terminated["dapui_config"] = function()
-			dapui.close({})
-		end
-		dap.listeners.before.event_exited["dapui_config"] = function()
-			dapui.close({})
-		end
-	end,
+			-- Lua configurations.
+			dap.adapters.nlua = function(callback, config)
+				callback({ type = "server", host = config.host or "127.0.0.1", port = config.port or 8086 })
+			end
+			dap.configurations["lua"] = {
+				{
+					type = "nlua",
+					request = "attach",
+					name = "Attach to running Neovim instance",
+				},
+			}
+
+			-- C configurations.
+			dap.adapters.codelldb = {
+				type = "server",
+				host = "localhost",
+				port = "${port}",
+				executable = {
+					command = "codelldb",
+					args = { "--port", "${port}" },
+				},
+			}
+
+			-- Add configurations from launch.json
+			require("dap.ext.vscode").load_launchjs(nil, {
+				["codelldb"] = { "c" },
+				["pwa-node"] = { "typescript", "javascript" },
+			})
+		end,
+	},
 }
