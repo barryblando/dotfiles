@@ -1,79 +1,146 @@
 return {
 	"Bekaboo/dropbar.nvim",
-	enabled = false, -- NOTE: enable back when neovim 0.10 releases
-	config = function()
-		local sources = require("dropbar.sources")
+	dependencies = {
+		"nvim-telescope/telescope-fzf-native.nvim",
+	},
+	-- event = "VeryLazy",
+	keys = {
+		{
+			"<leader>w",
+			function()
+				require("dropbar.api").pick()
+			end,
+			desc = "Winbar pick",
+		},
+	},
+	init = function()
+		vim.ui.select = require("dropbar.utils.menu").select
+	end,
+	opts = function()
+		local menu_utils = require("dropbar.utils.menu")
+		local icons = require("utils.icons")
 
-		local function get_hl_color(group, attr)
-			return vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID(group)), attr)
+		-- Closes all the windows in the current dropbar.
+		local function close()
+			local menu = menu_utils.get_current()
+			while menu and menu.prev_menu do
+				menu = menu.prev_menu
+			end
+			if menu then
+				menu:close()
+			end
 		end
 
-		local get_symbols = function(buf, cursor, symbols)
-			local path = false
-			if symbols == nil then
-				symbols = sources.path.get_symbols(buf, cursor)
-				path = true
-			end
-			for _, symbol in ipairs(symbols) do
-				-- get correct icon color
-				local icon_fg = get_hl_color(symbol.icon_hl, "fg#")
-				symbol.icon_hl = "DropbarSymbol" .. symbol.icon_hl
-
-				-- set name highlight
-				if not path then
-					symbol.name_hl = symbol.icon_hl
-				end
-
-				local icon_string = ""
-				if icon_fg == "" then
-					icon_string = "hi " .. symbol.icon_hl .. " guisp=#665c54 gui=underline guibg=#313131"
-				else
-					icon_string = "hi "
-						.. symbol.icon_hl
-						.. " guisp=#665c54 gui=underline guibg=#313131 guifg="
-						.. icon_fg
-				end
-
-				vim.cmd(icon_string)
-			end
-			return symbols
-		end
-
-		vim.cmd([[hi WinBar guisp=#665c54 gui=underline guibg=#313131]])
-		vim.cmd([[hi WinBarNC guisp=#665c54 gui=underline guibg=#313131]])
-
-		require("dropbar").setup({
+		return {
 			general = {
-				enable = function(buf, win)
-					return not vim.api.nvim_win_get_config(win).zindex
-						and vim.bo[buf].buftype == ""
-						and vim.api.nvim_buf_get_name(buf) ~= ""
-						and not vim.wo[win].diff
-				end,
+				-- Remove the 'OptionSet' event since it causes weird issues with modelines.
+				attach_events = { "BufWinEnter", "BufWritePost" },
+				update_events = {
+					-- Remove the 'WinEnter' event since I handle it manually for just
+					-- showing the full dropbar in the current window.
+					win = { "CursorMoved", "CursorMovedI", "WinResized" },
+				},
+			},
+			icons = {
+				ui = {
+					-- Tweak the spacing around the separator.
+					-- bar = { separator = "  " }, -- use this when in x,y,z position in lualine
+					bar = { separator = " ❯ " },
+					menu = { separator = "" },
+				},
+				-- Keep the LSP icons used in other parts of the UI.
+				-- kinds = {
+				-- 	symbols = vim.tbl_map(function(symbol)
+				-- 		return symbol .. " "
+				-- 	end, icons.kind),
+				-- },
+				kinds = {
+					use_devicons = true,
+				},
 			},
 			bar = {
-				sources = function(_, _)
+				pick = {
+					-- Use the same labels as flash.
+					pivots = "asdfghjklqwertyuiopzxcvbnm",
+				},
+				sources = function()
+					local sources = require("dropbar.sources")
+					local utils = require("dropbar.utils.source")
+					--[[ local filename = {
+            get_symbols = function(buff, win, cursor)
+              local symbols = sources.path.get_symbols(buff, win, cursor)
+              return { symbols[#symbols] }
+            end,
+          } ]]
+
 					return {
+						-- filename,
 						{
-							get_symbols = get_symbols,
-						},
-						{
-							get_symbols = function(buf, cursor)
+							get_symbols = function(buf, win, cursor)
+								if vim.api.nvim_get_current_win() ~= win then
+									return {}
+								end
+
 								if vim.bo[buf].ft == "markdown" then
-									return sources.markdown.get_symbols(buf, cursor)
+									return sources.markdown.get_symbols(buf, win, cursor)
 								end
-								for _, source in ipairs({
-									sources.lsp,
-									sources.treesitter,
-								}) do
-									return get_symbols(buf, cursor, source.get_symbols(buf, cursor))
-								end
-								return {}
+								return utils.fallback({ sources.lsp, sources.treesitter }).get_symbols(buf, win, cursor)
 							end,
 						},
 					}
 				end,
 			},
+			menu = {
+				win_configs = { border = icons.ui.Border_Single_Line },
+				keymaps = {
+					-- Navigate back to the parent menu.
+					["h"] = "<C-w>c",
+					-- Expands the entry if possible.
+					["l"] = function()
+						local menu = menu_utils.get_current()
+						if not menu then
+							return
+						end
+						local row = vim.api.nvim_win_get_cursor(menu.win)[1]
+						local component = menu.entries[row]:first_clickable()
+						if component then
+							menu:click_on(component, nil, 1, "l")
+						end
+					end,
+					-- "Jump and close".
+					["o"] = function()
+						local menu = menu_utils.get_current()
+						if not menu then
+							return
+						end
+						local cursor = vim.api.nvim_win_get_cursor(menu.win)
+						local entry = menu.entries[cursor[1]]
+						local component = entry:first_clickable(entry.padding.left + entry.components[1]:bytewidth())
+						if component then
+							menu:click_on(component, nil, 1, "l")
+						end
+					end,
+					-- Close the dropbar entirely with <esc> and q.
+					["q"] = close,
+					["<esc>"] = close,
+				},
+			},
+		}
+	end,
+	config = function(_, opts)
+		local bar_utils = require("dropbar.utils.bar")
+
+		require("dropbar").setup(opts)
+
+		-- Better way to do this? Follow up in https://github.com/Bekaboo/dropbar.nvim/issues/76
+		vim.api.nvim_create_autocmd("WinEnter", {
+			desc = "Refresh window dropbars",
+			callback = function()
+				-- Refresh the dropbars except when entering the dropbar itself.
+				if vim.fn.getwininfo(vim.api.nvim_get_current_win())[1].winbar == 1 then
+					bar_utils.exec("update")
+				end
+			end,
 		})
 	end,
 }
