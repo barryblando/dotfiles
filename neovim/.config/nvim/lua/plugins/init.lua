@@ -149,9 +149,6 @@ return {
 	-- LSP signature help
 	{ "ray-x/lsp_signature.nvim", lazy = true },
 
-	-- LSP Trouble, pretty handy diagnostics
-	{ "folke/trouble.nvim" },
-
 	---------------------
 	--   TREESITTER    --
 	---------------------
