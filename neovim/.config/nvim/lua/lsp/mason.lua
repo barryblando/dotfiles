@@ -69,18 +69,18 @@ for _, server in pairs(servers) do
 
 	server = vim.split(server, "@")[1]
 
-	if server == "lua_ls" then
-		local n_status_ok, neodev = pcall(require, "neodev")
-		if not n_status_ok then
-			return
-		end
+	-- if server == "lua_ls" then
+	-- local n_status_ok, neodev = pcall(require, "neodev")
+	-- if not n_status_ok then
+	-- 	return
+	-- end
 
-		neodev.setup({})
+	-- neodev.setup({})
 
-		local lua_opts = require("lsp.settings.lua_ls")
-		lspconfig.lua_ls.setup(lua_opts)
-		goto continue
-	end
+	-- 	local lua_opts = require("lsp.settings.lua_ls")
+	-- 	lspconfig.lua_ls.setup(lua_opts)
+	-- 	goto continue
+	-- end
 
 	if server == "rust_analyzer" then
 		local rust_opts = require("lsp.settings.rust_analyzer")
