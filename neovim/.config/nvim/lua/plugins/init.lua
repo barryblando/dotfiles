@@ -122,27 +122,40 @@ return {
 			-- INFO: null-ls will be archive on Aug 11, 2023, https://github.com/jose-elias-alvarez/null-ls.nvim/issues/1621
 			-- NOTE: alternative: https://github.com/stevearc/conform.nvim & https://github.com/mfussenegger/nvim-lint
 			"nvimtools/none-ls.nvim", -- for formatters and linters
-			"folke/neodev.nvim", -- full signature help, docs and completion for the nvim lua API
 			"b0o/schemastore.nvim", -- providing access to the SchemaStore catalog.
 
 			{
 				"j-hui/fidget.nvim",
-				-- NOTE: fidget.nvim will soon be completely rewritten. In the meantime, tag legacy to avoid breaking changes.
-				tag = "legacy",
 				-- enabled = false,
-				config = function()
-					require("fidget").setup({
-						text = {
-							done = "",
+				opts = {
+					progress = {
+						display = {
+							done_icon = "",
 						},
+					},
+					notification = {
 						window = {
-							blend = 0, -- &winblend for the window
+							winblend = 0, -- &winblend for the window
 						},
-					})
-				end,
+					},
+				},
 			},
 		},
 	},
+
+	{
+		"folke/lazydev.nvim",
+		ft = "lua", -- only load on lua files
+		opts = {
+			library = {
+				-- See the configuration section for more details
+				-- Load luvit types when the `vim.uv` word is found
+				{ path = "luvit-meta/library", words = { "vim%.uv" } },
+			},
+		},
+	},
+
+	{ "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
 
 	{ "WhoIsSethDaniel/lualine-lsp-progress.nvim", enabled = false },
 
