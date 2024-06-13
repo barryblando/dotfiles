@@ -138,20 +138,14 @@ return {
 					end
 				end
 
-				local clients = vim.lsp.get_active_clients({ bufnr = vim.api.nvim_get_current_buf() })
+				local clients = vim.lsp.get_clients({ bufnr = vim.api.nvim_get_current_buf() })
 				local client_names = {}
-				-- local copilot_active = false
 
 				-- add client
 				for _, client in pairs(clients) do
-					-- if client.name ~= "copilot" and client.name ~= "null-ls" then
 					if client.name ~= "null-ls" then
 						table.insert(client_names, client.name)
 					end
-
-					-- if client.name == "copilot" then
-					-- 	copilot_active = true
-					-- end
 				end
 
 				-- add formatter
@@ -187,11 +181,6 @@ return {
 					language_servers = "  ⌜" .. client_names_str .. "⌟ "
 				end
 
-				-- if copilot_active then
-				-- 	language_servers = language_servers .. "%#SLCopilot#" .. " " .. icons.git.Octoface .. "%*"
-				-- end
-
-				-- if client_names_str_len == 0 and not copilot_active then
 				if client_names_str_len == 0 then
 					return ""
 				else
