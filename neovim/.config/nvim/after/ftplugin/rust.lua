@@ -1,46 +1,26 @@
-local status_ok, which_key = pcall(require, "which-key")
+local status_ok, wk = pcall(require, "which-key")
 if not status_ok then
-  return
+	return
 end
 
-local opts = {
-  mode = "n", -- NORMAL mode
-  prefix = "<leader>",
-  buffer = nil, -- Global mappings. Specify a buffer number for buffer local mappings
-  silent = true, -- use `silent` when creating keymaps
-  noremap = true, -- use `noremap` when creating keymaps
-  nowait = true, -- use `nowait` when creating keymaps
-}
-
-local mappings = {
-  L = {
-    name = "Rust",
-    -- h = { "<cmd>RustToggleInlayHints<Cr>", "Toggle Hints" },
-    r = { "<cmd>RustRunnables<Cr>", "Runnables" },
-    -- r = { "<cmd>lua _CARGO_RUN()<cr>", "Cargo Run" },
-    t = { "<cmd>lua _CARGO_TEST()<cr>", "Cargo Test" },
-    m = { "<cmd>RustExpandMacro<Cr>", "Expand Macro" },
-    c = { "<cmd>RustOpenCargo<Cr>", "Open Cargo" },
-    p = { "<cmd>RustParentModule<Cr>", "Parent Module" },
-    -- j = { "<cmd>RustJoinLines<Cr>", "Join Lines" },
-    -- s = { "<cmd>RustStartStandaloneServerForBuffer<Cr>", "Start Server Buf" },
-    d = { "<cmd>RustDebuggables<Cr>", "Debuggables" },
-    v = { "<cmd>RustViewCrateGraph<Cr>", "View Crate Graph" },
-    R = {
-      "<cmd>lua require('rust-tools/workspace_refresh')._reload_workspace_from_cargo_toml()<Cr>",
-      "Reload Workspace",
-    },
-    -- S = { "<cmd>RustSSR<Cr>", "SSR" },
-    o = { "<cmd>RustOpenExternalDocs<Cr>", "Open External Docs" },
-    h = { "<cmd>RustSetInlayHints<Cr>", "Enable Hints" },
-    H = { "<cmd>RustDisableInlayHints<Cr>", "Disable Hints" },
-    -- a = { "<cmd>RustHoverActions<Cr>", "Hover Actions" },
-    -- a = { "<cmd>RustHoverRange<Cr>", "Hover Range" },
-    -- j = { "<cmd>RustMoveItemDown<Cr>", "Move Item Down" },
-    -- k = { "<cmd>RustMoveItemUp<Cr>", "Move Item Up" },
-  },
-}
-
-which_key.register(mappings, opts)
+wk.add({
+	{ "<leader>L", group = "Rust", nowait = true, remap = false },
+	{ "<leader>LH", "<cmd>RustDisableInlayHints<Cr>", desc = "Disable Hints", nowait = true, remap = false },
+	{
+		"<leader>LR",
+		"<cmd>lua require('rust-tools/workspace_refresh')._reload_workspace_from_cargo_toml()<Cr>",
+		desc = "Reload Workspace",
+		nowait = true,
+		remap = false,
+	},
+	{ "<leader>Lc", "<cmd>RustOpenCargo<Cr>", desc = "Open Cargo", nowait = true, remap = false },
+	{ "<leader>Ld", "<cmd>RustDebuggables<Cr>", desc = "Debuggables", nowait = true, remap = false },
+	{ "<leader>Lm", "<cmd>RustExpandMacro<Cr>", desc = "Expand Macro", nowait = true, remap = false },
+	{ "<leader>Lo", "<cmd>RustOpenExternalDocs<Cr>", desc = "Open External Docs", nowait = true, remap = false },
+	{ "<leader>Lp", "<cmd>RustParentModule<Cr>", desc = "Parent Module", nowait = true, remap = false },
+	{ "<leader>Lr", "<cmd>RustRunnables<Cr>", desc = "Runnables", nowait = true, remap = false },
+	{ "<leader>Lt", "<cmd>lua _CARGO_TEST()<cr>", desc = "Cargo Test", nowait = true, remap = false },
+	{ "<leader>Lv", "<cmd>RustViewCrateGraph<Cr>", desc = "View Crate Graph", nowait = true, remap = false },
+})
 
 vim.api.nvim_set_keymap("n", "<m-d>", "<cmd>RustOpenExternalDocs<Cr>", { noremap = true, silent = true })
