@@ -48,12 +48,12 @@ return {
 		},
 		keys = {
 			{
-				"<leader>ot",
+				"<leader>ow",
 				"<cmd>OverseerToggle<cr>",
-				desc = "Toggle task window",
+				desc = "toggle task [w]indow",
 			},
 			{
-				"<leader>o<",
+				"<leader>or",
 				function()
 					local overseer = require("overseer")
 
@@ -65,10 +65,10 @@ return {
 						open_and_close()
 					end
 				end,
-				desc = "Restart last task",
+				desc = "[r]estart last task",
 			},
 			{
-				"<leader>or",
+				"<leader>ot",
 				function()
 					require("overseer").run_template({}, function(task)
 						if task then
@@ -76,7 +76,7 @@ return {
 						end
 					end)
 				end,
-				desc = "Run task",
+				desc = "run [t]ask",
 			},
 		},
 	},
