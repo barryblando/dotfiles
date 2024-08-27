@@ -162,7 +162,7 @@ return {
 			default_hl = {
 				fg = function(buffer)
 					-- return buffer.is_focused and get_hl_attr("Normal", "fg") or get_hl_attr("Comment", "fg")
-					return buffer.is_focused and "#e2cca9" or "#928374"
+					return buffer.is_focused and "#ebdbb2" or "#928374"
 				end,
 				bg = "None",
 				-- bg = get_hl_attr("None", "bg"),
