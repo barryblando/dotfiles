@@ -102,16 +102,16 @@ return {
 			highlight = {
 				enable = true, -- false will disable the whole extension
 				-- disable for big files
-				disable = {
-					function(_, buf)
-						local max_filesize = 100 * 1024 -- 100 KB
-						local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-						if ok and stats and stats.size > max_filesize then
-							return true
-						end
-					end,
-					"latex",
-				},
+				disable = function(_, buf)
+					-- Don't disable for read-only buffers.
+					if not vim.bo[buf].modifiable then
+						return false
+					end
+
+					local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(buf))
+					-- Disable for files larger than 250 KB.
+					return ok and stats and stats.size > (250 * 1024)
+				end,
 				additional_vim_regex_highlighting = false,
 			},
 			rainbow = {
