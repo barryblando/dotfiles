@@ -96,15 +96,16 @@ M.setup = function()
 			end
 
 			if vim.tbl_islist(result) then
-				util.jump_to_location(result[1])
+				util.jump_to_location(result[1], 'utf-8')
 
 				if #result > 1 then
-					util.setqflist(util.locations_to_items(result))
+					-- util.set_qflist(util.locations_to_items(result, 'utf-8'))
+					vim.fn.setqflist(util.locations_to_items(result, 'utf-8'))
 					api.nvim_command("copen")
 					api.nvim_command("wincmd p")
 				end
 			else
-				util.jump_to_location(result)
+				util.jump_to_location(result, 'utf-8')
 			end
 		end
 		return handler
@@ -166,8 +167,6 @@ end
 ------------------------
 
 local function lsp_highlight_document(client)
-	-- INFO: If you are on Neovim v0.8, use client.server_capabilities.documentHighlightProvider
-	-- if client.resolved_capabilities.document_highlight then
 	if client.server_capabilities.documentHighlightProvider then
 		vim.api.nvim_exec(
 			[[
@@ -190,45 +189,52 @@ end
 ------------------------
 
 local function lsp_keymaps(bufnr)
-	local opts = { noremap = true, silent = true }
 	local keymap = vim.api.nvim_buf_set_keymap
 	local keymaps = {
-		{ "gd", "<cmd>lua vim.lsp.buf.definition()<CR>" },
-		{ "gD", "<cmd>Telescope lsp_definitions<CR>" },
-		-- { "gD", "<cmd>lua vim.lsp.buf.definition()<CR>" },
+		{ "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", "Buf Definition" },
+		{ "gD", "<cmd>Telescope lsp_definitions<CR>", "LSP Definition" },
 		-- { "K", "<cmd>lua vim.lsp.buf.hover()<CR>" }, -- I put the config in nvim-ufo to include code folding preview
-		{ "gI", "<cmd>Telescope lsp_implementations<CR>" },
-		{ "gr", "<cmd>Telescope lsp_references<CR>" },
-		{ "gl", "<cmd>lua vim.diagnostic.open_float(nil, { focusable = false })<CR>" },
-		{ "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>" },
-		{ "<leader>lf", "<cmd>lua vim.lsp.buf.format{ async = false }<cr>" },
-		{ "<leader>li", "<cmd>LspInfo<cr>" },
-		{ "<leader>la", "<cmd>lua require('actions-preview').code_actions()<cr>" },
-		{ "<leader>lj", "<cmd>lua vim.diagnostic.goto_next({buffer=0})<cr>" },
-		{ "<leader>lk", "<cmd>lua vim.diagnostic.goto_prev({buffer=0})<cr>" },
-		{ "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>" },
-		{ "<leader>ls", "<cmd>lua vim.lsp.buf.signature_help()<CR>" },
-		{ "<leader>lq", "<cmd>lua vim.diagnostic.setloclist()<CR>" },
+		{ "gI", "<cmd>Telescope lsp_implementations<CR>", "LSP Implementations" },
+		{ "gr", "<cmd>Telescope lsp_references<CR>", "LSP References" },
+		{ "gl", "<cmd>lua vim.diagnostic.open_float(nil, { focusable = false })<CR>", "Open Diagnostic (Float)" },
+		{ "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", "Signature Help" },
+		{ "<leader>la", "<cmd>lua require('actions-preview').code_actions()<cr>", "Code Action" },
+		{ "<leader>lf", "<cmd>lua vim.lsp.buf.format{ async = false }<cr>", "Format" },
+		{ "<leader>lF", "<cmd>LspToggleAutoFormat<cr>", "Toggle Autoformat" },
+		{ "<leader>lh", "<cmd>IlluminateToggle<cr>", "Toggle Doc HL" },
+		{ "<leader>li", "<cmd>LspInfo<cr>", "Info" },
+		{
+			"<leader>ld",
+			"<cmd>Telescope diagnostics bufnr=0<cr>",
+			"Document Diagnostics",
+		},
+		{
+			"<leader>lw",
+			"<cmd>Telescope diagnostics<cr>",
+			"Workspace Diagnostics",
+		},
+		{ "<leader>lj", "<cmd>lua vim.diagnostic.goto_next({buffer=0})<cr>", "Next Diagnostic" },
+		{ "<leader>lk", "<cmd>lua vim.diagnostic.goto_prev()<cr>", "Prev Diagnostic" },
+		{
+			"<leader>ll",
+			"<cmd>lua vim.lsp.codelens.run()<cr>",
+			"CodeLens Action",
+		},
+		{ "<leader>lq", "<cmd>lua vim.diagnostic.setloclist()<CR>", "Quickfix" },
+		{ "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
+		{ "<leader>ls", "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
+		{
+			"<leader>lS",
+			"<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",
+			"Workspace Symbols",
+		},
 	}
 
-	for _, k in ipairs(keymaps) do
-		keymap(bufnr, "n", k[1], k[2], opts)
+	for _, v in ipairs(keymaps) do
+		keymap(bufnr, "n", v[1], v[2], { desc = v[3], nowait = true, noremap = true, silent = true })
 	end
 
 	vim.cmd([[ command! Format execute 'lua vim.lsp.buf.format({ async = false })' ]])
-end
-
-------------------------
---       NAVIC        --
-------------------------
-
-local function attach_navic(client, bufnr)
-	vim.g.navic_silence = true
-	local status_ok, navic = pcall(require, "nvim-navic")
-	if not status_ok then
-		return
-	end
-	navic.attach(client, bufnr)
 end
 
 ------------------------
@@ -252,10 +258,6 @@ M.on_attach = function(client, bufnr)
 	if client_to_skip:find(client.name) then
 		goto continue
 	end
-
-	-- if client.supports_method("textDocument/documentSymbol") then
-	-- 	attach_navic(client, bufnr)
-	-- end
 
 	::continue::
 	lsp_keymaps(bufnr)
