@@ -8,6 +8,8 @@ if not mlsp_status_ok then
 	return
 end
 
+local icons = require("utils.icons")
+
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 local servers = {
 	"bashls",
@@ -21,7 +23,7 @@ local servers = {
 	"tailwindcss",
 	"yamlls",
 	"cssls",
-	-- "tsserver", -- will use typescript tools
+	-- "ts_ls", -- will use typescript tools
 	"templ",
 	"terraformls",
 	"taplo",
@@ -33,9 +35,15 @@ local servers = {
 	"eslint",
 }
 
-local icons = require("utils.icons")
+-- https://mason-registry.dev/registry/list
+local packages = {
+	-- debuggers
+	"codelldb",
+	"delve",
+}
 
 local settings = {
+	ensure_installed = packages,
 	ui = {
 		border = icons.ui.Border_Single_Line,
 		icons = {
@@ -69,28 +77,8 @@ for _, server in pairs(servers) do
 
 	server = vim.split(server, "@")[1]
 
-	-- if server == "lua_ls" then
-	-- local n_status_ok, neodev = pcall(require, "neodev")
-	-- if not n_status_ok then
-	-- 	return
-	-- end
-
-	-- neodev.setup({})
-
-	-- 	local lua_opts = require("lsp.settings.lua_ls")
-	-- 	lspconfig.lua_ls.setup(lua_opts)
-	-- 	goto continue
-	-- end
-
 	if server == "rust_analyzer" then
-		local rust_opts = require("lsp.settings.rust_analyzer")
-		-- opts = vim.tbl_deep_extend("force", rust_opts, opts)
-		local rust_tools_status_ok, rust_tools = pcall(require, "rust-tools")
-		if not rust_tools_status_ok then
-			return
-		end
-
-		rust_tools.setup(rust_opts)
+		-- install rust_analyzer but we have to skip and let rustaceanvim configure rust lsp
 		goto continue
 	end
 
