@@ -16,10 +16,10 @@ return {
 				"force",
 				-- telescope theme: https://github.com/nvim-telescope/telescope.nvim#themes
 				require("telescope.themes").get_dropdown({
-          -- previewer = false,
-          -- even more opts
-          borderchars = icons.ui.Border_Chars
-        }),
+					-- previewer = false,
+					-- even more opts
+					borderchars = icons.ui.Border_Chars,
+				}),
 				-- a table for customizing content
 				{
 					-- a function to make a table containing the values to be displayed.
@@ -32,7 +32,6 @@ return {
 					make_make_display = nil,
 				}
 			),
-
 		})
 	end,
 }
