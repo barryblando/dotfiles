@@ -152,6 +152,13 @@ else
 			Object = " ",
 			Null = "󰟢 ",
 		},
+		dap = {
+			Stopped = { "", "DiagnosticWarn", "DapStoppedLine" },
+			Breakpoint = { "󰃤", "DiagnosticError" },
+			BreakpointCondition = "",
+			BreakpointRejected = { "", "DiagnosticError" },
+			LogPoint = "",
+		},
 		documents = {
 			File = " ",
 			Files = " ",
