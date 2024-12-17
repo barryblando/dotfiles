@@ -9,6 +9,7 @@ fi
 
 source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+source ~/.oh-my-zsh/custom/plugins/zsh-completions/src
 
 # Git Aliases
 alias gc="git checkout";
@@ -59,10 +60,10 @@ alias dcrst='docker-compose restart';
 alias dcup='docker-compose up -d';
 alias dcrm='docker-compose rm --all';
 
-# Exa Aliases
-if [ -x "$(command -v exa)" ]; then
-  alias ls="exa --icons"
-  alias la="exa --icons --long --all --group"
+# Exa/Eza Aliases
+if [ -x "$(command -v eza)" ]; then
+  alias ls="eza --icons"
+  alias la="eza --icons --long --all --group"
 fi
 
 # Tmux Aliases
@@ -151,9 +152,7 @@ plugins=(
   vscode
 )
 
-autoload -Uz promptinit
-promptinit
-prompt adam1
+autoload -Uz compinit && compinit
 
 setopt histignorealldups sharehistory
 
@@ -161,13 +160,18 @@ setopt histignorealldups sharehistory
 bindkey -e
 
 # Keep 1000 lines of history within the shell and save it to ~/.zsh_history:
-HISTSIZE=1000
-SAVEHIST=1000
+# History
+HISTSIZE=5000
 HISTFILE=~/.zsh_history
-
-# Use modern completion system
-autoload -Uz compinit
-compinit
+SAVEHIST=$HISTSIZE
+HISTDUP=erase
+setopt appendhistory
+setopt sharehistory
+setopt hist_ignore_space
+setopt hist_ignore_all_dups
+setopt hist_save_no_dups
+setopt hist_ignore_dups
+setopt hist_find_no_dups
 
 zstyle ':completion:*' auto-description 'specify: %d'
 zstyle ':completion:*' completer _expand _complete _correct _approximate
