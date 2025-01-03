@@ -212,7 +212,7 @@ return {
 		local progress = function()
 			local current_line = vim.fn.line(".")
 			local total_lines = vim.fn.line("$")
-			local chars = { "__", "▁▁", "▂▂", "▃▃", "▄▄", "▅▅", "▆▆", "▇▇", "██" }
+			local chars = { "  ", "▁▁", "▂▂", "▃▃", "▄▄", "▅▅", "▆▆", "▇▇", "██" }
 			local line_ratio = current_line / total_lines
 			local index = math.ceil(line_ratio * #chars)
 			return chars[index]
@@ -327,13 +327,13 @@ return {
 			winbar = {
 				lualine_a = {
 					{ "filename", separator = { left = "", right = "" } },
-					{ "%{%v:lua.dropbar.get_dropbar_str()%}", separator = { left = "", right = "" }, color = "nil" },
+					{ "%{%v:lua.dropbar()%}", separator = { left = "", right = "" }, color = "nil" },
 				},
 			},
 			inactive_winbar = {
 				lualine_a = {
 					{ "filename", separator = { left = "", right = "" } },
-					{ "%{%v:lua.dropbar.get_dropbar_str()%}", separator = { left = "", right = "" }, color = "nil" },
+					{ "%{%v:lua.dropbar()%}", separator = { left = "", right = "" }, color = "nil" },
 				},
 			},
 			extensions = { "neo-tree", "toggleterm", "trouble", "lazy", "nvim-dap-ui", "mason", "quickfix" },
