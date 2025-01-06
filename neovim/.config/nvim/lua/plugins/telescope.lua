@@ -7,6 +7,7 @@ return {
 		{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
 	},
 	lazy = true,
+	keys = require("core.keymaps").setup_telescope_keymaps(),
 	config = function()
 		local status_ok, telescope = pcall(require, "telescope")
 		if not status_ok then
