@@ -32,15 +32,6 @@ return {
 		end
 
 		return {
-			general = {
-				-- Remove the 'OptionSet' event since it causes weird issues with modelines.
-				attach_events = { "BufWinEnter", "BufWritePost" },
-				update_events = {
-					-- Remove the 'WinEnter' event since I handle it manually for just
-					-- showing the full dropbar in the current window.
-					win = { "CursorMoved", "CursorMovedI", "WinResized" },
-				},
-			},
 			icons = {
 				ui = {
 					-- Tweak the spacing around the separator.
@@ -48,17 +39,15 @@ return {
 					bar = { separator = " ❯ " },
 					menu = { separator = "" },
 				},
-				-- Keep the LSP icons used in other parts of the UI.
-				-- kinds = {
-				-- 	symbols = vim.tbl_map(function(symbol)
-				-- 		return symbol .. " "
-				-- 	end, icons.kind),
-				-- },
-				kinds = {
-					use_devicons = true,
-				},
 			},
 			bar = {
+				-- Remove the 'OptionSet' event since it causes weird issues with modelines.
+				attach_events = { "BufWinEnter", "BufWritePost" },
+				update_events = {
+					-- Remove the 'WinEnter' event since I handle it manually for just
+					-- showing the full dropbar in the current window.
+					win = { "CursorMoved", "CursorMovedI", "WinResized" },
+				},
 				pick = {
 					-- Use the same labels as flash.
 					pivots = "asdfghjklqwertyuiopzxcvbnm",
@@ -68,7 +57,7 @@ return {
 					local utils = require("dropbar.utils.source")
 					--[[ local filename = {
             get_symbols = function(buff, win, cursor)
-              local symbols = sources.path.get_symbols(buff, win, cursor)
+              local symbols = sources.path.oet_symbols(buff, win, cursor)
               return { symbols[#symbols] }
             end,
           } ]]
