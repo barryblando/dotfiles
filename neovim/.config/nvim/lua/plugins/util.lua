@@ -5,6 +5,19 @@ return {
 	{
 		"rmagatti/auto-session",
 		lazy = true,
+		keys = {
+			{ "<leader>Sd", "<cmd>Autosession delete<cr>", desc = "Find Delete", nowait = true, remap = false },
+			{
+				"<leader>Sf",
+				'<cmd>lua require("auto-session.session-lens").search_session()<cr>',
+				desc = "Find",
+				nowait = true,
+				remap = false,
+			},
+			{ "<leader>Sr", "<cmd>SessionRestore<cr>", desc = "Restore", nowait = true, remap = false },
+			{ "<leader>Ss", "<cmd>SessionSave<cr>", desc = "Save", nowait = true, remap = false },
+			{ "<leader>Sx", "<cmd>SessionDelete<cr>", desc = "Delete", nowait = true, remap = false },
+		},
 		init = function()
 			-- LAZY AUTOSESSION
 			local autocmd = vim.api.nvim_create_autocmd
