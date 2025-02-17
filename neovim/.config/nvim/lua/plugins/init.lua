@@ -43,16 +43,6 @@ return {
 	-- Closing buffers
 	"famiu/bufdelete.nvim",
 
-	-- Remove mapping escape delay
-	{
-		"max397574/better-escape.nvim",
-		config = function()
-			require("better_escape").setup({
-				mapping = { "jk", "kj" },
-			})
-		end,
-	},
-
 	-- auto-save, default config used
 	{
 		"Pocco81/auto-save.nvim",
@@ -94,7 +84,15 @@ return {
 			"hrsh7th/cmp-cmdline", -- cmdline completions
 			"hrsh7th/cmp-nvim-lsp", -- nvim-cmp source for neovim's built-in language server client
 			"saadparwaiz1/cmp_luasnip", -- snippet completions
-			"L3MON4D3/LuaSnip", -- snippet engine, requires cmp_luasnip in order to work
+			-- snippet engine, requires cmp_luasnip in order to work
+			{
+				"L3MON4D3/LuaSnip",
+				-- follow latest release.
+				version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+				-- install jsregexp (optional!).
+				build = "make install_jsregexp",
+				dependencies = { "rafamadriz/friendly-snippets" },
+			},
 			"rafamadriz/friendly-snippets", -- a bunch of snippets to use
 			{
 				"roobert/tailwindcss-colorizer-cmp.nvim",
@@ -107,6 +105,10 @@ return {
 				end,
 			},
 		},
+	},
+
+	{
+		"github/copilot.vim",
 	},
 
 	---------------------
@@ -145,12 +147,24 @@ return {
 
 	{
 		"folke/lazydev.nvim",
-		ft = "lua", -- only load on lua files
+		ft = "lua",
 		opts = {
 			library = {
-				-- See the configuration section for more details
+				-- Library paths can be absolute
+				-- "~/projects/my-awesome-lib",
+
+				-- Or relative, which means they will be resolved from the plugin dir.
+				"luvit-meta/library",
+				"neotest",
+				"plenary",
+				"nvim-dap-ui",
+
 				-- Load luvit types when the `vim.uv` word is found
 				{ path = "luvit-meta/library", words = { "vim%.uv" } },
+
+				-- Load the wezterm types when the `wezterm` module is required
+				-- Needs `justinsgithub/wezterm-types` to be installed
+				{ path = "wezterm-types", mods = { "wezterm" } },
 			},
 		},
 	},
@@ -160,7 +174,36 @@ return {
 	{ "WhoIsSethDaniel/lualine-lsp-progress.nvim", enabled = false },
 
 	-- LSP signature help
-	{ "ray-x/lsp_signature.nvim", lazy = true },
+	{
+		"ray-x/lsp_signature.nvim",
+		event = "VeryLazy",
+		opts = {},
+		config = function()
+			local icons = require("utils.icons")
+
+			local cfg = {
+				-- general options
+				always_trigger = false,
+				hint_enable = false, -- virtual text hint
+				bind = true,
+				max_width = 80,
+
+				-- floating window
+
+				padding = " ",
+				auto_close_after = 200,
+				transparency = nil,
+				floating_window_above_cur_line = true,
+				handler_opts = {
+					border = icons.ui.Border_Single_Line,
+				},
+				toggle_key = "<C-k>",
+				toggle_key_flip_floatwin_setting = true,
+			}
+
+			require("lsp_signature").setup(cfg)
+		end,
+	},
 
 	---------------------
 	--   TREESITTER    --
