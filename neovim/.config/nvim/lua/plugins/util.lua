@@ -70,26 +70,22 @@ return {
 			local icons = require("utils.icons")
 
 			local opts = {
-				log_level = "info",
-				auto_session_enable_last_session = false,
-				auto_session_root_dir = vim.fn.stdpath("data") .. "/sessions/",
-				auto_session_enabled = true,
-				auto_save_enabled = nil,
+				auto_restore_last_session = false,
 				auto_session_pre_save_cmds = { "tabdo NeoTreeClose" },
-				auto_restore_enabled = nil,
-				auto_session_suppress_dirs = { os.getenv("HOME") },
-				auto_session_use_git_branch = nil,
-				-- the configs below are lua onlqy
-				bypass_session_save_file_types = { "alpha" },
+				bypass_save_filetypes = { "alpha" },
+				enabled = true,
+				log_level = "info",
+				root_dir = vim.fn.stdpath("data") .. "/sessions/",
 				session_lens = {
 					path_display = { "shorten" },
+					previewer = false,
+					prompt_title = "Sessions",
 					theme_conf = {
 						borderchars = icons.ui.Border_Chars,
 						winblend = 0,
 					},
-					previewer = false,
-					prompt_title = "Sessions",
 				},
+				suppressed_dirs = { os.getenv("HOME") },
 			}
 
 			vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
