@@ -73,7 +73,7 @@ M.setup = function()
 			local buf, winnr = handler(...)
 			if buf then
 				-- use the same transparency effect from cmp
-				vim.api.nvim_win_set_option(winnr, "winhighlight", "Normal:NormalFloat")
+				vim.api.nvim_set_option_value("winhighlight", "Normal:NormalFloat", { win = winnr })
 			end
 		end, overrides)
 	end
@@ -84,7 +84,7 @@ M.setup = function()
 		local log = require("vim.lsp.log")
 		local api = vim.api
 
-		-- note, this handler style is for neovim 0.5.1/0.6, if on 0.5, call with function(_, method, result)
+		-- note, this handler style is for neovim 0.6 and up, if on 0.5, call with function(_, method, result)
 		local handler = function(_, result, ctx)
 			if result == nil or vim.tbl_isempty(result) then
 				local _ = log.info() and log.info(ctx.method, "No location found")
@@ -95,7 +95,7 @@ M.setup = function()
 				vim.cmd(split_cmd)
 			end
 
-			if vim.tbl_islist(result) then
+			if vim.islist(result) then
 				util.jump_to_location(result[1], "utf-8")
 
 				if #result > 1 then
@@ -168,19 +168,16 @@ end
 
 local function lsp_highlight_document(client)
 	if client.server_capabilities.documentHighlightProvider then
-		vim.api.nvim_exec(
-			[[
-      hi! link LspReferenceRead Visual
-      hi! link LspReferenceText Visual
-      hi! link LspReferenceWrite Visual
+		vim.cmd([[
+     hi! link LspReferenceRead Visual
+     hi! link LspReferenceText Visual
+     hi! link LspReferenceWrite Visual
       augroup lsp_document_highlight
         autocmd! * <buffer>
-        autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-        autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+        autocmd! CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+        autocmd! CursorMoved <buffer> lua vim.lsp.buf.clear_references()
       augroup END
-    ]],
-			false
-		)
+    ]])
 	end
 end
 
