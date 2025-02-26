@@ -91,4 +91,4 @@ for _, server in pairs(servers) do
 	::continue::
 end
 
-require("lspconfig.ui.windows").default_options.border = settings.ui.border
+require("lspconfig.ui.windows").default_options.border = icons.ui.Border_Single_Line
