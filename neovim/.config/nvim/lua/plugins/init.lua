@@ -73,13 +73,13 @@ return {
 	},
 
 	---------------------
-	-- AUTO COMPLETION --
+	--- AI COMPLETION ---
 	---------------------
 
 	{
 		"zbirenbaum/copilot.lua",
 		cmd = "Copilot",
-		-- enabled = false,
+		enabled = false,
 		event = "InsertEnter",
 		opts = {
 			suggestion = { enabled = false },
