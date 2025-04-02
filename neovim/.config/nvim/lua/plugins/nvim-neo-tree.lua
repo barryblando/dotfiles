@@ -36,6 +36,12 @@ return {
 			return
 		end
 
+		local snacks_ok, Snacks = pcall(require, "snacks")
+
+		if not snacks_ok then
+			return
+		end
+
 		local function openWithFocus(state)
 			local node = state.tree:get_node()
 			if require("neo-tree.utils").is_expandable(node) then
@@ -47,6 +53,11 @@ return {
 		end
 
 		local icons = require("utils.icons")
+
+		local function on_move(data)
+			Snacks.rename.on_rename_file(data.source, data.destination)
+		end
+		local events = require("neo-tree.events")
 
 		neotree.setup({
 			close_if_last_window = false,
@@ -209,6 +220,8 @@ return {
 				-- 		require("neo-tree").close_all()
 				-- 	end,
 				-- },
+				{ event = events.FILE_MOVED, handler = on_move },
+				{ event = events.FILE_RENAMED, handler = on_move },
 				{
 					-- show netrw hijacked buffer in buffer list
 					event = "neo_tree_buffer_enter",
