@@ -1,14 +1,14 @@
 return {
-	-- search/replace in multiple files
+	-- clipboard
 	{
-		"nvim-pack/nvim-spectre",
-		enabled = false,
-		cmd = "Spectre",
-		opts = { open_cmd = "noswapfile vnew" },
-		-- stylua: ignore
-		keys = {
-			{ "<leader>sr", function() require("spectre").open() end, desc = "Replace in files (Spectre)" },
+		"gbprod/yanky.nvim",
+		dependencies = {
+			{ "kkharji/sqlite.lua" },
 		},
+		opts = {
+			ring = { storage = "sqlite" },
+		},
+		keys = require("core.keymaps").setup_yanky_keymaps(),
 	},
 
 	{
@@ -74,7 +74,7 @@ return {
 		dependencies = { "nvim-lua/plenary.nvim" },
 		opts = function()
 			local opts = {
-        -- cause i'm using wsl2
+				-- using wsl2
 				open_browser_app = "wslview",
 			}
 
