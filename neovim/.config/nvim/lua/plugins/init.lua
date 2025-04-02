@@ -77,38 +77,18 @@ return {
 	---------------------
 
 	{
-		"hrsh7th/nvim-cmp", -- The completion plugin
-		dependencies = {
-			"hrsh7th/cmp-buffer", -- buffer completions
-			"hrsh7th/cmp-path", -- path completions
-			"hrsh7th/cmp-cmdline", -- cmdline completions
-			"hrsh7th/cmp-nvim-lsp", -- nvim-cmp source for neovim's built-in language server client
-			"saadparwaiz1/cmp_luasnip", -- snippet completions
-			-- snippet engine, requires cmp_luasnip in order to work
-			{
-				"L3MON4D3/LuaSnip",
-				-- follow latest release.
-				version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
-				-- install jsregexp (optional!).
-				build = "make install_jsregexp",
-				dependencies = { "rafamadriz/friendly-snippets" },
-			},
-			"rafamadriz/friendly-snippets", -- a bunch of snippets to use
-			{
-				"roobert/tailwindcss-colorizer-cmp.nvim",
-				ft = { "html", "javascriptreact", "typescriptreact", "svelte", "vue", "markdown" },
-				-- optionally, override the default options:
-				config = function()
-					require("tailwindcss-colorizer-cmp").setup({
-						color_square_width = 2,
-					})
-				end,
+		"zbirenbaum/copilot.lua",
+		cmd = "Copilot",
+		-- enabled = false,
+		event = "InsertEnter",
+		opts = {
+			suggestion = { enabled = false },
+			panel = { enabled = false },
+			filetypes = {
+				markdown = true,
+				help = true,
 			},
 		},
-	},
-
-	{
-		"github/copilot.vim",
 	},
 
 	---------------------
