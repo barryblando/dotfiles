@@ -2,12 +2,22 @@ return {
 	-- search/replace in multiple files
 	{
 		"nvim-pack/nvim-spectre",
+		enabled = false,
 		cmd = "Spectre",
 		opts = { open_cmd = "noswapfile vnew" },
-    -- stylua: ignore
-    keys = {
-      { "<leader>sr", function() require("spectre").open() end, desc = "Replace in files (Spectre)" },
-    },
+		-- stylua: ignore
+		keys = {
+			{ "<leader>sr", function() require("spectre").open() end, desc = "Replace in files (Spectre)" },
+		},
+	},
+
+	{
+		"MagicDuck/grug-far.nvim",
+		cmd = "GrugFar",
+		init = function()
+			vim.keymap.set("n", "<leader>R", "<cmd>GrugFar<cr>", { desc = "GrugFar | Find And Replace", silent = true })
+		end,
+		opts = {},
 	},
 
 	-- Automatically highlights other instances of the word under your cursor.
@@ -52,5 +62,27 @@ return {
 				under_cursor = true,
 			})
 		end,
+	},
+
+	{
+		"chrishrb/gx.nvim",
+		keys = { { "gx", "<cmd>Browse<cr>", mode = { "n", "x" } } },
+		cmd = { "Browse" },
+		init = function()
+			vim.g.netrw_nogx = 1
+		end,
+		dependencies = { "nvim-lua/plenary.nvim" },
+		opts = function()
+			local opts = {
+        -- cause i'm using wsl2
+				open_browser_app = "wslview",
+			}
+
+			return opts
+		end,
+		config = function(_, opts)
+			require("gx").setup(opts)
+		end,
+		submodules = false, -- not needed, submodules are required only for tests
 	},
 }
