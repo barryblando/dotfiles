@@ -193,6 +193,38 @@ return {
 			-- separator = "%#SLSeparator#" .. " │" .. "%*",
 		}
 
+		local formatters = {
+			function()
+				local clients = require("conform").list_formatters(vim.api.nvim_get_current_buf())
+				local client_names = {}
+				local formatter_lists = ""
+
+				-- add client
+				for _, client in pairs(clients) do
+					table.insert(client_names, client.name)
+				end
+
+				-- join client names with commas
+				local client_names_str = table.concat(client_names, ", ")
+
+				-- check client_names_str if empty
+				local client_names_str_len = #client_names_str
+
+				if client_names_str_len ~= 0 then
+					formatter_lists = "  ⌜" .. client_names_str .. "⌟ "
+				end
+
+				if client_names_str_len == 0 then
+					return ""
+				else
+					formatter_lists = formatter_lists
+					return formatter_lists:gsub(", anonymous source", "")
+				end
+			end,
+			padding = 0,
+			cond = hide_in_width,
+		}
+
 		local location = {
 			"location",
 			padding = 0,
@@ -311,7 +343,7 @@ return {
 				lualine_a = { mode },
 				lualine_b = { branch, diff },
 				lualine_c = { diagnostics }, -- lsp_progress
-				lualine_x = { lazy_status, language_server, spaces, "encoding", filetype },
+				lualine_x = { lazy_status, "lsp_status", formatters, spaces, "encoding", filetype },
 				lualine_y = { location },
 				lualine_z = { progress },
 			},
