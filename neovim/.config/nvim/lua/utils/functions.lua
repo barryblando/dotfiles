@@ -4,6 +4,18 @@ function M.isempty(s)
 	return s == nil or s == ""
 end
 
+function M.toggle_format_on_save()
+	if vim.g.disable_autoformat or vim.b[vim.api.nvim_get_current_buf()].disable_autoformat then
+		vim.b.disable_autoformat = false
+		vim.g.disable_autoformat = false
+		vim.notify("Re-enable autoformat-on-save")
+	else
+		vim.b.disable_autoformat = true
+		vim.g.disable_autoformat = true
+		vim.notify("Disable autoformat-on-save")
+	end
+end
+
 function M.toggle_option(option)
 	local value = not vim.api.nvim_get_option_value(option, {})
 	vim.opt[option] = value
