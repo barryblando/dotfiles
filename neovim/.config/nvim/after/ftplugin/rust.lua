@@ -20,7 +20,7 @@ vim.g.rustaceanvim = {
 				},
 				{ "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", "Signature Help" },
 				{ "<leader>la", "<cmd>lua require('actions-preview').code_actions()<cr>", "Code Action" },
-				{ "<leader>lf", "<cmd>lua vim.lsp.buf.format{ async = false }<cr>", "Format" },
+				{ "<leader>lf", "<cmd>lua require('conform').format({ async = true })<cr>", "Format" },
 				{ "<leader>lF", "<cmd>LspToggleAutoFormat<cr>", "Toggle Autoformat" },
 				{ "<leader>lh", "<cmd>IlluminateToggle<cr>", "Toggle Doc HL" },
 				{ "<leader>li", "<cmd>LspInfo<cr>", "Info" },
