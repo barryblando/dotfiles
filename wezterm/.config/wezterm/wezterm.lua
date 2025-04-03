@@ -132,7 +132,7 @@ config.exit_behavior = "Close"
 config.ssh_domains = {
 	{
 		name = 'my.server',
-		remote_address = '127.0.0.1:3153',
+		remote_address = '127.0.0.1:3154',
 		username = 'bblando0x15',
 		multiplexing = 'None',
 
