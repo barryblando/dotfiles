@@ -40,6 +40,14 @@ local packages = {
 	-- debuggers
 	"codelldb",
 	"delve",
+
+	-- formatters
+	"stylua",
+	"rustfmt",
+	"black",
+	"isort",
+	"prettier",
+	"prettierd",
 }
 
 local settings = {
