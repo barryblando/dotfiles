@@ -101,9 +101,6 @@ return {
 		dependencies = {
 			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
-			-- INFO: null-ls will be archive on Aug 11, 2023, https://github.com/jose-elias-alvarez/null-ls.nvim/issues/1621
-			-- NOTE: alternative: https://github.com/stevearc/conform.nvim & https://github.com/mfussenegger/nvim-lint
-			"nvimtools/none-ls.nvim", -- for formatters and linters
 			"b0o/schemastore.nvim", -- providing access to the SchemaStore catalog.
 
 			{
