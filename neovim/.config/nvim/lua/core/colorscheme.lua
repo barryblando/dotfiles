@@ -17,6 +17,11 @@ vim.cmd([[
   hi TabLineSel guifg=NONE guibg=NONE
 ]])
 
+-- Set Cmp Menu Extra bg transparent
+vim.cmd([[
+  hi PmenuExtra guibg=NONE
+]])
+
 -- Hide non-text from buffers i.e ~ (tilde)
 vim.cmd([[ set fillchars=eob:\ ]])
 

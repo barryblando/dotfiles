@@ -1,4 +1,59 @@
 return {
+	{
+		"rachartier/tiny-inline-diagnostic.nvim",
+		event = "LspAttach",
+		enabled = false,
+		priority = 1000, -- needs to be loaded in first
+		config = function()
+			require("tiny-inline-diagnostic").setup({
+				hi = {
+					background = "CmpPmenu",
+				},
+				options = {
+					show_source = true,
+					enable_on_insert = true,
+					use_icons_from_diagnostic = false,
+					show_all_diags_on_cursorline = true,
+				},
+			})
+		end,
+	},
+	{
+		"rachartier/tiny-glimmer.nvim",
+		branch = "main",
+		event = "TextYankPost",
+		opts = {
+			default_animation = "left_to_right",
+			overwrite = {
+				search = {
+					enabled = false,
+					default_animation = "pulse",
+					next_mapping = "nzzzv",
+					prev_mapping = "Nzzzv",
+				},
+				paste = {
+					enabled = true,
+					default_animation = "reverse_fade",
+					paste_mapping = "p",
+					Paste_mapping = "P",
+				},
+				undo = {
+					enabled = true,
+					default_animation = {
+						name = "fade",
+					},
+					undo_mapping = "u",
+				},
+				redo = {
+					enabled = true,
+					default_animation = {
+						name = "reverse_fade",
+					},
+					redo_mapping = "<c-r>",
+				},
+			},
+		},
+	},
 	-- Better `vim.notify()`
 	{
 		"rcarriga/nvim-notify",
@@ -53,7 +108,7 @@ return {
 		end,
 	},
 
-	-- Better vim.ui
+	-- Better vim.ui.select
 	{
 		"stevearc/dressing.nvim",
 		lazy = true,
@@ -63,22 +118,10 @@ return {
 				require("lazy").load({ plugins = { "dressing.nvim" } })
 				return vim.ui.select(...)
 			end
-			---@diagnostic disable-next-line: duplicate-set-field
-			vim.ui.input = function(...)
-				require("lazy").load({ plugins = { "dressing.nvim" } })
-				return vim.ui.input(...)
-			end
 		end,
 		config = function()
 			local icons = require("utils.icons")
-
 			require("dressing").setup({
-				input = {
-					border = icons.ui.Border_Single_Line,
-					win_options = {
-						winblend = 0,
-					},
-				},
 				select = {
 					telescope = require("telescope.themes").get_dropdown({ -- or 'cursor'
 						borderchars = icons.ui.Border_Chars,
@@ -99,6 +142,51 @@ return {
 		end,
 	},
 
+	{
+		"folke/snacks.nvim",
+		config = function()
+			local icons = require("utils.icons")
+			require("snacks").setup({
+				input = {
+					backdrop = false,
+					position = "float",
+					border = icons.ui.Border_Single_Line,
+					title_pos = "center",
+					height = 1,
+					width = 60,
+					relative = "editor",
+					noautocmd = true,
+					row = 2,
+					-- relative = "cursor",
+					-- row = -3,
+					-- col = 0,
+					wo = {
+						winhighlight = "NormalFloat:SnacksInputNormal,FloatBorder:SnacksInputBorder,FloatTitle:SnacksInputTitle",
+						cursorline = false,
+					},
+					bo = {
+						filetype = "snacks_input",
+						buftype = "prompt",
+					},
+					--- buffer local variables
+					b = {
+						completion = false, -- disable blink completions in input
+					},
+					keys = {
+						n_esc = { "<esc>", { "cmp_close", "cancel" }, mode = "n", expr = true },
+						i_esc = { "<esc>", { "cmp_close", "stopinsert" }, mode = "i", expr = true },
+						i_cr = { "<cr>", { "cmp_accept", "confirm" }, mode = { "i", "n" }, expr = true },
+						i_tab = { "<tab>", { "cmp_select_next", "cmp" }, mode = "i", expr = true },
+						i_ctrl_w = { "<c-w>", "<c-s-w>", mode = "i", expr = true },
+						i_up = { "<up>", { "hist_up" }, mode = { "i", "n" } },
+						i_down = { "<down>", { "hist_down" }, mode = { "i", "n" } },
+						q = "cancel",
+					},
+				},
+			})
+		end,
+	},
+
 	-- Noicer ui
 	{
 		"folke/noice.nvim",
@@ -107,11 +195,25 @@ return {
 			local icons = require("utils.icons")
 
 			require("noice").setup({
+				-- Hide written messages
+				routes = {
+					{
+						filter = {
+							event = "msg_show",
+							kind = "",
+						},
+						opts = { skip = true },
+					},
+				},
 				views = {
 					cmdline_popup = {
 						border = {
 							style = icons.ui.Border_Single_Line,
 							-- padding = { 1, 1 },
+						},
+						position = {
+							row = 5,
+							col = "50%",
 						},
 						filter_options = {},
 						win_options = {
@@ -122,6 +224,10 @@ return {
 						},
 					},
 					cmdline_popupmenu = {
+						position = {
+							row = 8,
+							col = "50%",
+						},
 						view = "popupmenu",
 						zindex = 200,
 						border = {
@@ -181,28 +287,28 @@ return {
 				desc = "Redirect Cmdline",
 			},
 			{
-				"<leader>snl",
+				"<leader>nl",
 				function()
 					require("noice").cmd("last")
 				end,
 				desc = "Noice Last Message",
 			},
 			{
-				"<leader>snh",
+				"<leader>nh",
 				function()
 					require("noice").cmd("history")
 				end,
 				desc = "Noice History",
 			},
 			{
-				"<leader>sna",
+				"<leader>na",
 				function()
 					require("noice").cmd("all")
 				end,
 				desc = "Noice All",
 			},
 			{
-				"<leader>snd",
+				"<leader>nd",
 				function()
 					require("noice").cmd("dismiss")
 				end,

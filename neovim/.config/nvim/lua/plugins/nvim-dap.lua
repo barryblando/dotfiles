@@ -1,15 +1,6 @@
-local icon = require("utils.icons")
+local icons = require("utils.icons")
 
--- Set up icons.
-local icons = {
-	Stopped = { "", "DiagnosticWarn", "DapStoppedLine" },
-	Breakpoint = "",
-	BreakpointCondition = "",
-	BreakpointRejected = { "", "DiagnosticError" },
-	LogPoint = icon.arrows.right,
-}
-
-for name, sign in pairs(icons) do
+for name, sign in pairs(icons.dap) do
 	sign = type(sign) == "table" and sign or { sign }
 	vim.fn.sign_define("Dap" .. name, {
     -- stylua: ignore
@@ -37,16 +28,17 @@ return {
 							require("dapui").eval()
 							require("dapui").eval()
 						end,
-						desc = "Evaluate expression",
+						desc = "[d]ebug [e]valuate expression",
+						silent = true,
 					},
 				},
 				opts = {
 					icons = {
-						collapsed = icon.arrows.right,
-						current_frame = icon.arrows.right,
-						expanded = icon.arrows.down,
+						collapsed = icons.arrows.right,
+						current_frame = icons.arrows.right,
+						expanded = icons.arrows.down,
 					},
-					floating = { border = "rounded" },
+					floating = { border = icons.ui.Border_Single_Line },
 					layouts = {
 						{
 							elements = {
@@ -65,7 +57,7 @@ return {
 				"theHamsta/nvim-dap-virtual-text",
 				opts = { virt_text_pos = "eol" },
 			},
-			-- JS/TS debugging.
+			-- JS/TS DAP
 			{
 				"mxsdev/nvim-dap-vscode-js",
 				enabled = false,
@@ -79,75 +71,36 @@ return {
 				enabled = false,
 				build = "npm i && npm run compile vsDebugServerBundle && rm -rf out && mv -f dist out",
 			},
-			-- Lua adapter.
+			-- Lua DAP
 			{
 				"jbyuki/one-small-step-for-vimkind",
-				keys = {
-					{
-						"<leader>dl",
-						function()
-							require("osv").launch({ port = 8086 })
+				init = function()
+					vim.api.nvim_create_autocmd({ "FileType" }, {
+						pattern = { "lua" },
+						callback = function()
+							vim.schedule(function()
+								vim.keymap.set("n", "<leader>da", function()
+									vim.cmd('lua require("osv").launch({ port = 8086 })')
+								end, { desc = "[d]ebug lua [a]dapter", silent = true })
+							end)
 						end,
-						desc = "Launch Lua adapter",
-					},
-				},
+					})
+				end,
 			},
 		},
-		keys = {
-			{
-				"<leader>db",
-				function()
-					require("dap").toggle_breakpoint()
-				end,
-				desc = "Toggle breakpoint",
-			},
-			{
-				"<leader>dB",
-				"<cmd>FzfLua dap_breakpoints<cr>",
-				desc = "List breakpoints",
-			},
-			{
-				"<leader>dc",
-				function()
-					require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))
-				end,
-				desc = "Breakpoint condition",
-			},
-			{
-				"<F5>",
-				function()
-					require("dap").continue()
-				end,
-				desc = "Continue",
-			},
-			{
-				"<F10>",
-				function()
-					require("dap").step_over()
-				end,
-				desc = "Step over",
-			},
-			{
-				"<F11>",
-				function()
-					require("dap").step_into()
-				end,
-				desc = "Step into",
-			},
-			{
-				"<F12>",
-				function()
-					require("dap").step_out()
-				end,
-				desc = "Step Out",
-			},
-		},
+		keys = require("core.keymaps").setup_dap_keymaps(),
 		config = function()
 			local dap = require("dap")
 			local dapui = require("dapui")
 
 			-- Automatically open the UI when a new debug session is created.
 			dap.listeners.after.event_initialized["dapui_config"] = function()
+				dapui.open({})
+			end
+			dap.listeners.before.attach["dapui_config"] = function()
+				dapui.open({})
+			end
+			dap.listeners.before.launch["dapui_config"] = function()
 				dapui.open({})
 			end
 			dap.listeners.before.event_terminated["dapui_config"] = function()

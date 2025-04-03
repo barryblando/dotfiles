@@ -1,13 +1,23 @@
 return {
-	-- search/replace in multiple files
+	-- clipboard
 	{
-		"nvim-pack/nvim-spectre",
-		cmd = "Spectre",
-		opts = { open_cmd = "noswapfile vnew" },
-    -- stylua: ignore
-    keys = {
-      { "<leader>sr", function() require("spectre").open() end, desc = "Replace in files (Spectre)" },
-    },
+		"gbprod/yanky.nvim",
+		dependencies = {
+			{ "kkharji/sqlite.lua" },
+		},
+		opts = {
+			ring = { storage = "sqlite" },
+		},
+		keys = require("core.keymaps").setup_yanky_keymaps(),
+	},
+
+	{
+		"MagicDuck/grug-far.nvim",
+		cmd = "GrugFar",
+		init = function()
+			vim.keymap.set("n", "<leader>R", "<cmd>GrugFar<cr>", { desc = "GrugFar | Find And Replace", silent = true })
+		end,
+		opts = {},
 	},
 
 	-- Automatically highlights other instances of the word under your cursor.
@@ -52,5 +62,27 @@ return {
 				under_cursor = true,
 			})
 		end,
+	},
+
+	{
+		"chrishrb/gx.nvim",
+		keys = { { "gx", "<cmd>Browse<cr>", mode = { "n", "x" } } },
+		cmd = { "Browse" },
+		init = function()
+			vim.g.netrw_nogx = 1
+		end,
+		dependencies = { "nvim-lua/plenary.nvim" },
+		opts = function()
+			local opts = {
+				-- using wsl2
+				open_browser_app = "wslview",
+			}
+
+			return opts
+		end,
+		config = function(_, opts)
+			require("gx").setup(opts)
+		end,
+		submodules = false, -- not needed, submodules are required only for tests
 	},
 }

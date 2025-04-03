@@ -1,33 +1,36 @@
 local M = {}
 
-M.capabilities = vim.lsp.protocol.make_client_capabilities()
+local original_capabilities = vim.lsp.protocol.make_client_capabilities()
 
-local status_cmp_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+local capabilities = require("blink.cmp").get_lsp_capabilities(original_capabilities, false)
 
-if not status_cmp_ok then
-	return
-end
-
--- M.capabilities.textDocument.completion.completionItem.snippetSupport = true
-M.capabilities.textDocument.completion.completionItem = {
-	documentationFormat = { "markdown", "plaintext" },
-	snippetSupport = true,
-	preselectSupport = true,
-	insertReplaceSupport = true,
-	labelDetailsSupport = true,
-	deprecatedSupport = true,
-	commitCharactersSupport = true,
-	tagSupport = { valueSet = { 1 } },
-	resolveSupport = {
-		properties = {
-			"documentation",
-			"detail",
-			"additionalTextEdits",
+M.capabilities = vim.tbl_deep_extend("force", capabilities, {
+	textDocument = {
+		foldingRange = {
+			dynamicRegistration = false,
+			lineFoldingOnly = true,
+		},
+		completion = {
+			completionItem = {
+				snippetSupport = true,
+				commitCharactersSupport = true,
+				documentationFormat = { "markdown", "plaintext" },
+				preselectSupport = true,
+				insertReplaceSupport = true,
+				labelDetailsSupport = true,
+				deprecatedSupport = true,
+				tagSupport = { valueSet = { 1 } },
+				resolveSupport = {
+					properties = {
+						"documentation",
+						"detail",
+						"additionalTextEdits",
+					},
+				},
+			},
 		},
 	},
-}
-
-M.capabilities = cmp_nvim_lsp.default_capabilities(M.capabilities)
+})
 
 ------------------------
 --    SETUP START     --
@@ -37,23 +40,25 @@ M.setup = function()
 	local icons = require("utils.icons")
 
 	local signs = {
-		{ name = "DiagnosticSignError", text = icons.diagnostics_alt.Error },
-		{ name = "DiagnosticSignWarn", text = icons.diagnostics_alt.Warning },
-		{ name = "DiagnosticSignHint", text = icons.diagnostics_alt.Hint },
-		{ name = "DiagnosticSignInfo", text = icons.diagnostics_alt.Information },
+		text = {
+			[vim.diagnostic.severity.ERROR] = icons.diagnostics_alt.Error,
+			[vim.diagnostic.severity.WARN] = icons.diagnostics_alt.Warning,
+			[vim.diagnostic.severity.HINT] = icons.diagnostics_alt.Hint,
+			[vim.diagnostic.severity.INFO] = icons.diagnostics_alt.Information,
+		},
+		linehl = {
+			[vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
+			[vim.diagnostic.severity.WARN] = "DiagnosticSignError",
+			[vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
+			[vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
+		},
 	}
-
-	for _, sign in ipairs(signs) do
-		vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = "" })
-	end
 
 	local config = {
 		-- disable virtual text
 		virtual_text = false,
 		-- show signs
-		signs = {
-			active = signs,
-		},
+		signs = signs,
 		update_in_insert = true,
 		underline = true,
 		severity_sort = true,
@@ -97,6 +102,7 @@ M.setup = function()
 
 			if vim.islist(result) then
 				util.jump_to_location(result[1], "utf-8")
+				-- util.show_document({ focus = true })
 
 				if #result > 1 then
 					-- util.set_qflist(util.locations_to_items(result, 'utf-8'))
@@ -106,6 +112,7 @@ M.setup = function()
 				end
 			else
 				util.jump_to_location(result, "utf-8")
+				-- util.show_document({ focus = true })
 			end
 		end
 		return handler
@@ -113,7 +120,7 @@ M.setup = function()
 
 	-- https://neovim.io/doc/user/lsp.html
 	vim.lsp.handlers["textDocument/hover"] = custom_handler(vim.lsp.handlers.hover)
-	vim.lsp.handlers["textDocument/signatureHelp"] = custom_handler(vim.lsp.handlers.signature_help)
+	vim.lsp.handlers["textDocument/signatureHelp"] = custom_handler(vim.lsp.buf.signature_help)
 	vim.lsp.handlers["textDocument/definition"] = goto_definition("split")
 
 	-- wrapped open_float to inspect diagnostics and use the severity color for border
@@ -185,7 +192,7 @@ end
 --    LSP KEYMAPS     --
 ------------------------
 
-local function lsp_keymaps(bufnr)
+local lsp_keymaps = function(bufnr)
 	local keymap = vim.api.nvim_buf_set_keymap
 	local keymaps = {
 		{ "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", "Buf Definition" },
@@ -210,8 +217,8 @@ local function lsp_keymaps(bufnr)
 			"<cmd>Telescope diagnostics<cr>",
 			"Workspace Diagnostics",
 		},
-		{ "<leader>lj", "<cmd>lua vim.diagnostic.goto_next({buffer=0})<cr>", "Next Diagnostic" },
-		{ "<leader>lk", "<cmd>lua vim.diagnostic.goto_prev()<cr>", "Prev Diagnostic" },
+		{ "<leader>lj", "<cmd>lua vim.diagnostic.jump({count=1, float=true})<cr>", "Next Diagnostic" },
+		{ "<leader>lk", "<cmd>lua vim.diagnostic.jump({count=-1, float=true})<cr>", "Prev Diagnostic" },
 		{
 			"<leader>ll",
 			"<cmd>lua vim.lsp.codelens.run()<cr>",
@@ -251,12 +258,12 @@ M.on_attach = function(client, bufnr)
 		vim.cmd("UfoDetach")
 	end
 
-	local client_to_skip = "dockerls cssls bashls" -- clients that navic doesn't support
-	if client_to_skip:find(client.name) then
-		goto continue
-	end
+	-- local client_to_skip = "dockerls cssls bashls" -- clients that navic doesn't support
+	-- if client_to_skip:find(client.name) then
+	-- 	goto continue
+	-- end
 
-	::continue::
+	-- ::continue::
 	lsp_keymaps(bufnr)
 	lsp_highlight_document(client)
 	-- if client.name == "tsserver" then
