@@ -39,6 +39,8 @@ vim.cmd([[
 vim.cmd([[
   hi WinBar guibg=NONE
   hi WinBarNC guibg=NONE
+  hi StatusLine guibg=NONE
+  hi StatusLineNC guibg=NONE
   hi ErrorMsg gui=NONE
   hi WarningMsg gui=NONE
   hi ModeMsg gui=NONE
