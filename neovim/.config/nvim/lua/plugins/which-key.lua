@@ -77,7 +77,6 @@ return {
 				nowait = true,
 				remap = false,
 			},
-			{ "<leader>c", "<cmd>Bdelete!<CR>", desc = "Close Buffer", nowait = true, remap = false },
 			{ "<leader>e", "<cmd>Neotree reveal<cr>", desc = "Explorer", nowait = true, remap = false },
 			{
 				"<leader>q",
@@ -104,6 +103,7 @@ return {
 		})
 
 		wk.add({
+			{ "<leader>b", group = "Buffer", nowait = true, remap = false },
 			{ "<leader>S", group = "Session", nowait = true, remap = false },
 			{ "<leader>d", group = "Debug", nowait = true, remap = false },
 			{ "<leader>f", group = "Find", nowait = true, remap = false },
