@@ -40,9 +40,6 @@ return {
 	-- Setup Utilities --
 	---------------------
 
-	-- Closing buffers
-	"famiu/bufdelete.nvim",
-
 	-- auto-save, default config used
 	{
 		"Pocco81/auto-save.nvim",
