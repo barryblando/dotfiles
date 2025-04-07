@@ -119,7 +119,17 @@ M.setup = function()
 	end
 
 	-- https://neovim.io/doc/user/lsp.html
-	vim.lsp.handlers["textDocument/hover"] = custom_handler(vim.lsp.handlers.hover)
+	local hover = vim.lsp.buf.hover
+	-- vim.lsp.handlers["textDocument/hover"] = custom_handler(vim.lsp.buf.hover)
+	vim.lsp.buf.hover = function()
+		---@diagnostic disable-next-line: redundant-parameter
+		return hover({
+			border = icons.ui.Border_Single_Line,
+			-- max_width = 100,
+			max_width = math.floor(vim.o.columns * 0.7),
+			max_height = math.floor(vim.o.lines * 0.7),
+		})
+	end
 	vim.lsp.handlers["textDocument/signatureHelp"] = custom_handler(vim.lsp.buf.signature_help)
 	vim.lsp.handlers["textDocument/definition"] = goto_definition("split")
 
@@ -197,7 +207,7 @@ local lsp_keymaps = function(bufnr)
 	local keymaps = {
 		{ "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", "Buf Definition" },
 		{ "gD", "<cmd>Telescope lsp_definitions<CR>", "LSP Definition" },
-		-- { "K", "<cmd>lua vim.lsp.buf.hover()<CR>" }, -- I put the config in nvim-ufo to include code folding preview
+		{ "K", "<cmd>lua vim.lsp.buf.hover() <CR>", "Hover Documentation" },
 		{ "gI", "<cmd>Telescope lsp_implementations<CR>", "LSP Implementations" },
 		{ "gr", "<cmd>Telescope lsp_references<CR>", "LSP References" },
 		{ "gl", "<cmd>lua vim.diagnostic.open_float(nil, { focusable = false })<CR>", "Open Diagnostic (Float)" },
