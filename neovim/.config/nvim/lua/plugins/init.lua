@@ -145,12 +145,11 @@ return {
 
 	{ "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
 
-	{ "WhoIsSethDaniel/lualine-lsp-progress.nvim", enabled = false },
-
 	-- LSP signature help
 	{
 		"ray-x/lsp_signature.nvim",
 		event = "VeryLazy",
+		enabled = false,
 		opts = {},
 		config = function()
 			local icons = require("utils.icons")
