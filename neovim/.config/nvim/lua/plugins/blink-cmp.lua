@@ -49,6 +49,8 @@ return {
 				return hl
 			end
 
+			local icons = require("utils.icons")
+
 			require("blink.cmp").setup({
 				enabled = is_enabled,
 				keymap = {
@@ -81,7 +83,10 @@ return {
 				},
 
 				appearance = { nerd_font_variant = "mono" },
-				signature = { enabled = true },
+				signature = {
+					enabled = true,
+					window = { show_documentation = false, border = icons.ui.Border_Single_Line },
+				},
 				-- cmdline = { completion = { menu = { auto_show = false } } },
 
 				cmdline = {
