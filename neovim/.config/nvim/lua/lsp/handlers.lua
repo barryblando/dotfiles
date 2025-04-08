@@ -71,18 +71,6 @@ M.setup = function()
 
 	vim.diagnostic.config(config)
 
-	-- Hover rounded border with transparency effect from cmp
-	local function custom_handler(handler)
-		local overrides = { border = icons.ui.Border_Single_Line }
-		return vim.lsp.with(function(...)
-			local buf, winnr = handler(...)
-			if buf then
-				-- use the same transparency effect from cmp
-				vim.api.nvim_set_option_value("winhighlight", "Normal:NormalFloat", { win = winnr })
-			end
-		end, overrides)
-	end
-
 	-- Go-to definition in a split window
 	local function goto_definition(split_cmd)
 		local util = vim.lsp.util
@@ -119,19 +107,23 @@ M.setup = function()
 	end
 
 	-- https://neovim.io/doc/user/lsp.html
-	local hover = vim.lsp.buf.hover
-	-- vim.lsp.handlers["textDocument/hover"] = custom_handler(vim.lsp.buf.hover)
-	vim.lsp.buf.hover = function()
-		---@diagnostic disable-next-line: redundant-parameter
-		return hover({
-			border = icons.ui.Border_Single_Line,
-			-- max_width = 100,
-			max_width = math.floor(vim.o.columns * 0.7),
-			max_height = math.floor(vim.o.lines * 0.7),
-		})
-	end
-	vim.lsp.handlers["textDocument/signatureHelp"] = custom_handler(vim.lsp.buf.signature_help)
 	vim.lsp.handlers["textDocument/definition"] = goto_definition("split")
+
+	local handlers = {
+		hover = vim.lsp.buf.hover,
+		signature_help = vim.lsp.buf.signature_help,
+	}
+
+	for name, original in pairs(handlers) do
+		vim.lsp.buf[name] = function()
+			---@diagnostic disable-next-line: redundant-parameter
+			return original({
+				border = icons.ui.Border_Single_Line,
+				-- max_width = name == "hover" and math.floor(vim.o.columns * 0.7) or nil,
+				-- max_height = name == "hover" and math.floor(vim.o.lines * 0.7) or nil,
+			})
+		end
+	end
 
 	-- wrapped open_float to inspect diagnostics and use the severity color for border
 	-- https://neovim.discourse.group/t/lsp-diagnostics-how-and-where-to-retrieve-severity-level-to-customise-border-color/1679
@@ -268,17 +260,8 @@ M.on_attach = function(client, bufnr)
 		vim.cmd("UfoDetach")
 	end
 
-	-- local client_to_skip = "dockerls cssls bashls" -- clients that navic doesn't support
-	-- if client_to_skip:find(client.name) then
-	-- 	goto continue
-	-- end
-
-	-- ::continue::
 	lsp_keymaps(bufnr)
 	lsp_highlight_document(client)
-	-- if client.name == "tsserver" then
-	--   require("lsp-inlayhints").on_attach(bufnr, client)
-	-- end
 end
 
 return M
