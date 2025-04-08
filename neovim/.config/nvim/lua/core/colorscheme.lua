@@ -33,6 +33,7 @@ vim.cmd([[
   hi HintFloat guibg=NONE
   hi NormalFloat guifg=NONE guibg=NONE
   hi FloatBorder guifg=NONE guibg=NONE
+  hi FloatTitle guifg=NONE guibg=NONE
 ]])
 
 -- disabled annoying bold texthl
