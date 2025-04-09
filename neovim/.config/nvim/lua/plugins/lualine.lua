@@ -306,6 +306,23 @@ return {
 			max_message_length = 30,
 		}
 
+		local inlay_hint_status = function()
+			local bufnr = vim.api.nvim_get_current_buf()
+
+			-- Only show for buffers with LSP attached
+			local clients = vim.lsp.get_clients({ bufnr })
+			if #clients == 0 then
+				return ""
+			end
+
+			local ok, enabled = pcall(vim.lsp.inlay_hint.is_enabled, { bufnr })
+			if not ok then
+				return ""
+			end
+
+			return enabled and " " or "󰛣 " -- or use any icons you like
+		end
+
 		local lazy_status = {
 			require("lazy.status").updates,
 			cond = require("lazy.status").has_updates,
@@ -343,7 +360,7 @@ return {
 				lualine_a = { mode },
 				lualine_b = { branch, diff },
 				lualine_c = { diagnostics }, -- lsp_progress
-				lualine_x = { lazy_status, "lsp_status", formatters, spaces, "encoding", filetype },
+				lualine_x = { lazy_status, inlay_hint_status, "lsp_status", formatters, spaces, "encoding", filetype },
 				lualine_y = { location },
 				lualine_z = { progress },
 			},
