@@ -126,20 +126,36 @@ return {
 				},
 			}
 
-			-- C configurations.
 			dap.adapters.codelldb = {
 				type = "server",
-				host = "localhost",
 				port = "${port}",
 				executable = {
-					command = "codelldb",
+					-- Adjust this path!
+					command = vim.fn.stdpath("data") .. "/mason/bin/codelldb",
 					args = { "--port", "${port}" },
+				},
+			}
+
+			-- RUST config
+			dap.configurations.rust = {
+				{
+					name = "Debug",
+					type = "codelldb",
+					request = "launch",
+					program = function()
+						-- auto-detect binary, will debug crate’s binary without prompting you every time.
+						return vim.fn.getcwd() .. "/target/debug/" .. vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
+					end,
+					cwd = "${workspaceFolder}",
+					stopOnEntry = false,
+					args = {},
+					runInTerminal = false,
 				},
 			}
 
 			-- Add configurations from launch.json
 			require("dap.ext.vscode").load_launchjs(nil, {
-				["codelldb"] = { "c" },
+				["codelldb"] = { "rust" },
 				["pwa-node"] = { "typescript", "javascript" },
 			})
 		end,
