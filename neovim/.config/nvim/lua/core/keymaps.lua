@@ -91,8 +91,9 @@ keymap("x", "<leader>p", '"_dP', opts)
 -- replace
 vim.keymap.set("n", "<leader>r", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Replace" })
 
--- Yanky keymaps
-
+------------------------
+--   YANKY KEYMAPS    --
+------------------------
 function M.setup_yanky_keymaps()
 	return {
 		{ "<leader>p", "<cmd>YankyRingHistory<cr>", mode = { "n", "x" }, desc = "Open Yank History" },
@@ -116,7 +117,81 @@ function M.setup_yanky_keymaps()
 	}
 end
 
--- DAP Keymaps
+------------------------
+--    LSP KEYMAPS     --
+------------------------
+function M.setup_lsp_keymaps(bufnr)
+	local keymap_buf = vim.api.nvim_buf_set_keymap
+	local keymaps = {
+		{ "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", "Buf Definition" },
+		{ "gD", "<cmd>Telescope lsp_definitions<CR>", "LSP Definition" },
+		{ "K", "<cmd>lua vim.lsp.buf.hover() <CR>", "Hover Documentation" },
+		{ "gI", "<cmd>Telescope lsp_implementations<CR>", "LSP Implementations" },
+		{ "gr", "<cmd>Telescope lsp_references<CR>", "LSP References" },
+		{ "gl", "<cmd>lua vim.diagnostic.open_float(nil, { focusable = false })<CR>", "Open Diagnostic (Float)" },
+		{ "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", "Signature Help" },
+		{ "<leader>la", "<cmd>lua require('actions-preview').code_actions()<cr>", "Code Action" },
+		{ "<leader>lf", "<cmd>lua require('conform').format({ async = true })<cr>", "Format" },
+		{ "<leader>lF", "<cmd>LspToggleAutoFormat<cr>", "Toggle Autoformat" },
+		{ "<leader>lh", "<cmd>IlluminateToggle<cr>", "Toggle Doc HL" },
+		{ "<leader>li", "<cmd>LspInfo<cr>", "Info" },
+		{
+			"<leader>ld",
+			"<cmd>Telescope diagnostics bufnr=0<cr>",
+			"Document Diagnostics",
+		},
+		{
+			"<leader>lw",
+			"<cmd>Telescope diagnostics<cr>",
+			"Workspace Diagnostics",
+		},
+		{ "<leader>lj", "<cmd>lua vim.diagnostic.jump({count=1, float=true})<cr>", "Next Diagnostic" },
+		{ "<leader>lk", "<cmd>lua vim.diagnostic.jump({count=-1, float=true})<cr>", "Prev Diagnostic" },
+		{
+			"<leader>ll",
+			"<cmd>lua vim.lsp.codelens.run()<cr>",
+			"CodeLens Action",
+		},
+		{ "<leader>lq", "<cmd>lua vim.diagnostic.setloclist()<CR>", "Quickfix" },
+		{ "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
+		{ "<leader>ls", "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
+		{
+			"<leader>lS",
+			"<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",
+			"Workspace Symbols",
+		},
+	}
+
+	for _, v in ipairs(keymaps) do
+		keymap_buf(bufnr, "n", v[1], v[2], { desc = v[3], nowait = true, noremap = true, silent = true })
+	end
+
+	vim.keymap.set("n", "<leader>lH", function()
+		-- Check if the inlay hint API exists
+		if not vim.lsp.inlay_hint or not vim.lsp.inlay_hint.is_enabled then
+			vim.notify("Inlay hint API not available", vim.log.levels.WARN)
+			return
+		end
+
+		-- Get current enabled state
+		local enabled = vim.lsp.inlay_hint.is_enabled({ bufnr })
+
+		-- Reverse logic: assume inlay is enabled by default, so disable first
+		local new_state = not enabled
+		vim.lsp.inlay_hint.enable(new_state, { bufnr })
+
+		-- Force statusline update
+		vim.cmd("redrawstatus")
+
+		vim.notify("Inlay hints " .. (new_state and "enabled" or "disabled"))
+	end, { desc = "Toggle Inlay Hints" })
+
+	vim.cmd([[ command! Format execute 'lua vim.lsp.buf.format({ async = false })' ]])
+end
+
+------------------------
+--    DAP KEYMAPS     --
+------------------------
 function M.setup_dap_keymaps()
 	return {
 		{
@@ -265,6 +340,9 @@ function M.setup_dap_keymaps()
 	}
 end
 
+------------------------
+-- TOGGLETERM KEYMAPS --
+------------------------
 function M.setup_toggleterm_keymaps()
 	return {
 		{ "<leader>t1", ":1ToggleTerm<cr>", desc = "1", nowait = true, remap = false },
@@ -294,6 +372,9 @@ function M.setup_toggleterm_keymaps()
 	}
 end
 
+------------------------
+--  GITSIGNS KEYMAPS  --
+------------------------
 function M.setup_gitsigns_keymaps()
 	return {
 		{
@@ -372,6 +453,9 @@ function M.setup_gitsigns_keymaps()
 	}
 end
 
+------------------------
+-- TELESCOPE KEYMAPS  --
+------------------------
 function M.setup_telescope_keymaps()
 	return {
 		{ "<leader>fC", "<cmd>Telescope commands<cr>", desc = "Commands", nowait = true, remap = false },
@@ -403,6 +487,9 @@ function M.setup_telescope_keymaps()
 	}
 end
 
+------------------------
+--  HARPOON KEYMAPS   --
+------------------------
 function M.setup_harpoon_keymaps()
 	return {
 		{
