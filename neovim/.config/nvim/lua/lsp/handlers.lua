@@ -191,59 +191,6 @@ local function lsp_highlight_document(client)
 end
 
 ------------------------
---    LSP KEYMAPS     --
-------------------------
-
-local lsp_keymaps = function(bufnr)
-	local keymap = vim.api.nvim_buf_set_keymap
-	local keymaps = {
-		{ "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", "Buf Definition" },
-		{ "gD", "<cmd>Telescope lsp_definitions<CR>", "LSP Definition" },
-		{ "K", "<cmd>lua vim.lsp.buf.hover() <CR>", "Hover Documentation" },
-		{ "gI", "<cmd>Telescope lsp_implementations<CR>", "LSP Implementations" },
-		{ "gr", "<cmd>Telescope lsp_references<CR>", "LSP References" },
-		{ "gl", "<cmd>lua vim.diagnostic.open_float(nil, { focusable = false })<CR>", "Open Diagnostic (Float)" },
-		{ "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", "Signature Help" },
-		{ "<leader>la", "<cmd>lua require('actions-preview').code_actions()<cr>", "Code Action" },
-		{ "<leader>lf", "<cmd>lua require('conform').format({ async = true })<cr>", "Format" },
-		{ "<leader>lF", "<cmd>LspToggleAutoFormat<cr>", "Toggle Autoformat" },
-		{ "<leader>lh", "<cmd>IlluminateToggle<cr>", "Toggle Doc HL" },
-		{ "<leader>li", "<cmd>LspInfo<cr>", "Info" },
-		{
-			"<leader>ld",
-			"<cmd>Telescope diagnostics bufnr=0<cr>",
-			"Document Diagnostics",
-		},
-		{
-			"<leader>lw",
-			"<cmd>Telescope diagnostics<cr>",
-			"Workspace Diagnostics",
-		},
-		{ "<leader>lj", "<cmd>lua vim.diagnostic.jump({count=1, float=true})<cr>", "Next Diagnostic" },
-		{ "<leader>lk", "<cmd>lua vim.diagnostic.jump({count=-1, float=true})<cr>", "Prev Diagnostic" },
-		{
-			"<leader>ll",
-			"<cmd>lua vim.lsp.codelens.run()<cr>",
-			"CodeLens Action",
-		},
-		{ "<leader>lq", "<cmd>lua vim.diagnostic.setloclist()<CR>", "Quickfix" },
-		{ "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
-		{ "<leader>ls", "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
-		{
-			"<leader>lS",
-			"<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",
-			"Workspace Symbols",
-		},
-	}
-
-	for _, v in ipairs(keymaps) do
-		keymap(bufnr, "n", v[1], v[2], { desc = v[3], nowait = true, noremap = true, silent = true })
-	end
-
-	vim.cmd([[ command! Format execute 'lua vim.lsp.buf.format({ async = false })' ]])
-end
-
-------------------------
 --     ON ATTACH      --
 ------------------------
 
@@ -260,7 +207,11 @@ M.on_attach = function(client, bufnr)
 		vim.cmd("UfoDetach")
 	end
 
-	lsp_keymaps(bufnr)
+	if client.server_capabilities.inlayHintProvider then
+		vim.lsp.inlay_hint.enable(true, { bufnr }) -- Enable inlay hints
+	end
+
+	require("core.keymaps").setup_lsp_keymaps(bufnr)
 	lsp_highlight_document(client)
 end
 
