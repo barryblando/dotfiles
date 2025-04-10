@@ -1,267 +1,237 @@
-return {
-	{
-		"saghen/blink.compat",
-		-- use the latest release, via version = '*', if you also use the latest release for blink.cmp
-		version = "*",
-		-- lazy.nvim will automatically load the plugin when it's required by blink.cmp
-		lazy = true,
-		-- make sure to set opts so that lazy.nvim calls blink.compat's setup
-		opts = {},
-	},
-	{
-		"saghen/blink.cmp",
-		-- optional: provides snippets for the snippet source
-		dependencies = {
-			"rafamadriz/friendly-snippets",
-			{ "L3MON4D3/LuaSnip", version = "v2.*" },
-			"bydlw98/blink-cmp-env",
-			{
-				"onsails/lspkind.nvim",
-				opts = {
-					symbol_map = { spell = "󰓆 ", cmdline = " ", markdown = " " },
-				},
+local M = {}
+
+M.config = function()
+	local is_enabled = function()
+		local disabled_ft = {
+			"TelescopePrompt",
+			"grug-far",
+		}
+		return not vim.tbl_contains(disabled_ft, vim.bo.filetype)
+			and vim.b.completion ~= false
+			and vim.bo.buftype ~= "prompt"
+	end
+
+	local function blink_highlight(ctx)
+		local hl = "BlinkCmpKind" .. ctx.kind or require("blink.cmp.completion.windows.render.tailwind").get_hl(ctx)
+		if vim.tbl_contains({ "Path" }, ctx.source_name) then
+			local dev_icon, dev_hl = require("nvim-web-devicons").get_icon(ctx.label)
+			if dev_icon then
+				hl = dev_hl
+			end
+		end
+		return hl
+	end
+
+	local icons = require("utils.icons")
+
+	require("blink.cmp").setup({
+		enabled = is_enabled,
+		keymap = {
+			-- set to 'none' to disable the 'default' preset
+			["<C-k>"] = { "show_signature", "hide_signature", "fallback" },
+			["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
+			["<C-e>"] = { "hide", "fallback" },
+			["<CR>"] = { "accept", "fallback" },
+
+			["<Tab>"] = {
+				function(cmp)
+					return cmp.select_next()
+				end,
+				"snippet_forward",
+				"fallback",
 			},
-
-			-- nvim-cmp sources via blink.compat
-			"chrisgrieser/cmp_yanky",
+			["<S-Tab>"] = {
+				function(cmp)
+					return cmp.select_prev()
+				end,
+				"snippet_backward",
+				"fallback",
+			},
+			["<Up>"] = { "select_prev", "fallback" },
+			["<Down>"] = { "select_next", "fallback" },
+			["<C-p>"] = { "select_prev", "fallback" },
+			["<C-n>"] = { "select_next", "fallback" },
+			["<C-up>"] = { "scroll_documentation_up", "fallback" },
+			["<C-down>"] = { "scroll_documentation_down", "fallback" },
 		},
-		version = "1.*",
-		config = function()
-			local is_enabled = function()
-				local disabled_ft = {
-					"TelescopePrompt",
-					"grug-far",
-				}
-				return not vim.tbl_contains(disabled_ft, vim.bo.filetype)
-					and vim.b.completion ~= false
-					and vim.bo.buftype ~= "prompt"
-			end
 
-			local function blink_highlight(ctx)
-				local hl = "BlinkCmpKind" .. ctx.kind
-					or require("blink.cmp.completion.windows.render.tailwind").get_hl(ctx)
-				if vim.tbl_contains({ "Path" }, ctx.source_name) then
-					local dev_icon, dev_hl = require("nvim-web-devicons").get_icon(ctx.label)
-					if dev_icon then
-						hl = dev_hl
-					end
+		appearance = { nerd_font_variant = "mono" },
+		signature = {
+			enabled = true,
+			window = { show_documentation = false, border = icons.ui.Border_Single_Line },
+		},
+		-- cmdline = { completion = { menu = { auto_show = false } } },
+
+		cmdline = {
+			enabled = true,
+			sources = function()
+				local type = vim.fn.getcmdtype()
+
+				if type == "/" or type == "?" then
+					return { "buffer" }
 				end
-				return hl
-			end
+				if type == ":" or type == "@" then
+					return { "cmdline", "path", "buffer" }
+				end
+				return {}
+			end,
+			completion = {
+				menu = { auto_show = true },
+			},
+		},
 
-			local icons = require("utils.icons")
-
-			require("blink.cmp").setup({
-				enabled = is_enabled,
-				keymap = {
-					-- set to 'none' to disable the 'default' preset
-					["<C-k>"] = { "show_signature", "hide_signature", "fallback" },
-					["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
-					["<C-e>"] = { "hide", "fallback" },
-					["<CR>"] = { "accept", "fallback" },
-
-					["<Tab>"] = {
-						function(cmp)
-							return cmp.select_next()
-						end,
-						"snippet_forward",
-						"fallback",
-					},
-					["<S-Tab>"] = {
-						function(cmp)
-							return cmp.select_prev()
-						end,
-						"snippet_backward",
-						"fallback",
-					},
-					["<Up>"] = { "select_prev", "fallback" },
-					["<Down>"] = { "select_next", "fallback" },
-					["<C-p>"] = { "select_prev", "fallback" },
-					["<C-n>"] = { "select_next", "fallback" },
-					["<C-up>"] = { "scroll_documentation_up", "fallback" },
-					["<C-down>"] = { "scroll_documentation_down", "fallback" },
+		completion = {
+			trigger = { show_on_keyword = true },
+			-- MENU
+			menu = {
+				scrollbar = false,
+				auto_show = is_enabled,
+				border = {
+					{ "󱐋", "WarningMsg" },
+					"─",
+					"┐",
+					"│",
+					"┘",
+					"─",
+					"└",
+					"│",
 				},
-
-				appearance = { nerd_font_variant = "mono" },
-				signature = {
-					enabled = true,
-					window = { show_documentation = false, border = icons.ui.Border_Single_Line },
-				},
-				-- cmdline = { completion = { menu = { auto_show = false } } },
-
-				cmdline = {
-					enabled = true,
-					sources = function()
-						local type = vim.fn.getcmdtype()
-
-						if type == "/" or type == "?" then
-							return { "buffer" }
-						end
-						if type == ":" or type == "@" then
-							return { "cmdline", "path", "buffer" }
-						end
-						return {}
-					end,
-					completion = {
-						menu = { auto_show = true },
+				winhighlight = "Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:None",
+				cmdline_position = function()
+					if vim.g.ui_cmdline_pos ~= nil then
+						local pos = vim.g.ui_cmdline_pos -- (1, 0)-indexed
+						return { pos[1] - 1, pos[2] }
+					end
+					local height = (vim.o.cmdheight == 0) and 1 or vim.o.cmdheight
+					return { vim.o.lines - height, 0 }
+				end,
+				draw = {
+					columns = {
+						{ "kind_icon" },
+						{ "label", "label_description", gap = 1 },
+						-- { "kind" }, -- <- Useful for debugging highlights/completion types.
+						-- { "source_name" }, -- <- Useful for debugging sources.
 					},
-				},
+					components = {
+						kind_icon = {
+							ellipsis = false,
+							text = function(ctx)
+								local lspkind = require("lspkind")
+								local icon = ctx.kind_icon
 
-				completion = {
-					trigger = { show_on_keyword = true },
-					-- MENU
-					menu = {
-						scrollbar = false,
-						auto_show = is_enabled,
-						border = {
-							{ "󱐋", "WarningMsg" },
-							"─",
-							"┐",
-							"│",
-							"┘",
-							"─",
-							"└",
-							"│",
-						},
-						winhighlight = "Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:None",
-						cmdline_position = function()
-							if vim.g.ui_cmdline_pos ~= nil then
-								local pos = vim.g.ui_cmdline_pos -- (1, 0)-indexed
-								return { pos[1] - 1, pos[2] }
-							end
-							local height = (vim.o.cmdheight == 0) and 1 or vim.o.cmdheight
-							return { vim.o.lines - height, 0 }
-						end,
-						draw = {
-							columns = {
-								{ "kind_icon" },
-								{ "label", "label_description", gap = 1 },
-								-- { "kind" }, -- <- Useful for debugging highlights/completion types.
-								-- { "source_name" }, -- <- Useful for debugging sources.
-							},
-							components = {
-								kind_icon = {
-									ellipsis = false,
-									text = function(ctx)
-										local lspkind = require("lspkind")
-										local icon = ctx.kind_icon
+								if vim.tbl_contains({ "path", "copilot" }, ctx.source_name) then
+									local dev_icon, _ = require("nvim-web-devicons").get_icon(ctx.label)
+									if dev_icon then
+										icon = dev_icon
+									end
+								else
+									if vim.tbl_contains({ "spell", "cmdline", "markdown" }, ctx.source_name) then
+										icon = lspkind.symbolic(ctx.source_name, { mode = "symbol" })
+									else
+										icon = lspkind.symbolic(ctx.kind, {
+											mode = "symbol",
+										})
+									end
+								end
 
-										if vim.tbl_contains({ "path", "copilot" }, ctx.source_name) then
-											local dev_icon, _ = require("nvim-web-devicons").get_icon(ctx.label)
-											if dev_icon then
-												icon = dev_icon
-											end
-										else
-											if
-												vim.tbl_contains({ "spell", "cmdline", "markdown" }, ctx.source_name)
-											then
-												icon = lspkind.symbolic(ctx.source_name, { mode = "symbol" })
-											else
-												icon = lspkind.symbolic(ctx.kind, {
-													mode = "symbol",
-												})
-											end
-										end
-
-										return icon .. " "
-									end,
-									highlight = function(ctx)
-										return blink_highlight(ctx)
-									end,
-								},
-								kind = {
-									highlight = function(ctx)
-										return blink_highlight(ctx)
-									end,
-								},
-							},
-						},
-					},
-					-- DOCUMENTATION
-					documentation = {
-						auto_show = true,
-						window = {
-							border = {
-								{ "", "DiagnosticHint" },
-								"─",
-								"┐",
-								"│",
-								"┘",
-								"─",
-								"└",
-								"│",
-							},
-							winhighlight = "Normal:BlinkCmpDoc,FloatBorder:BlinkCmpDocBorder,CursorLine:BlinkCmpDocCursorLine,Search:None",
-						},
-					},
-				},
-
-				snippets = { preset = "luasnip" },
-
-				-- Default list of enabled providers defined so that you can extend it
-				-- elsewhere in your config, without redefining it, due to `opts_extend`
-				sources = {
-					default = { "lazydev", "lsp", "path", "snippets", "buffer", "env", "cmp_yanky" },
-					providers = {
-						cmdline = {
-							-- ignores cmdline completions when executing shell commands
-							enabled = function()
-								return vim.fn.getcmdtype() ~= ":" or not vim.fn.getcmdline():match("^[%%0-9,'<>%-]*!")
+								return icon .. " "
+							end,
+							highlight = function(ctx)
+								return blink_highlight(ctx)
 							end,
 						},
-						buffer = {
-							opts = {
-								-- get all buffers, even ones like neo-tree
-								-- get_bufnrs = vim.api.nvim_list_bufs,
-								-- or (recommended) filter to only "normal" buffers
-								get_bufnrs = function()
-									return vim.tbl_filter(function(bufnr)
-										return vim.bo[bufnr].buftype == ""
-									end, vim.api.nvim_list_bufs())
-								end,
-							},
-						},
-						lazydev = {
-							name = "LazyDev",
-							module = "lazydev.integrations.blink",
-							-- make lazydev completions top priority (see `:h blink.cmp`)
-							score_offset = 100,
-						},
-						env = {
-							name = "Env",
-							module = "blink-cmp-env",
-							opts = {
-								item_kind = require("blink.cmp.types").CompletionItemKind.Variable,
-								show_braces = false,
-								show_documentation_window = true,
-							},
-						},
-						cmp_yanky = {
-							name = "cmp_yanky",
-							module = "blink.compat.source",
-							score_offset = -3,
-
-							-- this table is passed directly to the proxied completion source
-							-- as the `option` field in nvim-cmp's source config
-							--
-							-- this is NOT the same as the opts in a plugin's lazy.nvim spec
-							opts = {
-								-- this is an option from cmp_yanky
-								-- only suggest items which match the current filetype
-								onlyCurrentFiletype = false,
-
-								-- If you'd like to use a `name` that does not exactly match nvim-cmp,
-								-- set `cmp_name` to the name you would use for nvim-cmp, for instance:
-								-- cmp_name = "digraphs"
-								-- then, you can set the source's `name` to whatever you like.
-							},
+						kind = {
+							highlight = function(ctx)
+								return blink_highlight(ctx)
+							end,
 						},
 					},
 				},
+			},
+			-- DOCUMENTATION
+			documentation = {
+				auto_show = true,
+				window = {
+					border = {
+						{ "", "DiagnosticHint" },
+						"─",
+						"┐",
+						"│",
+						"┘",
+						"─",
+						"└",
+						"│",
+					},
+					winhighlight = "Normal:BlinkCmpDoc,FloatBorder:BlinkCmpDocBorder,CursorLine:BlinkCmpDocCursorLine,Search:None",
+				},
+			},
+		},
 
-				fuzzy = { implementation = "prefer_rust_with_warning" },
-			})
-		end,
-		opts_extend = { "sources.default" },
-	},
-}
+		snippets = { preset = "luasnip" },
+
+		-- Default list of enabled providers defined so that you can extend it
+		-- elsewhere in your config, without redefining it, due to `opts_extend`
+		sources = {
+			default = { "lazydev", "lsp", "path", "snippets", "buffer", "env", "cmp_yanky" },
+			providers = {
+				cmdline = {
+					-- ignores cmdline completions when executing shell commands
+					enabled = function()
+						return vim.fn.getcmdtype() ~= ":" or not vim.fn.getcmdline():match("^[%%0-9,'<>%-]*!")
+					end,
+				},
+				buffer = {
+					opts = {
+						-- get all buffers, even ones like neo-tree
+						-- get_bufnrs = vim.api.nvim_list_bufs,
+						-- or (recommended) filter to only "normal" buffers
+						get_bufnrs = function()
+							return vim.tbl_filter(function(bufnr)
+								return vim.bo[bufnr].buftype == ""
+							end, vim.api.nvim_list_bufs())
+						end,
+					},
+				},
+				lazydev = {
+					name = "LazyDev",
+					module = "lazydev.integrations.blink",
+					-- make lazydev completions top priority (see `:h blink.cmp`)
+					score_offset = 100,
+				},
+				env = {
+					name = "Env",
+					module = "blink-cmp-env",
+					opts = {
+						item_kind = require("blink.cmp.types").CompletionItemKind.Variable,
+						show_braces = false,
+						show_documentation_window = true,
+					},
+				},
+				cmp_yanky = {
+					name = "cmp_yanky",
+					module = "blink.compat.source",
+					score_offset = -3,
+
+					-- this table is passed directly to the proxied completion source
+					-- as the `option` field in nvim-cmp's source config
+					--
+					-- this is NOT the same as the opts in a plugin's lazy.nvim spec
+					opts = {
+						-- this is an option from cmp_yanky
+						-- only suggest items which match the current filetype
+						onlyCurrentFiletype = false,
+
+						-- If you'd like to use a `name` that does not exactly match nvim-cmp,
+						-- set `cmp_name` to the name you would use for nvim-cmp, for instance:
+						-- cmp_name = "digraphs"
+						-- then, you can set the source's `name` to whatever you like.
+					},
+				},
+			},
+		},
+
+		fuzzy = { implementation = "prefer_rust_with_warning" },
+	})
+end
+
+return M
