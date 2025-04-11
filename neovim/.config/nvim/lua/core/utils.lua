@@ -56,11 +56,11 @@ end
 
 function M.collect_specs(excluded_dirs)
 	local specs = {}
-	local root = vim.fn.stdpath("config") .. "/lua/lazyp"
+	local root = vim.fn.stdpath("config") .. "/lua/lazy"
 	local plugin_files = vim.fn.globpath(root, "**/*.lua", false, true)
 
 	for _, file in ipairs(plugin_files) do
-		if not file:match("/lazyp/init%.lua$") then
+		if not file:match("/lazy/init%.lua$") then
 			-- exclude full paths that include any excluded pattern
 			local exclude = false
 			for _, pattern in ipairs(excluded_dirs) do

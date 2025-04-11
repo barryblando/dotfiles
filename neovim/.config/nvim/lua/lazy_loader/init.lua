@@ -28,7 +28,7 @@ vim.g.maplocalleader = " "
 local icons = require("core.icons")
 
 local excluded_dirs = {
-	"lsp/servers",
+	"lsp",
 }
 
 -- Install your plugins here
