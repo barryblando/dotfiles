@@ -144,22 +144,24 @@ local spaces = function()
 	return "Spaces: " .. vim.api.nvim_buf_get_option(0, "shiftwidth")
 end
 
-local inlay_hint_status = function()
-	local bufnr = vim.api.nvim_get_current_buf()
+local inlay_hint_status = {
+	function()
+		local bufnr = vim.api.nvim_get_current_buf()
 
-	-- Only show for buffers with LSP attached
-	local clients = vim.lsp.get_clients({ bufnr })
-	if #clients == 0 then
-		return ""
-	end
+		-- Only show for buffers with LSP attached
+		local clients = vim.lsp.get_clients({ bufnr })
+		if #clients == 0 then
+			return ""
+		end
 
-	local ok, enabled = pcall(vim.lsp.inlay_hint.is_enabled, { bufnr })
-	if not ok then
-		return ""
-	end
+		local ok, enabled = pcall(vim.lsp.inlay_hint.is_enabled, { bufnr })
+		if not ok then
+			return ""
+		end
 
-	return enabled and " " or "󰛣 " -- or use any icons you like
-end
+		return enabled and "󰌵 " or "󰹏 "
+	end,
+}
 
 local lazy_status = {
 	require("lazy.status").updates,
@@ -230,7 +232,7 @@ M.config = function()
 				{ "%{%v:lua.dropbar()%}", separator = { left = "", right = "" }, color = "nil" },
 			},
 		},
-		extensions = { "neo-tree", "toggleterm", "trouble", "lazy", "nvim-dap-ui", "mason", "quickfix" },
+		extensions = { "neo-tree", "oil", "toggleterm", "trouble", "lazy", "nvim-dap-ui", "mason", "quickfix" },
 	})
 end
 
