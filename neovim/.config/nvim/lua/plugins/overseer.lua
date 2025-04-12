@@ -16,7 +16,7 @@ end
 
 M.opts = {
 	-- Setup DAP later when lazy-loading the plugin.
-	dap = false,
+	dap = true,
 	task_list = {
 		default_detail = 2,
 		direction = "bottom",
@@ -26,6 +26,8 @@ M.opts = {
 			["<C-f>"] = "ScrollOutputDown",
 			["H"] = "IncreaseAllDetail",
 			["L"] = "DecreaseAllDetail",
+			["<CR>"] = "RunAction",
+			["<C-x>"] = "Terminate",
 			-- Disable mappings I don't use.
 			["g?"] = false,
 			["<C-l>"] = false,
