@@ -1,5 +1,3 @@
--- lua/lazy/debug/dap.lua
-
 local icons = require("core.icons")
 
 for name, sign in pairs(icons.dap) do
