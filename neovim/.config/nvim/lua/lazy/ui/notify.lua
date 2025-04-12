@@ -7,7 +7,7 @@ return {
 			return
 		end
 
-		local icons = require("utils.icons")
+		local icons = require("core.icons")
 
 		notify.setup({
 			-- Animation style (see below for details)

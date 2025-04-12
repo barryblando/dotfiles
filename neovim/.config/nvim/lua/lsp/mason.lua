@@ -8,7 +8,7 @@ if not mlsp_status_ok then
 	return
 end
 
-local icons = require("utils.icons")
+local icons = require("core.icons")
 
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 local servers = {

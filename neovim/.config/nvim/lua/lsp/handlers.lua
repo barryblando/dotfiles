@@ -37,7 +37,7 @@ M.capabilities = vim.tbl_deep_extend("force", capabilities, {
 ------------------------
 
 M.setup = function()
-	local icons = require("utils.icons")
+	local icons = require("core.icons")
 
 	local signs = {
 		text = {
