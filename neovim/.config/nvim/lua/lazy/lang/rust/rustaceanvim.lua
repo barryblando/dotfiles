@@ -3,7 +3,7 @@ return {
 	version = "^5", -- Recommended
 	ft = { "rust" },
 	config = function()
-		local icons = require("utils.icons")
+		local icons = require("core.icons")
 		vim.g.rustaceanvim = {
 			tools = {
 				float_win_config = {
