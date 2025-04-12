@@ -2,7 +2,7 @@ local M = {}
 
 M.opts = function()
 	local menu_utils = require("dropbar.utils.menu")
-	local icons = require("utils.icons")
+	local icons = require("core.icons")
 
 	-- Closes all the windows in the current dropbar.
 	local function close()

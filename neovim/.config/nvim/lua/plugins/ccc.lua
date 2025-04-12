@@ -10,7 +10,7 @@ local colored_fts = {
 
 M.opts = function()
 	local ccc = require("ccc")
-	local icons = require("utils.icons")
+	local icons = require("core.icons")
 	-- Use uppercase for hex codes.
 	ccc.output.hex.setup({ uppercase = true })
 	ccc.output.hex_short.setup({ uppercase = true })

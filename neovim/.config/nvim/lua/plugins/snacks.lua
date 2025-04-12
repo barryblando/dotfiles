@@ -31,7 +31,7 @@ M.keys = function()
 end
 
 M.config = function()
-	local icons = require("utils.icons")
+	local icons = require("core.icons")
 	require("snacks").setup({
 		input = {
 			enabled = true,

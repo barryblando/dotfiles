@@ -1,7 +1,7 @@
 local M = {}
 
 M.config = function()
-	local icons = require("utils.icons")
+	local icons = require("core.icons")
 
 	-- local gs = package.loaded.gitsigns
 

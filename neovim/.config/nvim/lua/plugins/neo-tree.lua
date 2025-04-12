@@ -23,7 +23,7 @@ M.config = function()
 		end
 	end
 
-	local icons = require("utils.icons")
+	local icons = require("core.icons")
 
 	local function on_move(data)
 		Snacks.rename.on_rename_file(data.source, data.destination)

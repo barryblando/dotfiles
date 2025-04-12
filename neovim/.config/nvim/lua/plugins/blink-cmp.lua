@@ -22,7 +22,7 @@ M.config = function()
 		return hl
 	end
 
-	local icons = require("utils.icons")
+	local icons = require("core.icons")
 
 	require("blink.cmp").setup({
 		enabled = is_enabled,

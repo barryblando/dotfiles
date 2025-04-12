@@ -6,7 +6,7 @@ M.config = function()
 		return
 	end
 
-	local icons = require("utils.icons")
+	local icons = require("core.icons")
 
 	local error_red = "#F44747"
 	local warning_orange = "#ff8800"

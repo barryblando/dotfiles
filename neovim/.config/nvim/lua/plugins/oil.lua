@@ -1,7 +1,7 @@
 local M = {}
 
 M.opts = function()
-	local icons = require("utils.icons")
+	local icons = require("core.icons")
 	local opts = {
 		default_file_explorer = true,
 		use_default_keymaps = false,

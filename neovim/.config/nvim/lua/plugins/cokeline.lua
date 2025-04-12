@@ -7,7 +7,7 @@ M.config = function()
 		return
 	end
 
-	local icons = require("utils.icons")
+	local icons = require("core.icons")
 	local ns = vim.api.nvim_create_namespace("cokeline_diagnostics")
 
 	local get_hl_attr = require("cokeline.hlgroups").get_hl_attr
