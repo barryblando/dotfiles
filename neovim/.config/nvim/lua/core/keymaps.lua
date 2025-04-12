@@ -104,6 +104,19 @@ end
 function M.setup_dap_keymaps()
 	return {
 		{
+			"<leader>dd",
+			function()
+				require("overseer").run_template({}, function(task)
+					if task then
+						require("plugins.overseer").open_and_close()
+						-- Start debugging after task is started
+						require("dap").continue()
+					end
+				end)
+			end,
+			desc = "[d]ebug with task",
+		},
+		{
 			-- "<leader>db",
 			".",
 			function()
@@ -229,6 +242,17 @@ function M.setup_dap_keymaps()
 				require("dap").terminate()
 			end,
 			desc = "[d]ebug [t]erminate",
+		},
+		{
+			"<leader>dT",
+			function()
+				local dap = require("dap")
+				local dapui = require("dapui")
+				dap.terminate()
+				dap.disconnect()
+				dapui.close()
+			end,
+			desc = "[d]ebug Force [T]erminate",
 		},
 		{
 			"<leader>du",
