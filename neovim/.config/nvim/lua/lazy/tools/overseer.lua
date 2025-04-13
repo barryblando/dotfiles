@@ -2,7 +2,8 @@
 return {
 	{
 		"stevearc/overseer.nvim",
-		opts = require("plugins.overseer").opts,
+		init = require("plugins.overseer").init,
 		keys = require("plugins.overseer").keys,
+		config = require("plugins.overseer").config,
 	},
 }
