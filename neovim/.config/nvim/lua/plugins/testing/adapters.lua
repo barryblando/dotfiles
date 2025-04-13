@@ -3,7 +3,15 @@ return {
 		args = { "--no-capture" },
 		dap_adapter = "codelldb",
 		-- Enable cargo-nextest
-		cargo_args = { "nextest", "run", "--no-fail-fast" },
+		-- cargo_args = { "nextest", "run", "--no-fail-fast" },
+		cargo_args = { "--all-features" },
+		use_nextest = true,
+		env = {
+			-- Enable source-based coverage
+			CARGO_INCREMENTAL = "0",
+			RUSTFLAGS = "-C instrument-coverage",
+			LLVM_PROFILE_FILE = "coverage-%p-%m.profraw",
+		},
 		-- Optional: override how output is read (required if nextest output parsing changes)
 	}),
 	require("neotest-go")({
