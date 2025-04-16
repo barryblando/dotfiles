@@ -145,7 +145,7 @@ config.ssh_domains = {
 		-- Due to the way that ssh works, you cannot specify default_cwd,
 		-- but you could instead change your default_prog to put you
 		-- in a specific directory.
-		default_prog = { 'zsh' },
+		default_prog = { 'fish' },
 
 		-- assume that we can use syntax like:
 		-- "env -C /some/where $SHELL"
