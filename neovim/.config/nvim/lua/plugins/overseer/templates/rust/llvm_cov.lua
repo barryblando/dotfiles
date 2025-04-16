@@ -1,5 +1,5 @@
 return {
-	name = "Generate LLVM_COV report",
+	name = "LLVM_COV Report",
 	desc = "Generate coverage report using llvm-cov",
 	builder = function()
 		return {
