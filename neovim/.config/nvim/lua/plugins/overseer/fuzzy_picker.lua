@@ -20,35 +20,6 @@ M.pick_template_for_filetype = function()
 		return
 	end
 
-	-- pickers
-	-- 	.new({}, {
-	-- 		prompt_title = "Overseer Task Templates (" .. ft .. ")",
-	-- 		finder = finders.new_table({
-	-- 			results = templates,
-	-- 			entry_maker = function(entry)
-	-- 				return {
-	-- 					value = entry,
-	-- 					display = entry.desc or entry.name or "Unnamed Template",
-	-- 					ordinal = (entry.name or "") .. " " .. (entry.desc or ""),
-	-- 				}
-	-- 			end,
-	-- 		}),
-	-- 		sorter = conf.generic_sorter({}),
-	-- 		attach_mappings = function(prompt_bufnr, _) -- (prompt_bufnr, map)
-	-- 			actions.select_default:replace(function()
-	-- 				local selection = action_state.get_selected_entry()
-	-- 				actions.close(prompt_bufnr)
-	-- 				if selection and selection.value then
-	-- 					overseer.run_template(selection.value)
-	-- 				else
-	-- 					vim.notify("No template selected", vim.log.levels.WARN)
-	-- 				end
-	-- 			end)
-	-- 			return true
-	-- 		end,
-	-- 	})
-	-- 	:find()
-
 	pickers
 		.new({}, {
 			prompt_title = "Overseer Task Templates (" .. ft .. ")",
