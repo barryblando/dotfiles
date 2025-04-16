@@ -6,8 +6,14 @@
 # if test -t 1; then
 #    exec zsh
 # fi
-if [[ -t 1 && -x /usr/bin/zsh ]]; then
-    exec /usr/bin/zsh
+
+# if [[ -t 1 && -x /usr/bin/zsh ]]; then
+#    exec /usr/bin/zsh
+# fi
+
+# Launch Fish shell if interactive and not already in Fish
+if [ -t 1 ] && [ "$SHELL" != "$(which fish)" ]; then
+  exec fish
 fi
 
 # If not running interactively, don't do anything
