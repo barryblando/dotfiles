@@ -46,3 +46,4 @@ demo-install
 lazygit/.config/lazygit/state.yml
 .luarc.json
 btop/.config/btop/btop.log
+neovim/.config/nvim/.env
