@@ -271,7 +271,7 @@ M.config = function(_, dashboard)
 				{ type = "padding", val = 2 },
 				{
 					type = "text",
-					val = stats.loaded .. "/" .. stats.count .. " plugins loaded in " .. ms .. "ms",
+					val = "⚡" .. stats.loaded .. "/" .. stats.count .. " plugins loaded in " .. ms .. "ms",
 					opts = { hl = "AlphaFooter", position = "center" },
 				},
 			})
