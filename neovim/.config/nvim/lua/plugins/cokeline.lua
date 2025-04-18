@@ -174,7 +174,7 @@ M.config = function()
 			max_buffer_width = 30,
 		},
 		components = {
-			components.space,
+			-- components.space,
 			-- components.devicon,
 			-- components.space,
 			-- components.index,
@@ -188,7 +188,7 @@ M.config = function()
 			-- components.space,
 			components.close_or_unsaved,
 			components.is_readonly,
-			-- components.space,
+			components.space,
 		},
 	})
 end
