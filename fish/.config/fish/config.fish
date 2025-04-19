@@ -2,8 +2,8 @@
 set -g fish_greeting
 if status is-login
     and status is-interactive
-    if type -q neofetch
-        neofetch
+    if type -q fastfetch
+        fastfetch
     end
 end
 
