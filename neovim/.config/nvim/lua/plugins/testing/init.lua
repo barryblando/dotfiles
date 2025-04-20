@@ -63,13 +63,14 @@ function M.keys()
 
 		vim.defer_fn(function()
 			if ft == "rust" then
-				-- vim.cmd("TestCoverageRust")
 				overseer.run_template({ name = "Generate LLVM_COV report" })
 				coverage.load(true)
 				-- require("lualine").refresh()
 			elseif ft == "go" then
+				-- TODO: Make template coverage for Go
 				coverage.load("coverage.out")
 			elseif ft == "typescript" then
+				-- TODO: Make template coverage for Typescript/JavaScript
 				coverage.load("coverage/lcov.info")
 			end
 			coverage.show()
@@ -230,16 +231,6 @@ function M.config()
 			covered = { hl = "CoverageCovered", text = "┃" },
 			uncovered = { hl = "CoverageUncovered", text = "┃" },
 		},
-		-- highlights = {
-		-- 	covered = "CoverageCoveredLine",
-		-- 	uncovered = "CoverageUncoveredLine",
-		-- },
-		-- virtual_text = {
-		-- 	position = "eol",
-		-- 	format = function(entry)
-		-- 		return entry.covered and "✔" or "✘"
-		-- 	end,
-		-- },
 		summary = {
 			width_percentage = 0.75,
 			height_percentage = 0.5,
