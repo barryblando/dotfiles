@@ -108,24 +108,43 @@ M.config = function()
 					"add",
 					config = { show_path = "absolute" },
 				},
-				["h"] = function(state)
-					local node = state.tree:get_node()
-					if node.type == "directory" and node:is_expanded() then
-						require("neo-tree.sources.filesystem").toggle_directory(state, node)
-					else
-						require("neo-tree.ui.renderer").focus_node(state, node:get_parent_id())
-					end
-				end,
-				["l"] = function(state)
-					local node = state.tree:get_node()
-					if node.type == "directory" then
-						if not node:is_expanded() then
+				["h"] = {
+					function(state)
+						local node = state.tree:get_node()
+						if node.type == "directory" and node:is_expanded() then
 							require("neo-tree.sources.filesystem").toggle_directory(state, node)
-						elseif node:has_children() then
-							require("neo-tree.ui.renderer").focus_node(state, node:get_child_ids()[1])
+						else
+							require("neo-tree.ui.renderer").focus_node(state, node:get_parent_id())
 						end
-					end
-				end,
+					end,
+					desc = "Condense Directory",
+				},
+				["l"] = {
+					function(state)
+						local node = state.tree:get_node()
+						if node.type == "directory" then
+							if not node:is_expanded() then
+								require("neo-tree.sources.filesystem").toggle_directory(state, node)
+							elseif node:has_children() then
+								require("neo-tree.ui.renderer").focus_node(state, node:get_child_ids()[1])
+							end
+						end
+					end,
+					desc = "Expand Directory",
+				},
+				["z"] = {
+					function(state)
+						-- local path = state.tree:get_node().path
+						-- require("grug-far").open({ prefills = { paths = path } })
+						local node = state.tree:get_node()
+						if not node then
+							return
+						end
+						local path = vim.fn.fnamemodify(node.path, ":p:h") -- parent dir of file or dir
+						require("grug-far").open({ prefills = { paths = path } })
+					end,
+					desc = "Grug-Far Search & Replace",
+				},
 			},
 		},
 		filesystem = {
