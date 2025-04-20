@@ -169,6 +169,23 @@ local lazy_status = {
 	color = { fg = "#ff9e64" },
 }
 
+local dap_status = function()
+	local dap = require("dap")
+	if dap.session() then
+		return " DAP Active"
+	end
+	return ""
+end
+
+local dap_controls = function()
+	local dap = require("dap")
+	if not dap.session() then
+		return ""
+	end
+
+	return " F5  F6  F7  F8  F9"
+end
+
 M.config = function()
 	local status_ok, lualine = pcall(require, "lualine")
 
@@ -206,8 +223,17 @@ M.config = function()
 		sections = {
 			lualine_a = { mode },
 			lualine_b = { branch, diff },
-			lualine_c = { diagnostics }, -- lsp_progress
-			lualine_x = { lazy_status, inlay_hint_status, "lsp_status", formatters, spaces, "encoding", filetype },
+			lualine_c = { diagnostics, dap_status }, -- lsp_progress
+			lualine_x = {
+				dap_controls,
+				lazy_status,
+				inlay_hint_status,
+				"lsp_status",
+				formatters,
+				spaces,
+				"encoding",
+				filetype,
+			},
 			lualine_y = { location },
 			lualine_z = { progress },
 		},
