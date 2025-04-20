@@ -117,8 +117,8 @@ function M.setup_dap_keymaps()
 			desc = "[d]ebug with task",
 		},
 		{
-			-- "<leader>db",
-			".",
+			"<leader>db",
+			-- ".",
 			function()
 				require("dap").toggle_breakpoint()
 			end,
@@ -159,20 +159,21 @@ function M.setup_dap_keymaps()
 			end,
 			desc = "Debug | Step Out",
 		},
-		{
-			"<F9>",
-			function()
-				require("dap").step_back()
-			end,
-			desc = "Debug | Step Back",
-		},
-		{
-			"<F10>",
-			function()
-				require("dap").restart()
-			end,
-			desc = "Debug | Restart",
-		},
+		-- INFO: Disable step back and restart, dap adapters I use doesn't support time travel debugging
+		-- {
+		-- 	"<F9>",
+		-- 	function()
+		-- 		require("dap").step_back()
+		-- 	end,
+		-- 	desc = "Debug | Step Back",
+		-- },
+		-- {
+		-- 	"<leader>dR",
+		-- 	function()
+		-- 		require("dap").restart()
+		-- 	end,
+		-- 	desc = "Debug | Restart",
+		-- },
 		{
 			"<leader>dC",
 			function()
@@ -220,7 +221,7 @@ function M.setup_dap_keymaps()
 			function()
 				require("dap").repl.toggle()
 			end,
-			desc = "[d]ebug [r]epl",
+			desc = "[d]ebug toggle [r]epl",
 		},
 		{
 			"<leader>dc",
@@ -244,7 +245,7 @@ function M.setup_dap_keymaps()
 			desc = "[d]ebug [t]erminate",
 		},
 		{
-			"<leader>dT",
+			"<F9>",
 			function()
 				local dap = require("dap")
 				local dapui = require("dapui")
