@@ -21,6 +21,7 @@ M.config = function()
 		"proto",
 		"css",
 		"scss",
+		"powershell",
 	}
 
 	configs.setup({
@@ -49,6 +50,7 @@ M.config = function()
 			"query",
 			"regex",
 			"kdl",
+			"powershell",
 		},
 		sync_install = false, -- install languages synchronously (only applied to `ensure_installed`)
 		ignore_install = { "" }, -- List of parsers to ignore installing
