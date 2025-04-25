@@ -39,11 +39,10 @@ luac.out
 *.x86_64
 *.hex
 
-neovim/.config/nvim/plugin
 # add experiment demo-install. will remove later in gitignore
 demo-install
 
 lazygit/.config/lazygit/state.yml
 .luarc.json
 btop/.config/btop/btop.log
-neovim/.config/nvim/.env
+nvim/.config/nvim/.env
