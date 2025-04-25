@@ -118,15 +118,10 @@ local formatters = {
 local location = {
 	"location",
 	padding = 0,
-	fmt = function(str)
-		local currentLine = vim.fn.line(".")
-		local space = ""
-
-		if currentLine >= 100 or currentLine >= 1000 then
-			space = " "
-		end
-
-		return " " .. space .. str .. " "
+	fmt = function(_)
+		local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+		local space = " "
+		return " " .. row .. ":" .. col + 1 .. space .. " "
 	end,
 }
 
@@ -227,7 +222,6 @@ M.config = function()
 			lualine_x = {
 				dap_controls,
 				lazy_status,
-				inlay_hint_status,
 				"lsp_status",
 				formatters,
 				spaces,
@@ -235,7 +229,7 @@ M.config = function()
 				filetype,
 			},
 			lualine_y = { location },
-			lualine_z = { progress },
+			lualine_z = { inlay_hint_status, progress },
 		},
 		inactive_sections = {
 			lualine_a = {},
