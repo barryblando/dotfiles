@@ -36,7 +36,7 @@ M.opts = function()
 		if hl_option_type == "string" then
 			table.insert(fb_hl, { nvim_web_devicons.highlight, 0, 1 })
 		end
-		ico_txt = ico .. "  "
+		ico_txt = ico .. "   "
 
 		local file_button_el = dashboard.button(sc, ico_txt .. short_fn, "<cmd>e " .. fn .. " <CR>")
 		local fn_start = short_fn:match(".*/")
