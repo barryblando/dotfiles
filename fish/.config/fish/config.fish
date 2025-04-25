@@ -9,6 +9,9 @@ end
 
 # Load environment variables and PATH
 set -gx PATH /home/linuxbrew/.linuxbrew/bin /home/linuxbrew/.linuxbrew/sbin $PATH
+set -gx HOMEBREW_PREFIX /home/linuxbrew/.linuxbrew
+set -gx HOMEBREW_CELLAR /home/linuxbrew/.linuxbrew/Cellar
+set -gx HOMEBREW_REPOSITORY /home/linuxbrew/.linuxbrew/Homebrew
 
 # Load other env vars
 source ~/.config/fish/functions/env.fish
