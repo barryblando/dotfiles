@@ -4,7 +4,7 @@ return {
 	-- You can restore sessions when returning through the dashboard.
 	{
 		"rmagatti/auto-session",
-		lazy = true,
+		lazy = false,
 		keys = require("plugins.auto-session").keys,
 		init = require("plugins.auto-session").init,
 		config = require("plugins.auto-session").config,
