@@ -61,7 +61,16 @@ M.config = function(_, opts)
 		{
 			"<leader>/",
 			'<cmd>lua require("Comment.api").toggle.linewise.current()<CR>',
+			icon = { icon = "󱀡 " },
 			desc = "Comment",
+			nowait = true,
+			remap = false,
+		},
+		{
+			"<leader>a",
+			"<cmd>Alpha<cr>",
+			icon = { icon = "󱠏 " },
+			desc = "Alpha Screen",
 			nowait = true,
 			remap = false,
 		},
@@ -69,11 +78,37 @@ M.config = function(_, opts)
 		{
 			"<leader>P",
 			"<cmd>lua require('telescope').extensions.projects.projects()<cr>",
+			icon = { icon = " " },
 			desc = "Projects",
 			nowait = true,
 			remap = false,
 		},
-		{ "<leader>e", "<cmd>Neotree reveal<cr>", desc = "Explorer", nowait = true, remap = false },
+		{
+			"<leader>e",
+			"<cmd>Neotree reveal<cr>",
+			icon = { icon = "󱏒 " },
+			desc = "File Explorer (Neo-Tree)",
+			nowait = true,
+			remap = false,
+		},
+		{
+			"<leader>-",
+			function()
+				require("oil").open_float()
+			end,
+			icon = { icon = "󰙅 " },
+			desc = "Edit FileSystem (Oil)",
+			nowait = true,
+			remap = false,
+		},
+		{
+			"<leader>w",
+			function()
+				require("dropbar.api").pick()
+			end,
+			icon = { icon = " " },
+			desc = "Winbar pick (Dropbar)",
+		},
 		{
 			"<leader>q",
 			'<cmd>lua require("core.utils").smart_quit()<CR>',
@@ -104,13 +139,13 @@ M.config = function(_, opts)
 		{ "<leader>d", group = "Debug", nowait = true, remap = false },
 		{ "<leader>f", group = "Find", nowait = true, remap = false },
 		{ "<leader>g", group = "Git", nowait = true, remap = false },
-		{ "<leader>l", group = "LSP", nowait = true, remap = false },
+		{ "<leader>l", group = "LSP", icon = { icon = "󰒋 " }, nowait = true, remap = false },
 		{ "<leader>n", group = "Noice", nowait = true, remap = false },
 	})
 
 	-- Options
 	wk.add({
-		{ "<leader>O", group = "Options", nowait = true, remap = false },
+		{ "<leader>O", group = "Options", icon = { icon = " " }, nowait = true, remap = false },
 		{
 			"<leader>OC",
 			"<cmd>lua vim.g.cmp_active=true<cr>",
@@ -157,11 +192,11 @@ M.config = function(_, opts)
 	})
 
 	-- Overseer
-	wk.add({ { "<leader>o", group = "Overseer", nowait = true, remap = false } })
+	wk.add({ { "<leader>o", group = "Overseer", icon = { icon = " " }, nowait = true, remap = false } })
 
 	-- Window Split
 	wk.add({
-		{ "<leader>s", group = "Split", nowait = true, remap = false },
+		{ "<leader>s", group = "Split", icon = { icon = " " }, nowait = true, remap = false },
 		{ "<leader>ss", "<cmd>split<cr>", desc = "HSplit", nowait = true, remap = false },
 		{ "<leader>sv", "<cmd>vsplit<cr>", desc = "VSplit", nowait = true, remap = false },
 	})
@@ -172,7 +207,7 @@ M.config = function(_, opts)
 	})
 
 	-- Trouble
-	wk.add({ { "<leader>x", group = "Trouble", nowait = true, remap = false } })
+	wk.add({ { "<leader>x", group = "Trouble", icon = { icon = " ", color = "red" }, nowait = true, remap = false } })
 end
 
 return M
