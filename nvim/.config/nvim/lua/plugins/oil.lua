@@ -35,7 +35,7 @@ M.opts = function()
 		["q"] = "actions.close",
 		["<C-l>"] = "actions.refresh",
 		["<BS>"] = "actions.parent",
-		["-"] = "actions.open_cwd",
+		-- ["-"] = "actions.open_cwd",
 		["`"] = "actions.cd",
 		["~"] = { "actions.cd", opts = { scope = "tab" }, desc = ":tcd to the current oil directory" },
 		["gs"] = "actions.change_sort",
