@@ -252,7 +252,7 @@ M.config = function()
 				{ "%{%v:lua.dropbar()%}", separator = { left = "", right = "" }, color = "nil" },
 			},
 		},
-		extensions = { "neo-tree", "oil", "toggleterm", "trouble", "lazy", "nvim-dap-ui", "mason", "quickfix" },
+		extensions = { "fzf", "neo-tree", "oil", "toggleterm", "trouble", "lazy", "nvim-dap-ui", "mason", "quickfix" },
 	})
 end
 
