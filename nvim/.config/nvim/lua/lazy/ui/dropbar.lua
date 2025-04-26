@@ -4,15 +4,6 @@ return {
 		"nvim-telescope/telescope-fzf-native.nvim",
 	},
 	-- event = "VeryLazy",
-	keys = {
-		{
-			"<leader>w",
-			function()
-				require("dropbar.api").pick()
-			end,
-			desc = "Winbar pick",
-		},
-	},
 	init = function()
 		vim.ui.select = require("dropbar.utils.menu").select
 	end,
