@@ -55,7 +55,7 @@ M.keys = function()
 			function()
 				require("plugins.overseer.fuzzy_picker").pick_template_for_filetype()
 			end,
-			desc = "Run Task Template (Telescope)",
+			desc = "Run Task Template (Fzf-Lua)",
 		},
 		{
 			"<leader>ow",
