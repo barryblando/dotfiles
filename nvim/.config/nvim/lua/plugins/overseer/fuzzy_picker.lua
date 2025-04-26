@@ -61,7 +61,8 @@ M.pick_template_for_filetype = function()
 		},
 		fzf_opts = {
 			["--ansi"] = true,
-			["--preview-window"] = "up:60%",
+			["--preview-window"] = "up:60%,noborder",
+			["--border"] = "sharp",
 			["--preview"] = {
 				type = "cmd",
 				fn = function(items)
@@ -85,6 +86,7 @@ M.pick_template_for_filetype = function()
 					local escaped = vim.tbl_map(function(line)
 						return line:gsub('"', '\\"')
 					end, plines)
+					-- return string.format('printf "%s"', table.concat(escaped, "\\n"))
 					return string.format(
 						'echo "%s" | bat --language=lua --style=plain --color=always',
 						table.concat(escaped, "\\n")
@@ -93,10 +95,11 @@ M.pick_template_for_filetype = function()
 			},
 		},
 		winopts = {
+			border = "none",
 			height = 0.4,
 			width = 0.6,
 			preview = {
-				border = icons.ui.Border_Single_Line,
+				default = "bat",
 				layout = "vertical",
 				vertical = "up:60%",
 			},
