@@ -1,11 +1,8 @@
 local M = {}
 local template_loader = require("plugins.overseer.template_loader")
 local overseer = require("overseer")
-local pickers = require("telescope.pickers")
-local finders = require("telescope.finders")
-local actions = require("telescope.actions")
-local action_state = require("telescope.actions.state")
-local conf = require("telescope.config").values
+local fzf = require("fzf-lua")
+local icons = require("core.icons")
 
 M.pick_template_for_filetype = function()
 	local ft = vim.bo.filetype
@@ -20,58 +17,91 @@ M.pick_template_for_filetype = function()
 		return
 	end
 
-	pickers
-		.new({}, {
-			prompt_title = "Overseer Task Templates (" .. ft .. ")",
-			finder = finders.new_table({
-				results = templates,
-				entry_maker = function(entry)
-					local cmd_preview = ""
-					if type(entry.builder) == "function" then
-						local ok, result = pcall(entry.builder)
-						if ok and type(result) == "table" then
-							local cmd = result.cmd or ""
-							local args = result.args or {}
+	-- Create simple list of strings
+	local lines = {}
+	local lookup = {}
 
-							-- Handle if cmd is a string or a table
-							local cmd_str = type(cmd) == "table" and table.concat(cmd, " ") or tostring(cmd)
-							local args_str = table.concat(args, " ")
-							cmd_preview = string.format("%s %s", cmd_str, args_str)
-						end
-					end
+	for _, entry in ipairs(templates) do
+		local cmd_preview = ""
+		if type(entry.builder) == "function" then
+			local ok, result = pcall(entry.builder)
+			if ok and type(result) == "table" then
+				local cmd = result.cmd or ""
+				local args = result.args or {}
+				local cmd_str = type(cmd) == "table" and table.concat(cmd, " ") or tostring(cmd)
+				local args_str = table.concat(args, " ")
+				cmd_preview = string.format("%s %s", cmd_str, args_str)
+			end
+		end
 
-					local icon = "⚙️"
-					local name = entry.name or "Unnamed"
-					local desc = entry.desc or ""
-					return {
-						value = entry,
-						display = string.format("%s %s [%s]", icon, name, desc),
-						ordinal = table.concat({ name, desc, cmd_preview }, " "),
-						preview_command = cmd_preview,
-					}
-				end,
-			}),
-			previewer = require("telescope.previewers").new_buffer_previewer({
-				define_preview = function(self, entry)
-					local cmd = entry.preview_command or "No preview available"
-					vim.api.nvim_buf_set_lines(self.state.bufnr, 0, -1, false, vim.split(cmd, "\n"))
-				end,
-			}),
-			sorter = conf.generic_sorter({}),
-			attach_mappings = function(prompt_bufnr, map)
-				actions.select_default:replace(function()
-					local selection = action_state.get_selected_entry()
-					actions.close(prompt_bufnr)
-					if selection and selection.value then
-						overseer.run_template(selection.value)
-					else
-						vim.notify("No template selected", vim.log.levels.WARN)
-					end
-				end)
-				return true
+		local icon = "⚙️"
+		local name = entry.name or "Unnamed"
+		local desc = entry.desc or ""
+		local display = string.format("%s %s [%s]", icon, name, desc)
+
+		table.insert(lines, display)
+		lookup[display] = {
+			entry = entry,
+			preview = cmd_preview,
+		}
+	end
+
+	fzf.fzf_exec(lines, {
+		prompt = "Overseer Task Templates (" .. ft:sub(1, 1):upper() .. ft:sub(2) .. ")> ",
+		actions = {
+			["default"] = function(selected)
+				local sel = selected[1]
+				local item = lookup[sel]
+				if item then
+					overseer.run_template(item.entry)
+				else
+					vim.notify("No template matched", vim.log.levels.WARN)
+				end
 			end,
-		})
-		:find()
+		},
+		fzf_opts = {
+			["--ansi"] = true,
+			["--preview-window"] = "up:60%",
+			["--preview"] = {
+				type = "cmd",
+				fn = function(items)
+					local item = lookup[items[1]]
+					local result = nil
+
+					if item and type(item.entry.builder) == "function" then
+						local ok, built = pcall(item.entry.builder)
+						if ok and type(built) == "table" then
+							result = built
+						else
+							result = { error = "Failed to build task" }
+						end
+					else
+						result = { error = "No builder available" }
+					end
+
+					-- Serialize the table to a Lua-readable string
+					local plines = vim.split(vim.inspect(result), "\n")
+					-- Escape for shell-safe output
+					local escaped = vim.tbl_map(function(line)
+						return line:gsub('"', '\\"')
+					end, plines)
+					return string.format(
+						'echo "%s" | bat --language=lua --style=plain --color=always',
+						table.concat(escaped, "\\n")
+					)
+				end,
+			},
+		},
+		winopts = {
+			height = 0.4,
+			width = 0.6,
+			preview = {
+				border = icons.ui.Border_Single_Line,
+				layout = "vertical",
+				vertical = "up:60%",
+			},
+		},
+	})
 end
 
 return M
