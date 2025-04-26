@@ -26,7 +26,7 @@ M.config = function()
 		detection_methods = { "pattern" },
 
 		---@usage patterns used to detect root dir, when **"pattern"** is in detection_methods
-		patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "Makefile", "package.json" },
+		patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "Makefile", "Cargo.toml", "package.json" },
 
 		---@ Show hidden files in telescope when searching for files in a project
 		show_hidden = false,
