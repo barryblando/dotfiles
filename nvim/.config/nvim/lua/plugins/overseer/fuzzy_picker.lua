@@ -99,7 +99,6 @@ M.pick_template_for_filetype = function()
 			height = 0.4,
 			width = 0.6,
 			preview = {
-				default = "bat",
 				layout = "vertical",
 				vertical = "up:60%",
 			},
