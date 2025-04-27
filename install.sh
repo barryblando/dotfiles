@@ -5,7 +5,7 @@ set -euo pipefail
 # --- CONFIG ---
 GITHUB_REPO_URL="https://github.com/barryblando/dotfiles.git"
 DOTFILES_DIR="${HOME}/.dotfiles"
-APT_PACKAGES=("git")
+APT_PACKAGES=("git" "git-delta")
 BREW_PACKAGES=("neovim" "stow" "curl" "tmux" "fish" "starship" "lazygit" "zellij" "bat")
 STOW_FOLDERS=("nvim" "tmux" "starship" "lazygit" "zellij")  # Specific folders to stow
 
