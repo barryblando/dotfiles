@@ -53,7 +53,7 @@ M.keys = function()
 		{
 			"<leader>oT",
 			function()
-				require("plugins.overseer.fuzzy_picker").pick_template_for_filetype()
+				require("plugins.fzflua.task_picker_fzf").pick_template_for_filetype()
 			end,
 			desc = "Run Task Template (Fzf-Lua)",
 		},
