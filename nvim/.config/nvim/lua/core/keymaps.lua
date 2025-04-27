@@ -33,25 +33,25 @@ function M.setup_lsp_keymaps(bufnr)
 	local keymap_buf = vim.api.nvim_buf_set_keymap
 	local keymaps = {
 		{ "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", "Buf Definition" },
-		{ "gD", "<cmd>Telescope lsp_definitions<CR>", "LSP Definition" },
+		{ "gD", "<cmd>FzfLua lsp_definitions<CR>", "LSP Definition" },
 		{ "K", "<cmd>lua vim.lsp.buf.hover() <CR>", "Hover Documentation" },
-		{ "gI", "<cmd>Telescope lsp_implementations<CR>", "LSP Implementations" },
-		{ "gr", "<cmd>Telescope lsp_references<CR>", "LSP References" },
+		{ "gI", "<cmd>FzfLua lsp_implementations<CR>", "LSP Implementations" },
+		{ "gr", "<cmd>FzfLua lsp_references<CR>", "LSP References" },
 		{ "gl", "<cmd>lua vim.diagnostic.open_float(nil, { focusable = false })<CR>", "Open Diagnostic (Float)" },
 		{ "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", "Signature Help" },
-		{ "<leader>la", "<cmd>lua require('actions-preview').code_actions()<cr>", "Code Action" },
+		{ "<leader>la", "<cmd>FzfLua lsp_code_actions<cr>", "Code Action" },
 		{ "<leader>lf", "<cmd>lua require('conform').format({ async = true })<cr>", "Format" },
 		{ "<leader>lF", "<cmd>LspToggleAutoFormat<cr>", "Toggle Autoformat" },
 		{ "<leader>lh", "<cmd>IlluminateToggle<cr>", "Toggle Doc HL" },
 		{ "<leader>li", "<cmd>LspInfo<cr>", "Info" },
 		{
 			"<leader>ld",
-			"<cmd>Telescope diagnostics bufnr=0<cr>",
+			"<cmd>FzfLua diagnostics_document<cr>",
 			"Document Diagnostics",
 		},
 		{
 			"<leader>lw",
-			"<cmd>Telescope diagnostics<cr>",
+			"<cmd>FzfLua diagnostics_workspace<cr>",
 			"Workspace Diagnostics",
 		},
 		{ "<leader>lj", "<cmd>lua vim.diagnostic.jump({count=1, float=true})<cr>", "Next Diagnostic" },
@@ -63,10 +63,10 @@ function M.setup_lsp_keymaps(bufnr)
 		},
 		{ "<leader>lq", "<cmd>lua vim.diagnostic.setloclist()<CR>", "Quickfix" },
 		{ "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
-		{ "<leader>ls", "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
+		{ "<leader>ls", "<cmd>FzfLua lsp_document_symbols<cr>", "Document Symbols" },
 		{
 			"<leader>lS",
-			"<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",
+			"<cmd>FzfLua lsp_live_workspace_symbols<cr>",
 			"Workspace Symbols",
 		},
 	}
@@ -320,12 +320,12 @@ function M.setup_gitsigns_keymaps()
 		},
 		{
 			"<leader>gb",
-			"<cmd>Telescope git_branches<cr>",
-			desc = "Checkout branch",
+			"<cmd>FzfLua git_branches<cr>",
+			desc = "Git Branches",
 			nowait = true,
 			remap = false,
 		},
-		{ "<leader>gc", "<cmd>Telescope git_commits<cr>", desc = "Checkout commit", nowait = true, remap = false },
+		{ "<leader>gc", "<cmd>FzfLua git_commits<cr>", desc = "Git Commits", nowait = true, remap = false },
 		{ "<leader>gd", "<cmd>Gitsigns diffthis HEAD<cr>", desc = "Diff", nowait = true, remap = false },
 		{ "<leader>gg", "<cmd>lua _LAZYGIT_TOGGLE()<CR>", desc = "Lazygit", nowait = true, remap = false },
 		{
@@ -388,37 +388,59 @@ function M.setup_gitsigns_keymaps()
 end
 
 ------------------------
+-- FZF_LUA KEYMAPS  --
+------------------------
+function M.setup_fzf_lua_keymaps()
+	return {
+		{ "<leader>fC", "<cmd>FzfLua commands<cr>", desc = "Commands", nowait = true, remap = false },
+		{ "<leader>fH", "<cmd>FzfLua highlights<cr>", desc = "Highlights", nowait = true, remap = false },
+		{ "<leader>fM", "<cmd>FzfLua manpages<cr>", desc = "Man Pages", nowait = true, remap = false },
+		{ "<leader>fr", "<cmd>FzfLua registers<cr>", desc = "Registers", nowait = true, remap = false },
+		{ "<leader>fb", "<cmd>FzfLua buffers<cr>", desc = "Buffers", nowait = true, remap = false },
+		{ "<leader>fc", "<cmd>FzfLua colorschemes<cr>", desc = "Colorscheme", nowait = true, remap = false },
+		{ "<leader>ff", "<cmd>FzfLua files<cr>", desc = "Find files", nowait = true, remap = false },
+		{ "<leader>fh", "<cmd>FzfLua helptags<cr>", desc = "Help", nowait = true, remap = false },
+		{ "<leader>fk", "<cmd>FzfLua keymaps<cr>", desc = "Keymaps", nowait = true, remap = false },
+		{ "<leader>fl", "<cmd>FzfLua resume<cr>", desc = "Last Search", nowait = true, remap = false },
+		{ "<leader>fr", "<cmd>FzfLua oldfiles<cr>", desc = "Recent File", nowait = true, remap = false },
+		{ "<leader>fs", "<cmd>FzfLua grep<cr>", desc = "Find String", nowait = true, remap = false },
+		{ "<leader>ft", "<cmd>FzfLua live_grep<cr>", desc = "Find Text", nowait = true, remap = false },
+	}
+end
+
+------------------------
 -- TELESCOPE KEYMAPS  --
 ------------------------
 function M.setup_telescope_keymaps()
-	return {
-		{ "<leader>fC", "<cmd>Telescope commands<cr>", desc = "Commands", nowait = true, remap = false },
-		{ "<leader>fH", "<cmd>Telescope highlights<cr>", desc = "Highlights", nowait = true, remap = false },
-		{ "<leader>fM", "<cmd>Telescope man_pages<cr>", desc = "Man Pages", nowait = true, remap = false },
-		{ "<leader>fr", "<cmd>Telescope registers<cr>", desc = "Registers", nowait = true, remap = false },
-		{
-			"<leader>fb",
-			"<cmd>Telescope git_branches<cr>",
-			desc = "Checkout branch",
-			nowait = true,
-			remap = false,
-		},
-		{ "<leader>fc", "<cmd>Telescope colorscheme<cr>", desc = "Colorscheme", nowait = true, remap = false },
-		{ "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find files", nowait = true, remap = false },
-		{ "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help", nowait = true, remap = false },
-		{
-			"<leader>fi",
-			"<cmd>lua require('telescope').extensions.media_files.media_files()<cr>",
-			desc = "Media",
-			nowait = true,
-			remap = false,
-		},
-		{ "<leader>fk", "<cmd>Telescope keymaps<cr>", desc = "Keymaps", nowait = true, remap = false },
-		{ "<leader>fl", "<cmd>Telescope resume<cr>", desc = "Last Search", nowait = true, remap = false },
-		{ "<leader>fr", "<cmd>Telescope oldfiles<cr>", desc = "Recent File", nowait = true, remap = false },
-		{ "<leader>fs", "<cmd>Telescope grep_string<cr>", desc = "Find String", nowait = true, remap = false },
-		{ "<leader>ft", "<cmd>Telescope live_grep<cr>", desc = "Find Text", nowait = true, remap = false },
-	}
+	return {}
+	-- return {
+	-- 	{ "<leader>fC", "<cmd>Telescope commands<cr>", desc = "Commands", nowait = true, remap = false },
+	-- 	{ "<leader>fH", "<cmd>Telescope highlights<cr>", desc = "Highlights", nowait = true, remap = false },
+	-- 	{ "<leader>fM", "<cmd>Telescope man_pages<cr>", desc = "Man Pages", nowait = true, remap = false },
+	-- 	{ "<leader>fr", "<cmd>Telescope registers<cr>", desc = "Registers", nowait = true, remap = false },
+	-- 	{
+	-- 		"<leader>fb",
+	-- 		"<cmd>Telescope git_branches<cr>",
+	-- 		desc = "Checkout branch",
+	-- 		nowait = true,
+	-- 		remap = false,
+	-- 	},
+	-- 	{ "<leader>fc", "<cmd>Telescope colorscheme<cr>", desc = "Colorscheme", nowait = true, remap = false },
+	-- 	{ "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find files", nowait = true, remap = false },
+	-- 	{ "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help", nowait = true, remap = false },
+	-- 	{
+	-- 		"<leader>fi",
+	-- 		"<cmd>lua require('telescope').extensions.media_files.media_files()<cr>",
+	-- 		desc = "Media",
+	-- 		nowait = true,
+	-- 		remap = false,
+	-- 	},
+	-- 	{ "<leader>fk", "<cmd>Telescope keymaps<cr>", desc = "Keymaps", nowait = true, remap = false },
+	-- 	{ "<leader>fl", "<cmd>Telescope resume<cr>", desc = "Last Search", nowait = true, remap = false },
+	-- 	{ "<leader>fr", "<cmd>Telescope oldfiles<cr>", desc = "Recent File", nowait = true, remap = false },
+	-- 	{ "<leader>fs", "<cmd>Telescope grep_string<cr>", desc = "Find String", nowait = true, remap = false },
+	-- 	{ "<leader>ft", "<cmd>Telescope live_grep<cr>", desc = "Find Text", nowait = true, remap = false },
+	-- }
 end
 
 ------------------------
