@@ -32,6 +32,7 @@ M.opts = function()
 		-- ["<C-t>"] = { "actions.select", opts = { tab = true }, desc = "Open the entry in new tab" },
 		["<C-t>"] = '<cmd>lua require("oil").select({close=false, tab=true}, function() require("oil").open_float() end)<cr>',
 		["<C-p>"] = "actions.preview",
+		["<esc>"] = "actions.close",
 		["q"] = "actions.close",
 		["<C-l>"] = "actions.refresh",
 		["<BS>"] = "actions.parent",
