@@ -351,8 +351,8 @@ function M.setup_gitsigns_keymaps()
 		},
 		{
 			"<leader>go",
-			"<cmd>Telescope git_status<cr>",
-			desc = "Open changed file",
+			"<cmd>FzfLua git_status<cr>",
+			desc = "Git Status",
 			nowait = true,
 			remap = false,
 		},
@@ -377,6 +377,14 @@ function M.setup_gitsigns_keymaps()
 			nowait = true,
 			remap = false,
 		},
+		{
+			"<leader>gS",
+			"<cmd>:lua require('plugins.fzflua.git_history_fzf').live_git_search()<cr>",
+			desc = "Git History Search",
+			nowait = true,
+			remap = false,
+		},
+
 		{
 			"<leader>gu",
 			"<cmd>lua require 'gitsigns'.undo_stage_hunk()<cr>",
