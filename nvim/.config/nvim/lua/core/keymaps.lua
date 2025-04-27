@@ -314,7 +314,7 @@ function M.setup_gitsigns_keymaps()
 		{
 			"<leader>gR",
 			"<cmd>lua require 'gitsigns'.reset_buffer()<cr>",
-			desc = "Reset Buffer",
+			desc = "Reset Buffer (Git)",
 			nowait = true,
 			remap = false,
 		},
