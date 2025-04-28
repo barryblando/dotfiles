@@ -22,10 +22,17 @@ M.live_git_search = function()
 		-- Use advanced git grep with custom preview
 		fzf_lua.fzf_live("git rev-list --all | xargs git grep --line-number --column --color=always <query>", {
 			prompt = "GitHistoryGrep❯ ",
+			winopts = {
+				border = "border-sharp",
+				preview = {
+					layout = "vertical",
+					vertical = "up:60%",
+				},
+			},
 			fzf_opts = {
 				["--delimiter"] = ":",
 				["--no-exit-0"] = "",
-				["--preview-window"] = "nohidden,up,60%,border-bottom,+{3}+3/3,~3",
+				["--preview-window"] = "nohidden,up:60%,noborder,+{3}+3/3,~3",
 			},
 			preview = [[
         (echo "Commit: {1}";
