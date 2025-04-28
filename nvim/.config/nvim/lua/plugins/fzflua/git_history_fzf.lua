@@ -71,22 +71,6 @@ M.live_git_search = function()
 				end,
 			},
 		})
-	elseif git_installed() then
-		-- Not in git repo? Use ripgrep
-		fzf_lua.live_grep({
-			prompt = "Ripgrep❯ ",
-			rg_opts = rg_opts,
-			actions = {
-				["default"] = function(selected)
-					-- Open file and jump to the line after selection in ripgrep results
-					local filename, lnum = selected[1], tonumber(selected[2])
-					if filename and lnum then
-						vim.cmd(string.format("edit %s", filename))
-						vim.api.nvim_win_set_cursor(0, { lnum, 0 })
-					end
-				end,
-			},
-		})
 	else
 		-- If no git and git is not available, show a message
 		vim.notify("Git is not installed or not in a Git repository", vim.log.levels.WARN)
