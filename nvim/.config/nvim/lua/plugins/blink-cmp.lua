@@ -180,6 +180,24 @@ M.config = function()
 						return vim.fn.getcmdtype() ~= ":" or not vim.fn.getcmdline():match("^[%%0-9,'<>%-]*!")
 					end,
 				},
+				path = {
+					name = "Path",
+					module = "blink.cmp.sources.path",
+					score_offset = 25,
+					-- When typing a path, I would get snippets and text in the
+					-- suggestions, I want those to show only if there are no path
+					-- suggestionsa
+					fallbacks = { "snippets", "buffer" },
+					-- min_keyword_length = 2,
+					opts = {
+						trailing_slash = false,
+						label_trailing_slash = true,
+						get_cwd = function(context)
+							return vim.fn.expand(("#%d:p:h"):format(context.bufnr))
+						end,
+						show_hidden_files_by_default = true,
+					},
+				},
 				buffer = {
 					opts = {
 						-- get all buffers, even ones like neo-tree
