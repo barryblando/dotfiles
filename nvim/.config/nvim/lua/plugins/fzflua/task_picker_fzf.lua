@@ -48,19 +48,33 @@ M.pick_template_for_filetype = function()
 
 	fzf.fzf_exec(lines, {
 		prompt = "Overseer Task Templates (" .. ft:sub(1, 1):upper() .. ft:sub(2) .. ")> ",
+		multiselect = true, -- Allow multi-select
 		actions = {
+			-- ["default"] = function(selected)
+			-- 	local sel = selected[1]
+			-- 	local item = lookup[sel]
+			-- 	if item then
+			-- 		overseer.run_template(item.entry)
+			-- 	else
+			-- 		vim.notify("No template matched", vim.log.levels.WARN)
+			-- 	end
+			-- end,
 			["default"] = function(selected)
-				local sel = selected[1]
-				local item = lookup[sel]
-				if item then
-					overseer.run_template(item.entry)
-				else
-					vim.notify("No template matched", vim.log.levels.WARN)
+				-- Loop through selected items and run templates for each one
+				for _, sel in ipairs(selected) do
+					local item = lookup[sel]
+					if item then
+						overseer.run_template(item.entry)
+					else
+						vim.notify("No template matched for " .. sel, vim.log.levels.WARN)
+					end
 				end
 			end,
 		},
 		fzf_opts = {
 			["--ansi"] = true,
+			["--multi"] = "", -- make multi selection allowed
+			["--header"] = "<CR>: Run | <T>/<S-T>: Multi-Select | <esc>/<C-c>: Quit",
 			["--preview-window"] = "up:60%,noborder",
 			["--border"] = "sharp",
 			["--preview"] = {
