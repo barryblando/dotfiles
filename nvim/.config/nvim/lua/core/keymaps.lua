@@ -470,7 +470,13 @@ function M.setup_harpoon_keymaps()
 			nowait = true,
 			remap = false,
 		},
-		{ "m;", "<cmd>HarpoonUI<cr>", desc = "Harpoon UI", nowait = true, remap = false },
+		{
+			"<C-e>",
+			'<cmd>lua require("plugins.fzflua.harpoon_picker_fzf").harpoon_file_picker(require("harpoon"):list())<cr>',
+			desc = "Harpoon UI",
+			nowait = true,
+			remap = false,
+		},
 		{ "mm", '<cmd>lua require("harpoon"):list():add()<cr>', desc = "Harpoon", nowait = true, remap = false },
 	}
 end
