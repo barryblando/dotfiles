@@ -27,7 +27,13 @@ M.live_git_search = function()
 				["--no-exit-0"] = "",
 				["--preview-window"] = "nohidden,up,60%,border-bottom,+{3}+3/3,~3",
 			},
-			preview = "git show {1}:{2} | bat --style=default --color=always --file-name={2} --highlight-line={3}",
+			preview = [[
+        (echo "Commit: {1}";
+         git show -s --format="Date: %cd" --date=format:"%b %d, %Y %I:%M %p" {1};
+         echo "";
+         git show {1}:{2}
+        ) | bat --style=default --color=always --file-name={2} --highlight-line={3}
+      ]],
 			actions = {
 				["default"] = function(selected)
 					if not selected or not selected[1] then
