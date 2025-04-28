@@ -77,7 +77,8 @@ M.config = function(_, opts)
 		{ "<leader>A", "<cmd>ASToggle<cr>", desc = "Toggle Auto-Save", nowait = true, remap = false },
 		{
 			"<leader>P",
-			"<cmd>lua require('telescope').extensions.projects.projects()<cr>",
+			-- "<cmd>lua require('telescope').extensions.projects.projects()<cr>",
+			"<cmd>lua require('plugins.fzflua.project_picker_fzf').project_picker()<cr>",
 			icon = { icon = " " },
 			desc = "Projects",
 			nowait = true,
