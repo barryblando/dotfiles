@@ -182,10 +182,10 @@ M.config = function()
 			swap = {
 				enable = true,
 				swap_next = {
-					["<leader>."] = "@parameter.inner",
+					["[."] = "@parameter.inner",
 				},
 				swap_previous = {
-					["<leader>,"] = "@parameter.inner",
+					["[,"] = "@parameter.inner",
 				},
 			},
 		},
