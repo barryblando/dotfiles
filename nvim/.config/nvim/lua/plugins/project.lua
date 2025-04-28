@@ -26,7 +26,18 @@ M.config = function()
 		detection_methods = { "pattern" },
 
 		---@usage patterns used to detect root dir, when **"pattern"** is in detection_methods
-		patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "Makefile", "Cargo.toml", "package.json" },
+		patterns = {
+			".git",
+			"_darcs",
+			".hg",
+			".bzr",
+			".svn",
+			"Makefile",
+			"Cargo.toml",
+			"package.json",
+			"go.mod",
+			"mix.exs",
+		},
 
 		---@ Show hidden files in telescope when searching for files in a project
 		show_hidden = false,
@@ -42,13 +53,6 @@ M.config = function()
 		---@usage path to store the project history for use in telescope
 		datapath = vim.fn.stdpath("data"),
 	})
-
-	local tele_status_ok, telescope = pcall(require, "telescope")
-	if not tele_status_ok then
-		return
-	end
-
-	telescope.load_extension("projects")
 end
 
 return M
