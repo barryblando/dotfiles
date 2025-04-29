@@ -42,6 +42,7 @@ function M.setup_lsp_keymaps(bufnr)
 		{ "<leader>la", "<cmd>FzfLua lsp_code_actions<cr>", "Code Action" },
 		{ "<leader>lf", "<cmd>lua require('conform').format({ async = true })<cr>", "Format" },
 		{ "<leader>lF", "<cmd>LspToggleAutoFormat<cr>", "Toggle Autoformat" },
+		{ "<leader>lr", "<cmd>LspRestart<cr>", "Restart Server" },
 		{ "<leader>lh", "<cmd>IlluminateToggle<cr>", "Toggle Doc HL" },
 		{ "<leader>li", "<cmd>lua require('core.utils').open_lsp_info_floating_window()<cr>", "Info" },
 		{
@@ -62,7 +63,7 @@ function M.setup_lsp_keymaps(bufnr)
 			"CodeLens Action",
 		},
 		{ "<leader>lq", "<cmd>lua vim.diagnostic.setloclist()<CR>", "Quickfix" },
-		{ "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
+		{ "<leader>lR", "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
 		{ "<leader>ls", "<cmd>FzfLua lsp_document_symbols<cr>", "Document Symbols" },
 		{
 			"<leader>lS",
