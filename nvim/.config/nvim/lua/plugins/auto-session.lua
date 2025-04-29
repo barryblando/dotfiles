@@ -25,11 +25,19 @@ M.config = function()
 	local opts = {
 		enabled = true,
 		auto_restore = true,
-		-- auto_restore_last_session = false,
+		-- last session will be restored only when Neovim is launched in the home directory
+		auto_restore_last_session = vim.loop.cwd() == vim.loop.os_homedir(),
 		lazy_support = true,
 		pre_save_cmds = { "tabdo Neotree close" },
+		post_restore_cmds = { "LspRestart" },
 		lsp_stop_on_restore = true,
 		bypass_save_filetypes = { "alpha", "neo-tree", "TelescopePrompt", "lazy", "OverseerList" },
+		cwd_change_handling = true,
+		post_cwd_changed_cmds = {
+			function()
+				require("lualine").refresh() -- example refreshing the lualine status line _after_ the cwd changes
+			end,
+		},
 		log_level = "info",
 		root_dir = vim.fn.stdpath("data") .. "/sessions/",
 		session_lens = {
