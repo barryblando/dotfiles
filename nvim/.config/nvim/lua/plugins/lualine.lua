@@ -164,6 +164,10 @@ local lazy_status = {
 	color = { fg = "#ff9e64" },
 }
 
+local current_session = function()
+	return require("auto-session.lib").current_session_name(true)
+end
+
 local dap_status = function()
 	local dap = require("dap")
 	if dap.session() then
@@ -218,7 +222,7 @@ M.config = function()
 		sections = {
 			lualine_a = { mode },
 			lualine_b = { branch, diff },
-			lualine_c = { diagnostics, dap_status }, -- lsp_progress
+			lualine_c = { diagnostics, current_session, dap_status }, -- lsp_progress
 			lualine_x = {
 				dap_controls,
 				lazy_status,
