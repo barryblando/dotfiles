@@ -66,64 +66,127 @@ function M.collect_specs(excluded_dirs)
 end
 
 function M.open_lsp_info_floating_window()
-	-- Get the current buffer number
 	local bufnr = vim.api.nvim_get_current_buf()
-
-	-- Get active LSP clients attached to the current buffer
 	local clients = vim.lsp.get_clients({ bufnr = bufnr })
 
-	-- Handle the case where no LSP clients are active
 	if not clients or #clients == 0 then
 		vim.notify("No active LSP clients for this buffer", vim.log.levels.WARN)
 		return
 	end
 
-	local info = {}
+	-- Define your highlight groups here
+	local hl = {
+		title = "@label", -- for titles like "LSP Server:"
+		subtitle = "@text.title", -- for secondary titles like "Capabilities:"
+		subsection = "Keyword", -- Supported:, Unsupported:
+		status_ok = "DiffAdd", -- ✓
+		status_fail = "DiffDelete", -- ×
+		string = "String",
+		number = "Number",
+		type = "Type",
+		capability = "Type", -- capability names (hover, completion, etc.)
+	}
 
-	-- Collecting LSP server info
+	local lines = {}
+	local highlights = {}
+
 	for _, client in ipairs(clients) do
-		-- General info
-		table.insert(info, string.format("LSP Server: %s", client.name))
+		local server_name = client.name or "Unknown"
+		table.insert(lines, "LSP Server: " .. server_name)
+		table.insert(highlights, { line = #lines - 1, start = 0, finish = 10, group = hl.title })
 
-		-- Buffer number (this assumes you're working with the current buffer)
-		table.insert(info, string.format("Buffer #: %d", bufnr))
+		table.insert(lines, string.format("Buffer #: %d", bufnr))
+		table.insert(highlights, { line = #lines - 1, start = 0, finish = 7, group = hl.title })
 
-		-- Cmd info (LSP startup command)
-		local cmd = client.config.cmd or {}
-		local cmd_str = table.concat(cmd, " ")
-		table.insert(info, string.format("Cmd: %s", cmd_str))
+		local attached_buffers = vim.lsp.get_buffers_by_client_id(client.id) or {}
+		local is_attached = vim.tbl_contains(attached_buffers, bufnr)
+		local status = is_attached and "Running" or (client.is_stopped and "Stopped" or "Unknown")
 
-		-- Status (running or stopped)
-		table.insert(info, string.format("Status: %s", client.is_stopped and "Stopped" or "Running"))
+		table.insert(lines, "Status: " .. status)
+		table.insert(highlights, {
+			line = #lines - 1,
+			start = 8,
+			finish = 8 + #status,
+			group = status == "Running" and hl.status_ok or hl.status_fail,
+		})
 
-		-- Server capabilities (you can further format this for better readability)
-		local capabilities = client.resolved_capabilities or {}
-		table.insert(info, string.format("Capabilities:"))
-		for cap, available in pairs(capabilities) do
-			table.insert(info, string.format("  - %s: %s", cap, available and "Yes" or "No"))
+		local cmd = client.config.cmd
+		local cmd_line = cmd and table.concat(cmd, " ") or "(external)"
+		table.insert(lines, "Cmd: " .. cmd_line)
+		table.insert(highlights, { line = #lines - 1, start = 0, finish = 3, group = hl.title })
+		table.insert(highlights, { line = #lines - 1, start = 5, finish = 5 + #cmd_line, group = hl.string })
+
+		-- Compact Capabilities
+		if client.server_capabilities then
+			local supported = {}
+			local unsupported = {}
+
+			for cap, available in pairs(client.server_capabilities) do
+				if available then
+					table.insert(supported, cap)
+				else
+					table.insert(unsupported, cap)
+				end
+			end
+
+			-- Capabilities main title
+			table.insert(lines, "Capabilities:")
+			table.insert(highlights, { line = #lines - 1, start = 0, finish = 12, group = hl.subtitle })
+
+			-- Supported section
+			table.insert(lines, "  Supported:")
+			table.insert(highlights, { line = #lines - 1, start = 2, finish = 11, group = hl.subsection })
+
+			for _, cap in ipairs(supported) do
+				local line = "    ✓ " .. cap
+				table.insert(lines, line)
+				-- table.insert(highlights, { line = #lines - 1, start = 4, finish = 5, group = hl.status_ok })
+				table.insert(highlights, { line = #lines - 1, start = 6, finish = 6 + #cap, group = hl.capability })
+			end
+
+			-- Unsupported section
+			table.insert(lines, "  Unsupported:")
+			table.insert(highlights, { line = #lines - 1, start = 2, finish = 13, group = hl.subsection })
+
+			for _, cap in ipairs(unsupported) do
+				local line = "    × " .. cap
+				table.insert(lines, line)
+				-- table.insert(highlights, { line = #lines - 1, start = 4, finish = 5, group = hl.status_fail })
+				table.insert(highlights, { line = #lines - 1, start = 6, finish = 6 + #cap, group = hl.capability })
+			end
 		end
 
-		-- Attachments (buffer it is attached to)
-		local buffers = client.attached_buffers or {}
-		table.insert(info, string.format("Attached Buffers: %d", #buffers))
-		for _, buf in ipairs(buffers) do
-			table.insert(info, string.format("  - Buffer %d", buf))
+		local attached_count = #attached_buffers
+
+		if attached_count > 0 then
+			table.insert(
+				lines,
+				string.format("Attached Buffers: %d [%s]", attached_count, table.concat(attached_buffers, ", "))
+			)
+		else
+			table.insert(lines, string.format("Attached Buffers: %d", attached_count))
 		end
 
-		-- Additional Info: If there's any other specific info you'd like to add
-		-- For example, you could show a list of supported features like textDocument/hover, etc.
+		-- Highlights
+		table.insert(highlights, { line = #lines - 1, start = 0, finish = 16, group = hl.subtitle })
+		table.insert(
+			highlights,
+			{ line = #lines - 1, start = 18, finish = 18 + tostring(attached_count):len(), group = "Number" }
+		)
 	end
 
-	-- Create the floating window
-	local content = table.concat(info, "\n")
-	local bufnrN = vim.api.nvim_create_buf(false, true) -- create a new buffer
-	vim.api.nvim_buf_set_lines(bufnrN, 0, -1, false, vim.split(content, "\n"))
+	-- Create buffer and window
+	local float_buf = vim.api.nvim_create_buf(false, true)
+	vim.api.nvim_buf_set_lines(float_buf, 0, -1, false, lines)
 
-	-- Get window dimensions
+	for _, h in ipairs(highlights) do
+		vim.api.nvim_buf_add_highlight(float_buf, -1, h.group, h.line, h.start, h.finish)
+	end
+
 	local width = 100
-	local height = math.min(20, #info)
+	local max_height = 40
+	local height = math.min(max_height, #lines)
 
-	-- Create the floating window
 	local opts = {
 		relative = "editor",
 		width = width,
@@ -133,13 +196,11 @@ function M.open_lsp_info_floating_window()
 		style = "minimal",
 		border = icons.ui.Border_Single_Line,
 	}
+	local win = vim.api.nvim_open_win(float_buf, true, opts)
 
-	local win_id = vim.api.nvim_open_win(bufnrN, true, opts)
-	-- You can add additional window actions like keymaps or timers here if needed
-
-	vim.api.nvim_buf_set_keymap(bufnrN, "n", "q", ":close<CR>", { noremap = true, silent = true })
-	vim.api.nvim_buf_set_keymap(bufnrN, "n", "<esc>", ":close<CR>", { noremap = true, silent = true })
-	vim.api.nvim_buf_set_keymap(bufnrN, "n", "<C-c>", ":close<CR>", { noremap = true, silent = true })
+	vim.keymap.set("n", "q", "<cmd>close<CR>", { buffer = float_buf, nowait = true, silent = true })
+	vim.keymap.set("n", "<esc>", "<cmd>close<CR>", { buffer = float_buf, nowait = true, silent = true })
+	vim.keymap.set("n", "<C-c>", "<cmd>close<CR>", { buffer = float_buf, nowait = true, silent = true })
 end
 
 return M
