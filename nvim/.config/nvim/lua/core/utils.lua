@@ -78,13 +78,14 @@ function M.open_lsp_info_floating_window()
 	local hl = {
 		title = "@label", -- for titles like "LSP Server:"
 		subtitle = "@text.title", -- for secondary titles like "Capabilities:"
-		subsection = "Keyword", -- Supported:, Unsupported:
-		status_ok = "DiffAdd", -- ✓
-		status_fail = "DiffDelete", -- ×
+		subsection_supported = "@function", -- Supported:
+		subsection_unsupported = "@exception", -- Unsupported:
+		status_ok = "@diff.plus", -- ✓
+		status_fail = "@diff.minus", -- ×
 		string = "String",
 		number = "Number",
 		type = "Type",
-		capability = "Type", -- capability names (hover, completion, etc.)
+		capability = "@field", -- capability names (hover, completion, etc.)
 	}
 
 	local lines = {}
@@ -103,6 +104,7 @@ function M.open_lsp_info_floating_window()
 		local status = is_attached and "Running" or (client.is_stopped and "Stopped" or "Unknown")
 
 		table.insert(lines, "Status: " .. status)
+		table.insert(highlights, { line = #lines - 1, start = 0, finish = 6, group = hl.title })
 		table.insert(highlights, {
 			line = #lines - 1,
 			start = 8,
@@ -147,24 +149,24 @@ function M.open_lsp_info_floating_window()
 
 			-- Supported section
 			table.insert(lines, "  Supported:")
-			table.insert(highlights, { line = #lines - 1, start = 2, finish = 11, group = hl.subsection })
+			table.insert(highlights, { line = #lines - 1, start = 2, finish = 11, group = hl.subsection_supported })
 
 			for _, cap in ipairs(supported) do
 				local line = "    ✓ " .. cap
 				table.insert(lines, line)
-				-- table.insert(highlights, { line = #lines - 1, start = 4, finish = 5, group = hl.status_ok })
-				table.insert(highlights, { line = #lines - 1, start = 6, finish = 6 + #cap, group = hl.capability })
+				table.insert(highlights, { line = #lines - 1, start = 4, finish = 5, group = hl.status_ok })
+				table.insert(highlights, { line = #lines - 1, start = 6, finish = 8 + #cap, group = hl.capability })
 			end
 
 			-- Unsupported section
 			table.insert(lines, "  Unsupported:")
-			table.insert(highlights, { line = #lines - 1, start = 2, finish = 13, group = hl.subsection })
+			table.insert(highlights, { line = #lines - 1, start = 2, finish = 13, group = hl.subsection_unsupported })
 
 			for _, cap in ipairs(unsupported) do
 				local line = "    × " .. cap
 				table.insert(lines, line)
-				-- table.insert(highlights, { line = #lines - 1, start = 4, finish = 5, group = hl.status_fail })
-				table.insert(highlights, { line = #lines - 1, start = 6, finish = 6 + #cap, group = hl.capability })
+				table.insert(highlights, { line = #lines - 1, start = 4, finish = 5, group = hl.status_fail })
+				table.insert(highlights, { line = #lines - 1, start = 6, finish = 8 + #cap, group = hl.capability })
 			end
 		end
 
