@@ -6,7 +6,6 @@ return {
 		"rmagatti/auto-session",
 		lazy = false,
 		keys = require("plugins.auto-session").keys,
-		init = require("plugins.auto-session").init,
 		config = require("plugins.auto-session").config,
 	},
 }
