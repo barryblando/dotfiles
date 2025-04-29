@@ -43,7 +43,6 @@ local packages = {
 
 	-- formatters
 	"stylua",
-	"rustfmt",
 	"black",
 	"isort",
 	"prettier",
