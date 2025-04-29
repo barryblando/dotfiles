@@ -43,7 +43,7 @@ function M.setup_lsp_keymaps(bufnr)
 		{ "<leader>lf", "<cmd>lua require('conform').format({ async = true })<cr>", "Format" },
 		{ "<leader>lF", "<cmd>LspToggleAutoFormat<cr>", "Toggle Autoformat" },
 		{ "<leader>lh", "<cmd>IlluminateToggle<cr>", "Toggle Doc HL" },
-		{ "<leader>li", "<cmd>LspInfo<cr>", "Info" },
+		{ "<leader>li", "<cmd>lua require('core.utils').open_lsp_info_floating_window()<cr>", "Info" },
 		{
 			"<leader>ld",
 			"<cmd>FzfLua diagnostics_document<cr>",
