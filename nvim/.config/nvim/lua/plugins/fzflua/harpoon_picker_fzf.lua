@@ -74,7 +74,7 @@ M.harpoon_file_picker = function()
 		end
 
 		fzf_lua.fzf_exec(file_paths, {
-			prompt = "Harpoon Files> ",
+			prompt = "󱡀 Harpoon Files ",
 			multi_select = true, -- enable multi select
 			winopts = {
 				border = "none",

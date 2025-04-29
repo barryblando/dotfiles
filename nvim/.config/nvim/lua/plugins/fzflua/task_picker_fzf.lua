@@ -34,7 +34,7 @@ M.pick_template_for_filetype = function()
 			end
 		end
 
-		local icon = "⚙️"
+		local icon = "󰑮 "
 		local name = entry.name or "Unnamed"
 		local desc = entry.desc or ""
 		local display = string.format("%s %s [%s]", icon, name, desc)
@@ -47,7 +47,7 @@ M.pick_template_for_filetype = function()
 	end
 
 	fzf.fzf_exec(lines, {
-		prompt = "Overseer Task Templates (" .. ft:sub(1, 1):upper() .. ft:sub(2) .. ")> ",
+		prompt = " Overseer Task Templates (" .. ft:sub(1, 1):upper() .. ft:sub(2) .. ") ",
 		multiselect = true, -- Allow multi-select
 		actions = {
 			-- ["default"] = function(selected)

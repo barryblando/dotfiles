@@ -21,7 +21,7 @@ M.live_git_search = function()
 	if in_git_repo() and git_installed() then
 		-- Use advanced git grep with custom preview
 		fzf_lua.fzf_live("git rev-list --all | xargs git grep --line-number --column --color=always <query>", {
-			prompt = "GitHistoryGrep❯ ",
+			prompt = " History Grep ",
 			winopts = {
 				border = "border-sharp",
 				preview = {

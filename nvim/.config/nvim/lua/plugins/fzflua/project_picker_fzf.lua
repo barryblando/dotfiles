@@ -66,7 +66,7 @@ function M.project_picker()
 	end
 
 	fzf_lua.fzf_exec(projects_display, {
-		prompt = "projects> ",
+		prompt = " Projects ",
 		fzf_opts = {
 			["--ansi"] = true,
 			["--header"] = "select a project to change directory",
