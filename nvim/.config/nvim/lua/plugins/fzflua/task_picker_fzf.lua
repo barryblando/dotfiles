@@ -47,7 +47,7 @@ M.pick_template_for_filetype = function()
 	end
 
 	fzf.fzf_exec(lines, {
-		prompt = " Overseer Task Templates (" .. ft:sub(1, 1):upper() .. ft:sub(2) .. ") ",
+		prompt = " Overseer Task Templates (" .. ft:sub(1, 1):upper() .. ft:sub(2) .. ")❯ ",
 		multiselect = true, -- Allow multi-select
 		actions = {
 			-- ["default"] = function(selected)
