@@ -111,7 +111,19 @@ function M.open_lsp_info_floating_window()
 		})
 
 		local cmd = client.config.cmd
-		local cmd_line = cmd and table.concat(cmd, " ") or "(external)"
+		local cmd_line = "(external)"
+
+		if type(cmd) == "table" then
+			cmd_line = table.concat(cmd, " ")
+		elseif type(cmd) == "string" then
+			cmd_line = cmd
+		elseif type(cmd) == "function" then
+			-- Try to get function name if available
+			local info = debug.getinfo(cmd, "n")
+			local name = info and info.name or "anonymous"
+			cmd_line = "(function: " .. name .. ")"
+		end
+
 		table.insert(lines, "Cmd: " .. cmd_line)
 		table.insert(highlights, { line = #lines - 1, start = 0, finish = 3, group = hl.title })
 		table.insert(highlights, { line = #lines - 1, start = 5, finish = 5 + #cmd_line, group = hl.string })
