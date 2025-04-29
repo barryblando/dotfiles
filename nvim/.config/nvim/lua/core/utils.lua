@@ -88,21 +88,64 @@ function M.open_lsp_info_floating_window()
 		capability = "@field", -- capability names (hover, completion, etc.)
 	}
 
+	local function get_client_pid(client)
+		-- Check the LSP server's command (cmd)
+		if client.config and client.config.cmd then
+			local cmd = client.config.cmd
+			local cmd_name
+
+			-- If the command is a table, take the first element (the command)
+			if type(cmd) == "table" then
+				cmd_name = cmd[1]
+			elseif type(cmd) == "string" then
+				cmd_name = cmd
+			end
+
+			-- If the command name is valid, try to find the PID using system process tools
+			if cmd_name then
+				local success, handle = pcall(io.popen, "pgrep -o -f '" .. cmd_name .. "'") -- Get the oldest PID that matches
+				if success and handle then
+					local pid = handle:read("*a")
+					handle:close()
+
+					-- Check if pid is nil or empty
+					if pid and pid ~= "" then
+						return pid:match("^%s*(%d+)%s*$") -- Return the first PID found
+					else
+						-- Handle case where no PID is found
+						return "(no PID found)"
+					end
+				else
+					-- If pcall fails or handle is nil, return a safe fallback
+					return "(failed to retrieve PID)"
+				end
+			end
+		end
+
+		-- Fallback if PID is not found
+		return "(unknown)"
+	end
+
 	local lines = {}
 	local highlights = {}
 
 	for _, client in ipairs(clients) do
 		local server_name = client.name or "Unknown"
-		table.insert(lines, "LSP Server: " .. server_name)
+		local pid = get_client_pid(client)
+		local attached_buffers = vim.lsp.get_buffers_by_client_id(client.id) or {}
+
+		local header_line = string.format(
+			"LSP Server: %s (id: %d, pid: %s, bufnr: [%s])",
+			server_name,
+			client.id,
+			pid,
+			table.concat(attached_buffers, ", ")
+		)
+		table.insert(lines, header_line)
 		table.insert(highlights, { line = #lines - 1, start = 0, finish = 10, group = hl.title })
 
-		table.insert(lines, string.format("Buffer #: %d", bufnr))
-		table.insert(highlights, { line = #lines - 1, start = 0, finish = 7, group = hl.title })
-
-		local attached_buffers = vim.lsp.get_buffers_by_client_id(client.id) or {}
 		local is_attached = vim.tbl_contains(attached_buffers, bufnr)
 		local status = is_attached and "Running" or (client.is_stopped and "Stopped" or "Unknown")
-
 		table.insert(lines, "Status: " .. status)
 		table.insert(highlights, { line = #lines - 1, start = 0, finish = 6, group = hl.title })
 		table.insert(highlights, {
@@ -114,13 +157,11 @@ function M.open_lsp_info_floating_window()
 
 		local cmd = client.config.cmd
 		local cmd_line = "(external)"
-
 		if type(cmd) == "table" then
 			cmd_line = table.concat(cmd, " ")
 		elseif type(cmd) == "string" then
 			cmd_line = cmd
 		elseif type(cmd) == "function" then
-			-- Try to get function name if available
 			local info = debug.getinfo(cmd, "n")
 			local name = info and info.name or "anonymous"
 			cmd_line = "(function: " .. name .. ")"
@@ -130,11 +171,8 @@ function M.open_lsp_info_floating_window()
 		table.insert(highlights, { line = #lines - 1, start = 0, finish = 3, group = hl.title })
 		table.insert(highlights, { line = #lines - 1, start = 5, finish = 5 + #cmd_line, group = hl.string })
 
-		-- Compact Capabilities
 		if client.server_capabilities then
-			local supported = {}
-			local unsupported = {}
-
+			local supported, unsupported = {}, {}
 			for cap, available in pairs(client.server_capabilities) do
 				if available then
 					table.insert(supported, cap)
@@ -143,11 +181,9 @@ function M.open_lsp_info_floating_window()
 				end
 			end
 
-			-- Capabilities main title
 			table.insert(lines, "Capabilities:")
 			table.insert(highlights, { line = #lines - 1, start = 0, finish = 12, group = hl.subtitle })
 
-			-- Supported section
 			table.insert(lines, "  Supported:")
 			table.insert(highlights, { line = #lines - 1, start = 2, finish = 11, group = hl.subsection_supported })
 
@@ -158,7 +194,6 @@ function M.open_lsp_info_floating_window()
 				table.insert(highlights, { line = #lines - 1, start = 6, finish = 8 + #cap, group = hl.capability })
 			end
 
-			-- Unsupported section
 			table.insert(lines, "  Unsupported:")
 			table.insert(highlights, { line = #lines - 1, start = 2, finish = 13, group = hl.subsection_unsupported })
 
@@ -169,24 +204,6 @@ function M.open_lsp_info_floating_window()
 				table.insert(highlights, { line = #lines - 1, start = 6, finish = 8 + #cap, group = hl.capability })
 			end
 		end
-
-		local attached_count = #attached_buffers
-
-		if attached_count > 0 then
-			table.insert(
-				lines,
-				string.format("Attached Buffers: %d [%s]", attached_count, table.concat(attached_buffers, ", "))
-			)
-		else
-			table.insert(lines, string.format("Attached Buffers: %d", attached_count))
-		end
-
-		-- Highlights
-		table.insert(highlights, { line = #lines - 1, start = 0, finish = 16, group = hl.subtitle })
-		table.insert(
-			highlights,
-			{ line = #lines - 1, start = 18, finish = 18 + tostring(attached_count):len(), group = "Number" }
-		)
 	end
 
 	-- Create buffer and window
