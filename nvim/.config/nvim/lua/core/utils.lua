@@ -234,4 +234,34 @@ function M.open_lsp_info_floating_window()
 	vim.keymap.set("n", "<C-c>", "<cmd>close<CR>", { buffer = float_buf, nowait = true, silent = true })
 end
 
+M.get_visual_selection = function()
+	-- Reselect visual selection
+	vim.cmd("normal! gv")
+
+	-- Get selection range
+	local start_pos = vim.fn.getpos("'<")
+	local end_pos = vim.fn.getpos("'>")
+
+	-- Get selected lines
+	local lines = vim.fn.getline(start_pos[2], end_pos[2])
+	if #lines == 0 then
+		return
+	end
+
+	-- Handle single or multi-line selection
+	if #lines == 1 then
+		-- Trim whitespace for single-line
+		lines[1] = lines[1]:sub(start_pos[3], end_pos[3])
+	else
+		lines[1] = lines[1]:sub(start_pos[3])
+		lines[#lines] = lines[#lines]:sub(1, end_pos[3])
+	end
+	local selection = table.concat(lines, "\n")
+
+	-- Optional: escape for regex or literal search
+	local escaped = vim.fn.escape(selection, [[\/.*$^~[]])
+
+	return escaped
+end
+
 return M
