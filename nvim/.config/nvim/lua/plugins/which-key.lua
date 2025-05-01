@@ -23,7 +23,7 @@ M.opts = {
 	},
 	win = {
 		no_overlap = true,
-		border = require("utils.icons").ui.Border_Single_Line,
+		border = require("core.icons").ui.Border_Single_Line,
 		-- padding = { 2, 2, 2, 2 }, -- extra window padding [top, right, bottom, left]
 		wo = {
 			-- winblend = 30,

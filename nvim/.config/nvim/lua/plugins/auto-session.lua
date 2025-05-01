@@ -20,7 +20,7 @@ M.config = function()
 		return
 	end
 
-	local icons = require("utils.icons")
+	local icons = require("core.icons")
 
 	local opts = {
 		enabled = true,
