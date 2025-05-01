@@ -50,25 +50,21 @@ M.pick_template_for_filetype = function()
 		prompt = " Overseer Task Templates (" .. ft:sub(1, 1):upper() .. ft:sub(2) .. ")❯ ",
 		multiselect = true, -- Allow multi-select
 		actions = {
-			-- ["default"] = function(selected)
-			-- 	local sel = selected[1]
-			-- 	local item = lookup[sel]
-			-- 	if item then
-			-- 		overseer.run_template(item.entry)
-			-- 	else
-			-- 		vim.notify("No template matched", vim.log.levels.WARN)
-			-- 	end
-			-- end,
 			["default"] = function(selected)
+				local delay = 0
 				-- Loop through selected items and run templates for each one
 				for _, sel in ipairs(selected) do
 					local item = lookup[sel]
 					if item then
 						overseer.run_template(item.entry)
+						-- Add staggered delay for each to simulate step-by-step progress
+						delay = delay + 250
 					else
 						vim.notify("No template matched for " .. sel, vim.log.levels.WARN)
 					end
 				end
+				-- Reopen after all are done with a small buffer
+				vim.defer_fn(M.pick_template_for_filetype, delay + 100)
 			end,
 		},
 		fzf_opts = {
