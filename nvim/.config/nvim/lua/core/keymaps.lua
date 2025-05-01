@@ -30,50 +30,35 @@ end
 --    LSP KEYMAPS     --
 ------------------------
 function M.setup_lsp_keymaps(bufnr)
-	local keymap_buf = vim.api.nvim_buf_set_keymap
-	local keymaps = {
-		{ "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", "Buf Definition" },
-		{ "gD", "<cmd>FzfLua lsp_definitions<CR>", "LSP Definition" },
-		{ "K", "<cmd>lua vim.lsp.buf.hover() <CR>", "Hover Documentation" },
-		{ "gI", "<cmd>FzfLua lsp_implementations<CR>", "LSP Implementations" },
-		{ "gr", "<cmd>FzfLua lsp_references<CR>", "LSP References" },
-		{ "gl", "<cmd>lua vim.diagnostic.open_float(nil, { focusable = false })<CR>", "Open Diagnostic (Float)" },
-		{ "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", "Signature Help" },
-		{ "<leader>la", "<cmd>FzfLua lsp_code_actions<cr>", "Code Action" },
-		{ "<leader>lf", "<cmd>lua require('conform').format({ async = true })<cr>", "Format" },
-		{ "<leader>lF", "<cmd>LspToggleAutoFormat<cr>", "Toggle Autoformat" },
-		{ "<leader>lr", "<cmd>LspRestart<cr>", "Restart Server" },
-		{ "<leader>lh", "<cmd>IlluminateToggle<cr>", "Toggle Doc HL" },
-		{ "<leader>li", "<cmd>lua require('core.utils').open_lsp_info_floating_window()<cr>", "Info" },
-		{
-			"<leader>ld",
-			"<cmd>FzfLua diagnostics_document<cr>",
-			"Document Diagnostics",
-		},
-		{
-			"<leader>lw",
-			"<cmd>FzfLua diagnostics_workspace<cr>",
-			"Workspace Diagnostics",
-		},
-		{ "<leader>lj", "<cmd>lua vim.diagnostic.jump({count=1, float=true})<cr>", "Next Diagnostic" },
-		{ "<leader>lk", "<cmd>lua vim.diagnostic.jump({count=-1, float=true})<cr>", "Prev Diagnostic" },
-		{
-			"<leader>ll",
-			"<cmd>lua vim.lsp.codelens.run()<cr>",
-			"CodeLens Action",
-		},
-		{ "<leader>lq", "<cmd>lua vim.diagnostic.setloclist()<CR>", "Quickfix" },
-		{ "<leader>lR", "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
-		{ "<leader>ls", "<cmd>FzfLua lsp_document_symbols<cr>", "Document Symbols" },
-		{
-			"<leader>lS",
-			"<cmd>FzfLua lsp_live_workspace_symbols<cr>",
-			"Workspace Symbols",
-		},
-	}
+-- stylua: ignore start
+  local keymaps = {
+    { "gd", vim.lsp.buf.definition, "Buf Definition" },
+    { "gD", function() require('fzf-lua').lsp_definitions() end, "LSP Definition" },
+    { "K", vim.lsp.buf.hover, "Hover Documentation" },
+    { "gI", function() require('fzf-lua').lsp_implementations() end, "LSP Implementations" },
+    { "gr", function() require('fzf-lua').lsp_references() end, "LSP References" },
+    { "gl", function() vim.diagnostic.open_float(nil, { focusable = false }) end, "Open Diagnostic (Float)" },
+    { "<C-k>", vim.lsp.buf.signature_help, "Signature Help" },
+    { "<leader>la", function() require('fzf-lua').lsp_code_actions() end, "Code Action" },
+    { "<leader>lf", function() require('conform').format({ async = true }) end, "Format" },
+    { "<leader>lF", "<cmd>LspToggleAutoFormat<cr>", "Toggle Autoformat" },
+    { "<leader>lr", "<cmd>LspRestart<cr>", "Restart Server" },
+    { "<leader>lh", "<cmd>IlluminateToggle<cr>", "Toggle Doc HL" },
+    { "<leader>li", function() require('core.utils').open_lsp_info_floating_window() end, "Info" },
+    { "<leader>ld", function() require('fzf-lua').diagnostics_document() end, "Document Diagnostics" },
+    { "<leader>lw", function() require('fzf-lua').diagnostics_workspace() end, "Workspace Diagnostics" },
+    { "<leader>lj", function() vim.diagnostic.jump({count=1, float=true}) end, "Next Diagnostic" },
+    { "<leader>lk", function() vim.diagnostic.jump({count=-1, float=true}) end, "Prev Diagnostic" },
+    { "<leader>ll", vim.lsp.codelens.run, "CodeLens Action" },
+    { "<leader>lq", vim.diagnostic.setloclist, "Quickfix" },
+    { "<leader>lR", vim.lsp.buf.rename, "Rename" },
+    { "<leader>ls", function() require('fzf-lua').lsp_document_symbols() end, "Document Symbols" },
+    { "<leader>lS", function() require('fzf-lua').lsp_live_workspace_symbols() end, "Workspace Symbols" },
+  }
+	-- stylua: ignore end
 
 	for _, v in ipairs(keymaps) do
-		keymap_buf(bufnr, "n", v[1], v[2], { desc = v[3], nowait = true, noremap = true, silent = true })
+		vim.keymap.set("n", v[1], v[2], { buffer = bufnr, desc = v[3], noremap = true, silent = true })
 	end
 
 	vim.keymap.set("n", "<leader>lH", function()
