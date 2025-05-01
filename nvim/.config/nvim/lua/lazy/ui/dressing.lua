@@ -9,7 +9,7 @@ return {
 		end
 	end,
 	config = function()
-		local icons = require("utils.icons")
+		local icons = require("core.icons")
 		require("dressing").setup({
 			select = {
 				telescope = require("telescope.themes").get_dropdown({ -- or 'cursor'
