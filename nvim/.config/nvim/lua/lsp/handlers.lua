@@ -89,8 +89,7 @@ M.setup = function()
 			end
 
 			if vim.islist(result) then
-				util.jump_to_location(result[1], "utf-8")
-				-- util.show_document({ focus = true })
+				util.show_document({ focus = true })
 
 				if #result > 1 then
 					-- util.set_qflist(util.locations_to_items(result, 'utf-8'))
@@ -99,8 +98,7 @@ M.setup = function()
 					api.nvim_command("wincmd p")
 				end
 			else
-				util.jump_to_location(result, "utf-8")
-				-- util.show_document({ focus = true })
+				util.show_document({ focus = true })
 			end
 		end
 		return handler
@@ -108,6 +106,18 @@ M.setup = function()
 
 	-- https://neovim.io/doc/user/lsp.html
 	vim.lsp.handlers["textDocument/definition"] = goto_definition("split")
+
+	-- every call to vim.lsp.buf.definition() (including plugins like Telescope, etc.) goes through this handler
+	vim.lsp.buf.definition = function()
+		local win = vim.api.nvim_get_current_win()
+		local bufnr = vim.api.nvim_get_current_buf()
+		local client = vim.lsp.get_clients({ bufnr })[1]
+		local encoding = client and client.offset_encoding or "utf-8"
+
+		local params = vim.lsp.util.make_position_params(win, encoding)
+
+		vim.lsp.buf_request(0, "textDocument/definition", params, vim.lsp.handlers["textDocument/definition"])
+	end
 
 	local handlers = {
 		hover = vim.lsp.buf.hover,
