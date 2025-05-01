@@ -14,7 +14,7 @@ return {
 			name = "LLVM Coverage Report",
 			components = {
 				"default",
-				"on_output_quickfix",
+				{ "on_output_quickfix", open = true },
 				"on_result_diagnostics",
 				"unique",
 			},
