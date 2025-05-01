@@ -180,7 +180,7 @@ function M.config()
 	neotest.setup({
 		adapters = require("plugins.testing.adapters"),
 		quickfix = {
-			enabled = false,
+			enabled = true,
 		},
 		output_panel = {
 			enabled = true,
