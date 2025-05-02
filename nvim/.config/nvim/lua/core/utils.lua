@@ -235,9 +235,6 @@ function M.open_lsp_info_floating_window()
 end
 
 M.get_visual_selection = function()
-	-- Reselect visual selection
-	vim.cmd("normal! gv")
-
 	-- Get selection range
 	local start_pos = vim.fn.getpos("'<")
 	local end_pos = vim.fn.getpos("'>")
