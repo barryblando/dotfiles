@@ -93,24 +93,21 @@ M.grug_far_visual = function()
 end
 
 M.keys = function()
-	require("which-key").register({
-		g = {
-			name = "Grug-Far",
-			f = {
-				function()
-					vim.cmd("lua require('plugins.grug-far').grug_far_visual()")
-				end,
-				"Visual Search",
-			},
+	return {
+		{
+			"<leader>gf",
+			function()
+				vim.cmd("lua require('plugins.grug-far').grug_far_visual()")
+			end,
+			desc = "Visual Search",
+			mode = "v",
 		},
-	}, { mode = "v", prefix = "<leader>" })
-
-	vim.keymap.set(
-		"n",
-		"<leader>R",
-		"<cmd>lua require('grug-far').open({ cwd = vim.fn.getcwd() })<CR>",
-		{ desc = "GrugFar | Find And Replace", silent = true }
-	)
+		{
+			"<leader>R",
+			"<cmd>lua require('grug-far').open({ prefills = { paths = vim.loop.cwd() } })<CR>",
+			desc = "GrugFar | Find And Replace",
+		},
+	}
 end
 
 M.config = function()
