@@ -66,7 +66,7 @@ local function get_placeholders(language)
 	end
 end
 
-M.grug_far_visual = function()
+local function grug_far_visual()
 	local search = utils.get_visual_selection()
 
 	local lang_filters = {
@@ -97,14 +97,16 @@ M.keys = function()
 		{
 			"<leader>gf",
 			function()
-				vim.cmd("lua require('plugins.grug-far').grug_far_visual()")
+				grug_far_visual()
 			end,
 			desc = "Visual Search",
 			mode = "v",
 		},
 		{
 			"<leader>R",
-			"<cmd>lua require('grug-far').open({ prefills = { paths = vim.loop.cwd() } })<CR>",
+			function()
+				require("grug-far").open({ prefills = { paths = vim.loop.cwd() } })
+			end,
 			desc = "GrugFar | Find And Replace",
 		},
 	}
