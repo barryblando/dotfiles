@@ -140,7 +140,8 @@ M.config = function(_, opts)
 		{ "<leader>d", group = "Debug", nowait = true, remap = false },
 		{ "<leader>f", group = "Find", nowait = true, remap = false },
 		{ "<leader>g", group = "Git", nowait = true, remap = false },
-		{ "<leader>g", group = "Grug-Far", mode = "v", nowait = true, remap = false },
+		{ "<leader>F", group = "Grug-Far (Visual)", mode = "v", nowait = true, remap = false },
+		{ "<leader>F", group = "Grug-Far", nowait = true, remap = false },
 		{ "<leader>l", group = "LSP", icon = { icon = "󰒋 " }, nowait = true, remap = false },
 		{ "<leader>n", group = "Noice", nowait = true, remap = false },
 	})
