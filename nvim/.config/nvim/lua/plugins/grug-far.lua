@@ -2,69 +2,62 @@ local M = {}
 local utils = require("core.utils")
 
 -- Local function to get placeholders for each language
-local function get_placeholders(language)
-	if language == "rs" then
-		return {
-			enabled = true,
-			search = "fn\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\s*\\(",
-			replacement = "fn ${1}_foo${2} ->",
-			replacement_lua = 'return vars.A == "blah" and "foo(" .. table.concat(vars.ARGS, ", ") .. ")" or match',
-			filesFilter = "*.rs   **/src/**/*.rs",
-			flags = "--help (-h) --debug-query=ast --rewrite= --strictness=high",
-			paths = "./src/main.rs   ../libs/utils.rs",
-		}
-	elseif language == "ts" then
-		return {
-			enabled = true,
-			search = "function\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\s*\\(",
-			replacement = "function ${1}_foo${2} :",
-			replacement_lua = 'return vars.A == "foo" and "function(" .. table.concat(vars.ARGS, ", ") .. ")" or match',
-			filesFilter = "*.ts   **/src/**/*.ts",
-			flags = "--help (-h) --debug-query=ast --rewrite= --strictness=medium",
-			paths = "./src/index.ts   ../libs/utils.ts",
-		}
-	elseif language == "go" then
-		return {
-			enabled = true,
-			search = "func\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\s*\\(",
-			replacement = "func ${1}_foo(${2})",
-			replacement_lua = 'return vars.A == "bar" and "func(" .. table.concat(vars.ARGS, ", ") .. ")" or match',
-			filesFilter = "*.go   **/src/**/*.go",
-			flags = "--help (-h) --debug-query=ast --rewrite= --strictness=low",
-			paths = "./main.go   ../libs/utils.go",
-		}
-	elseif language == "py" then
-		return {
-			enabled = true,
-			search = "def\\s+([a-zA-Z_][a-zA0-9_]*)\\s*\\(",
-			replacement = "def ${1}_foo${2} :",
-			replacement_lua = 'return vars.A == "foo" and "def " .. vars.ARGS[1] .. "()" or match',
-			filesFilter = "*.py   **/src/**/*.py",
-			flags = "--help (-h) --debug-query=ast --rewrite= --strictness=medium",
-			paths = "./main.py   ../libs/utils.py",
-		}
-	elseif language == "ex" then
-		return {
-			enabled = true,
-			search = "def\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\s*\\(",
-			replacement = "def ${1}_foo${2} do",
-			replacement_lua = 'return vars.A == "bar" and "def " .. vars.ARGS[1] .. " do" or match',
-			filesFilter = "*.ex   **/src/**/*.ex",
-			flags = "--help (-h) --debug-query=ast --rewrite= --strictness=low",
-			paths = "./src/main.ex   ../libs/utils.ex",
-		}
-	else
-		return {
-			enabled = true,
-			search = "e.g. $A && $A()   foo.bar($$$ARGS)   $_FUNC($_FUNC)",
-			replacement = "e.g. $A?.()   blah($$$ARGS)",
-			replacement_lua = 'e.g. return vars.A == "blah" and "foo(" .. table.concat(vars.ARGS, ", ") .. ")" or match',
-			filesFilter = "e.g. *.lua   *.{css,js}   **/docs/*.md   (specify one per line, filters via ripgrep)",
-			flags = "e.g. --help (-h) --debug-query=ast --rewrite= (empty replace) --strictness=<STRICTNESS>",
-			paths = "e.g. /foo/bar   ../   ./hello\\ world/   ./src/foo.lua   ~/.config",
-		}
-	end
-end
+local placeholders = {
+	rs = {
+		enabled = true,
+		search = "fn\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\s*\\(",
+		replacement = "fn ${1}_foo${2} ->",
+		replacement_lua = 'return vars.A == "blah" and "foo(" .. table.concat(vars.ARGS, ", ") .. ")" or match',
+		filesFilter = "*.rs   **/src/**/*.rs",
+		flags = "--help (-h) --debug-query=ast --rewrite= --strictness=high",
+		paths = "./src/main.rs   ../libs/utils.rs",
+	},
+	ts = {
+		enabled = true,
+		search = "function\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\s*\\(",
+		replacement = "function ${1}_foo${2} :",
+		replacement_lua = 'return vars.A == "foo" and "function(" .. table.concat(vars.ARGS, ", ") .. ")" or match',
+		filesFilter = "*.ts   **/src/**/*.ts",
+		flags = "--help (-h) --debug-query=ast --rewrite= --strictness=medium",
+		paths = "./src/index.ts   ../libs/utils.ts",
+	},
+	go = {
+		enabled = true,
+		search = "func\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\s*\\(",
+		replacement = "func ${1}_foo(${2})",
+		replacement_lua = 'return vars.A == "bar" and "func(" .. table.concat(vars.ARGS, ", ") .. ")" or match',
+		filesFilter = "*.go   **/src/**/*.go",
+		flags = "--help (-h) --debug-query=ast --rewrite= --strictness=low",
+		paths = "./main.go   ../libs/utils.go",
+	},
+	py = {
+		enabled = true,
+		search = "def\\s+([a-zA-Z_][a-zA0-9_]*)\\s*\\(",
+		replacement = "def ${1}_foo${2} :",
+		replacement_lua = 'return vars.A == "foo" and "def " .. vars.ARGS[1] .. "()" or match',
+		filesFilter = "*.py   **/src/**/*.py",
+		flags = "--help (-h) --debug-query=ast --rewrite= --strictness=medium",
+		paths = "./main.py   ../libs/utils.py",
+	},
+	ex = {
+		enabled = true,
+		search = "def\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\s*\\(",
+		replacement = "def ${1}_foo${2} do",
+		replacement_lua = 'return vars.A == "bar" and "def " .. vars.ARGS[1] .. " do" or match',
+		filesFilter = "*.ex   **/src/**/*.ex",
+		flags = "--help (-h) --debug-query=ast --rewrite= --strictness=low",
+		paths = "./src/main.ex   ../libs/utils.ex",
+	},
+	default = {
+		enabled = true,
+		search = "e.g. $A && $A()   foo.bar($$$ARGS)   $_FUNC($_FUNC)",
+		replacement = "e.g. $A?.()   blah($$$ARGS)",
+		replacement_lua = 'e.g. return vars.A == "blah" and "foo(" .. table.concat(vars.ARGS, ", ") .. ")" or match',
+		filesFilter = "e.g. *.lua   *.{css,js}   **/docs/*.md   (specify one per line, filters via ripgrep)",
+		flags = "e.g. --help (-h) --debug-query=ast --rewrite= (empty replace) --strictness=<STRICTNESS>",
+		paths = "e.g. /foo/bar   ../   ./hello\\ world/   ./src/foo.lua   ~/.config",
+	},
+}
 
 local function grug_far_visual()
 	local search = utils.get_visual_selection()
@@ -97,6 +90,8 @@ M.keys = function()
 		{
 			"<leader>gf",
 			function()
+				-- Reselect visual selection
+				-- vim.cmd("normal! gv")
 				grug_far_visual()
 			end,
 			desc = "Visual Search",
@@ -125,18 +120,20 @@ M.config = function()
 			ripgrep = {
 				path = "rg",
 				extraArgs = "",
-				placeholders = get_placeholders(vim.fn.expand("%:e")),
+				placeholders = vim.fn.expand("%:e") ~= nil and placeholders[vim.fn.expand("%:e")]
+					or placeholders["default"],
 			},
 			astgrep = {
 				path = "ast-grep",
 				extraArgs = "",
-				placeholders = get_placeholders(vim.fn.expand("%:e")),
+				placeholders = vim.fn.expand("%:e") ~= nil and placeholders[vim.fn.expand("%:e")]
+					or placeholders["default"],
 			},
-
 			["astgrep-rules"] = {
 				path = "ast-grep",
 				extraArgs = "",
-				placeholders = get_placeholders(vim.fn.expand("%:e")),
+				placeholders = vim.fn.expand("%:e") ~= nil and placeholders[vim.fn.expand("%:e")]
+					or placeholders["default"],
 			},
 		},
 
