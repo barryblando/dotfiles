@@ -235,6 +235,12 @@ function M.open_lsp_info_floating_window()
 end
 
 M.get_visual_selection = function()
+	-- Only proceed if in visual mode
+	local mode = vim.fn.mode()
+	if not mode:match("[vV]") then -- visual, V-line, V-block
+		return nil, nil
+	end
+
 	-- Get selection range
 	local start_pos = vim.fn.getpos("'<")
 	local end_pos = vim.fn.getpos("'>")
@@ -242,23 +248,27 @@ M.get_visual_selection = function()
 	-- Get selected lines
 	local lines = vim.fn.getline(start_pos[2], end_pos[2])
 	if #lines == 0 then
-		return
+		return nil, nil
 	end
 
 	-- Handle single or multi-line selection
 	if #lines == 1 then
-		-- Trim whitespace for single-line
 		lines[1] = lines[1]:sub(start_pos[3], end_pos[3])
 	else
 		lines[1] = lines[1]:sub(start_pos[3])
 		lines[#lines] = lines[#lines]:sub(1, end_pos[3])
 	end
+
 	local selection = table.concat(lines, "\n")
 
-	-- Optional: escape for regex or literal search
-	local escaped = vim.fn.escape(selection, [[\/.*$^~[]])
+	-- Escape only for regex-based search (ripgrep)
+	local function escape_regex(text)
+		return text:gsub("([%^%$%(%)%%%.%[%]%*%+%-%?])", "%%%1")
+	end
 
-	return escaped
+	local escaped = escape_regex(selection)
+
+	return selection, escaped
 end
 
 return M
