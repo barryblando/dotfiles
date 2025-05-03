@@ -5,7 +5,7 @@ return {
 			"nvim-lua/plenary.nvim",
 			"nvim-treesitter/nvim-treesitter",
 			"stevearc/overseer.nvim",
-			"nvim-neotest/neotest-go",
+			"fredrikaverpil/neotest-golang",
 			"rouge8/neotest-rust",
 			"marilari88/neotest-vitest",
 			"rcarriga/nvim-notify",
