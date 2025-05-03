@@ -10,7 +10,6 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 return {
-
 	{
 		"crispgm/nvim-go",
 		ft = { "go", "gomod" },
