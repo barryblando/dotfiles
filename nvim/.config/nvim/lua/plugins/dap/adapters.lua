@@ -19,6 +19,15 @@ M.setup = function()
 			args = { "--port", "${port}" },
 		},
 	}
+
+	dap.adapters.go = {
+		type = "server",
+		port = "${port}",
+		executable = {
+			command = vim.fn.stdpath("data") .. "/mason/bin/dlv",
+			args = { "dap", "--listen=127.0.0.1:${port}" },
+		},
+	}
 end
 
 return M
