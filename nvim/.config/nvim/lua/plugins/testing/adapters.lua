@@ -14,8 +14,14 @@ return {
 		},
 		-- Optional: override how output is read (required if nextest output parsing changes)
 	}),
-	require("neotest-go")({
-		args = { "-count=1", "-timeout=30s" },
+	require("neotest-golang")({
+		runner = "go",
+		go_test_args = {
+			"-v",
+			"-race",
+			"-count=1",
+			"-coverprofile=" .. vim.fn.getcwd() .. "/coverage.out",
+		},
 	}),
 	require("neotest-vitest")({
 		is_test_file = function(file_path)
