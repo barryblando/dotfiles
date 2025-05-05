@@ -56,7 +56,7 @@ local lsp_servers = {
 	"tailwindcss",
 	"yamlls",
 	"cssls",
-	"ts_ls", -- will use typescript tools
+	"ts_ls",
 	"templ",
 	"terraformls",
 	"taplo",
