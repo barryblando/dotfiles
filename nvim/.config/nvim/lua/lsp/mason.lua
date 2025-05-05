@@ -8,7 +8,7 @@ if not mlsp_status_ok then
 	return
 end
 
-local lspconfig_status_ok, lspconfig = pcall(require, "lspconfig")
+local lspconfig_status_ok, _ = pcall(require, "lspconfig")
 if not lspconfig_status_ok then
 	return
 end
@@ -56,7 +56,7 @@ local lsp_servers = {
 	"tailwindcss",
 	"yamlls",
 	"cssls",
-	-- "ts_ls", -- will use typescript tools
+	"ts_ls", -- will use typescript tools
 	"templ",
 	"terraformls",
 	"taplo",
@@ -104,7 +104,9 @@ for _, server in pairs(lsp_servers) do
 		opts = vim.tbl_deep_extend("force", server_custom_opts, opts)
 	end
 
-	lspconfig[server].setup(opts)
+	-- lspconfig[server].setup(opts)
+  vim.lsp.config(server, opts)
+  vim.lsp.enable(server)
 	::continue::
 end
 
