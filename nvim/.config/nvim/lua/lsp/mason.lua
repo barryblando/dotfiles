@@ -76,7 +76,6 @@ mason_lspconfig.setup({
 -- https://github.com/jay-babu/mason-nvim-dap.nvim/blob/main/lua/mason-nvim-dap/mappings/source.lua
 local dap_packages = {
 	"codelldb",
-	"node2",
 	"delve",
 }
 
