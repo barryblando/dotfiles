@@ -99,7 +99,7 @@ for _, server in pairs(lsp_servers) do
 		goto continue
 	end
 
-	local has_custom_opts, server_custom_opts = pcall(require, "lsp.settings." .. server)
+	local has_custom_opts, server_custom_opts = pcall(require, "lsp.servers." .. server)
 	if has_custom_opts then
 		opts = vim.tbl_deep_extend("force", server_custom_opts, opts)
 	end
