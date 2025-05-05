@@ -1,5 +1,3 @@
-local util = require("lspconfig").util
-
 local inlayHints = {
 	includeInlayParameterNameHints = "all",
 	includeInlayParameterNameHintsWhenArgumentMatchesName = false,
@@ -12,9 +10,17 @@ local inlayHints = {
 }
 
 return {
-	filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "typescript.tsx" },
+	cmd = { "typescript-language-server", "--stdio" },
+	filetypes = {
+		"javascript",
+		"javascriptreact",
+		"javascript.jsx",
+		"typescript",
+		"typescriptreact",
+		"typescript.tsx",
+	},
+	root_markers = { "tsconfig.json", "jsconfig.json", "package.json", ".git" },
 	-- tsserver will only resolve projects with package.json
-	root_dir = util.root_pattern("package.json", ".git"),
 	settings = {
 		typescript = {
 			inlayHints = inlayHints,
