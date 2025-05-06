@@ -271,4 +271,55 @@ M.get_visual_selection = function()
 	return selection, escaped
 end
 
+M.extract_unique_package_names = function(list)
+	local names = {}
+	local seen = {}
+	for _, item in ipairs(list) do
+		local name = nil
+		if type(item) == "string" then
+			name = item
+		elseif type(item) == "table" and type(item[1]) == "string" then
+			name = item[1]
+		end
+
+		if name and not seen[name] then
+			table.insert(names, name)
+			seen[name] = true
+		end
+	end
+	return names
+end
+
+M.merge_lists = function(...)
+	local combined = {}
+	local seen = {}
+
+	for _, list in ipairs({ ... }) do
+		for _, item in ipairs(list) do
+			if not seen[item] then
+				table.insert(combined, item)
+				seen[item] = true
+			end
+		end
+	end
+
+	return combined
+end
+
+M.extract_lsp_names = function(list)
+	local names = {}
+	for _, pair in ipairs(list) do
+		table.insert(names, pair[1])
+	end
+	return names
+end
+
+M.extract_mason_names = function(list)
+	local names = {}
+	for _, pair in ipairs(list) do
+		table.insert(names, pair[2])
+	end
+	return names
+end
+
 return M
