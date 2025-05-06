@@ -87,8 +87,6 @@ for _, server in pairs(lsp_servers) do
 		capabilities = require("lsp.handlers").capabilities,
 	}
 
-	-- server = vim.split(server, "@")[1]
-
 	if server == "rust_analyzer" then
 		-- install rust_analyzer but we have to skip and let rustaceanvim configure rust lsp
 		goto continue
@@ -99,10 +97,7 @@ for _, server in pairs(lsp_servers) do
 		opts = vim.tbl_deep_extend("force", server_custom_opts, opts)
 	end
 
-	-- lspconfig[server].setup(opts)
 	vim.lsp.config(server, opts)
 	vim.lsp.enable(server)
 	::continue::
 end
-
-require("lspconfig.ui.windows").default_options.border = icons.ui.Border_Single_Line

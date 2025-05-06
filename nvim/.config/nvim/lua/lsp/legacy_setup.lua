@@ -38,3 +38,9 @@
 -- 	ensure_installed = dap_extensions,
 -- 	automatic_installation = true,
 -- })
+
+-- server = vim.split(server, "@")[1]
+
+-- lspconfig[server].setup(opts)
+
+-- require("lspconfig.ui.windows").default_options.border = icons.ui.Border_Single_Line
