@@ -3,34 +3,15 @@ if not status_ok then
 	return
 end
 
-local mlsp_status_ok, mason_lspconfig = pcall(require, "mason-lspconfig")
-if not mlsp_status_ok then
-	return
-end
-
-local lspconfig_status_ok, _ = pcall(require, "lspconfig")
-if not lspconfig_status_ok then
-	return
-end
-
-local mdap_status_ok, mason_dap = pcall(require, "mason-nvim-dap")
-if not mdap_status_ok then
+local mason_installer_ok, mason_installer = pcall(require, "mason-tool-installer")
+if not mason_installer_ok then
 	return
 end
 
 local icons = require("core.icons")
-
--- https://mason-registry.dev/registry/list
-local mason_packages = {
-	"stylua",
-	"black",
-	"isort",
-	"prettier",
-	"prettierd",
-}
+local utils = require("core.utils")
 
 mason.setup({
-	ensure_installed = mason_packages,
 	ui = {
 		border = icons.ui.Border_Single_Line,
 		icons = {
@@ -43,46 +24,60 @@ mason.setup({
 	max_concurrent_installers = 4,
 })
 
--- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
-local lsp_servers = {
-	"bashls",
-	"denols",
-	"dockerls",
-	"html",
-	"gopls",
-	"graphql",
-	"prismals",
-	"rust_analyzer",
-	"tailwindcss",
-	"yamlls",
-	"cssls",
-	"ts_ls",
-	"templ",
-	"terraformls",
-	"taplo",
-	"jsonls",
-	"lua_ls",
-	"marksman",
-	"emmet_ls",
-	"ansiblels",
-	"eslint",
+-- https://mason-registry.dev/registry/list
+local linters_formatters_registry = {
+	{ "stylua", "stylua" },
+	{ "black", "black" },
+	{ "isort", "isort" },
+	{ "prettier", "prettier" },
+	{ "prettierd", "prettierd" },
 }
 
-mason_lspconfig.setup({
-	ensure_installed = lsp_servers,
-	automatic_installation = true,
-})
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+local servers_registry = {
+	{ "bashls", "bash-language-server" },
+	{ "denols", "deno" },
+	{ "dockerls", "dockerfile-language-server" },
+	{ "html", "html-lsp" },
+	{ "gopls", "gopls" },
+	{ "graphql", "graphql-language-service-cli" },
+	{ "prismals", "prisma-language-server" },
+	{ "rust_analyzer", "rust-analyzer" },
+	{ "tailwindcss", "tailwindcss-language-server" },
+	{ "yamlls", "yaml-language-server" },
+	{ "cssls", "css-lsp" },
+	{ "ts_ls", "typescript-language-server" },
+	{ "templ", "templ" },
+	{ "terraformls", "terraform-ls" },
+	{ "taplo", "taplo" },
+	{ "jsonls", "json-lsp" },
+	{ "lua_ls", "lua-language-server" },
+	{ "marksman", "marksman" },
+	{ "emmet_ls", "emmet-ls" },
+	{ "ansiblels", "ansible-language-server" },
+	{ "eslint", "eslint-lsp" },
+}
 
 -- https://github.com/jay-babu/mason-nvim-dap.nvim/blob/main/lua/mason-nvim-dap/mappings/source.lua
-local dap_packages = {
-	"codelldb",
-	"delve",
+local dap_registry = {
+	{ "codelldb", "codelldb" },
+	{ "delve", "delve" },
+	{ "js", "js-debug-adapter" },
 }
 
-mason_dap.setup({
-	ensure_installed = dap_packages,
-	automatic_installation = true,
+local linters_formatters = utils.extract_mason_names(linters_formatters_registry)
+local servers = utils.extract_mason_names(servers_registry)
+local dap_extensions = utils.extract_mason_names(dap_registry)
+
+local ensure_installed = utils.merge_lists(linters_formatters, servers, dap_extensions)
+
+mason_installer.setup({
+	ensure_installed = ensure_installed,
+	auto_update = true,
+	run_on_start = true,
 })
+
+local lsp_servers = utils.extract_lsp_names(servers_registry)
 
 local opts = {}
 
@@ -92,7 +87,7 @@ for _, server in pairs(lsp_servers) do
 		capabilities = require("lsp.handlers").capabilities,
 	}
 
-	server = vim.split(server, "@")[1]
+	-- server = vim.split(server, "@")[1]
 
 	if server == "rust_analyzer" then
 		-- install rust_analyzer but we have to skip and let rustaceanvim configure rust lsp
@@ -105,8 +100,8 @@ for _, server in pairs(lsp_servers) do
 	end
 
 	-- lspconfig[server].setup(opts)
-  vim.lsp.config(server, opts)
-  vim.lsp.enable(server)
+	vim.lsp.config(server, opts)
+	vim.lsp.enable(server)
 	::continue::
 end
 
