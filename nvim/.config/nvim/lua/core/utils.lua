@@ -306,7 +306,7 @@ M.merge_lists = function(...)
 	return combined
 end
 
-M.extract_lsp_names = function(list)
+M.extract_lsp_packages = function(list)
 	local names = {}
 	for _, pair in ipairs(list) do
 		table.insert(names, pair[1])
@@ -314,7 +314,7 @@ M.extract_lsp_names = function(list)
 	return names
 end
 
-M.extract_mason_names = function(list)
+M.extract_mason_packages = function(list)
 	local names = {}
 	for _, pair in ipairs(list) do
 		table.insert(names, pair[2])

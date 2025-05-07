@@ -35,6 +35,10 @@ local linters_formatters_registry = {
 
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 local servers_registry = {
+  -- stylua: ignore start
+  -- turn off/on auto_update per tool, conditional installing, and version
+	-- { "bashls", { "bash-language-server", auto_update = true, version = 'v1.(what version)' } },
+	-- { "gopls", { "gopls", condition = function() return not os.execute("go version") end },},
 	{ "bashls", "bash-language-server" },
 	{ "denols", "deno" },
 	{ "dockerls", "dockerfile-language-server" },
@@ -56,6 +60,7 @@ local servers_registry = {
 	{ "emmet_ls", "emmet-ls" },
 	{ "ansiblels", "ansible-language-server" },
 	{ "eslint", "eslint-lsp" },
+	-- stylua: ignore end
 }
 
 -- https://github.com/jay-babu/mason-nvim-dap.nvim/blob/main/lua/mason-nvim-dap/mappings/source.lua
@@ -65,19 +70,20 @@ local dap_registry = {
 	{ "js", "js-debug-adapter" },
 }
 
-local linters_formatters = utils.extract_mason_names(linters_formatters_registry)
-local servers = utils.extract_mason_names(servers_registry)
-local dap_extensions = utils.extract_mason_names(dap_registry)
+local linters_formatters = utils.extract_mason_packages(linters_formatters_registry)
+local servers = utils.extract_mason_packages(servers_registry)
+local dap_extensions = utils.extract_mason_packages(dap_registry)
 
 local ensure_installed = utils.merge_lists(linters_formatters, servers, dap_extensions)
 
+-- https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim
 mason_installer.setup({
 	ensure_installed = ensure_installed,
 	auto_update = true,
 	run_on_start = true,
 })
 
-local lsp_servers = utils.extract_lsp_names(servers_registry)
+local lsp_servers = utils.extract_lsp_packages(servers_registry)
 
 local opts = {}
 
