@@ -1,7 +1,7 @@
 -- Highlight URLs.
 return {
 	"itchyny/vim-highlighturl",
-	event = "VeryLazy",
+	-- event = "VeryLazy",
 	config = function()
 		-- Disable the plugin in some places where the default highlighting
 		-- is preferred.
