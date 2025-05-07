@@ -17,10 +17,10 @@ return {
 			"nvim-neotest/nvim-nio",
 			{ "rcarriga/nvim-dap-ui", opts = require("plugins.dap.ui").opts },
 			{ "theHamsta/nvim-dap-virtual-text", opts = require("plugins.dap.virtual-text").opts },
-			{ "jbyuki/one-small-step-for-vimkind", init = require("plugins.dap.lang.lua").init },
+			{ "jbyuki/one-small-step-for-vimkind", init = require("plugins.dap.others.lua").init },
 			-- {
 			-- 	"leoluz/nvim-dap-go",
-			-- 	opts = require("plugins.dap.lang.go").opts,
+			-- 	opts = require("plugins.dap.others.go").opts,
 			-- },
 		},
 		keys = require("core.keymaps").setup_dap_keymaps(),
