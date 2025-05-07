@@ -1,5 +1,6 @@
 local M = {}
 
+-- use by plugin "leoluz/nvim-dap-go"
 M.opts = {
 	dap_configurations = {
 		{
