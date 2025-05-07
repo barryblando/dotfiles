@@ -22,6 +22,7 @@ M.config = function()
 		"css",
 		"scss",
 		"powershell",
+		"fish",
 	}
 
 	configs.setup({
@@ -51,6 +52,7 @@ M.config = function()
 			"regex",
 			"kdl",
 			"powershell",
+			"fish",
 		},
 		sync_install = false, -- install languages synchronously (only applied to `ensure_installed`)
 		ignore_install = { "" }, -- List of parsers to ignore installing
