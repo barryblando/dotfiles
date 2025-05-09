@@ -13,9 +13,11 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 	end
 end
 
-vim.opt.rtp:prepend(lazypath)
+-- Put lazy into the runtimepath for neovim
+vim.opt.runtimepath:prepend(lazypath)
 
 vim.opt.termguicolors = true
+vim.o.background = "dark"
 
 local opts = { noremap = true, silent = true }
 local keymap = vim.api.nvim_set_keymap
@@ -31,7 +33,7 @@ local excluded_dirs = {
 	"lsp",
 }
 
--- Install your plugins here
+-- Initiate lazy
 require("lazy").setup(require("core.utils").collect_specs(excluded_dirs), {
 	install = { colorscheme = { "gruvbox-material" } },
 	ui = {
