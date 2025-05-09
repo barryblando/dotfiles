@@ -165,7 +165,7 @@ function M.setup_dap_keymaps()
 			function()
 				require("dap").run_to_cursor()
 			end,
-			desc = "[d]ebug [C]ursor",
+			desc = "[d]ebug run to [C]ursor",
 		},
 		{
 			"<leader>dg",
