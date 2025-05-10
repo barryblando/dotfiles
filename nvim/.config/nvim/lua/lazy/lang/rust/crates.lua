@@ -13,9 +13,5 @@ return {
 			min_width = 20,
 			padding = 1,
 		},
-		null_ls = {
-			enabled = true,
-			name = "crates.nvim",
-		},
 	},
 }
