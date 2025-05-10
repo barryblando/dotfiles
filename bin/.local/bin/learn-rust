@@ -1,0 +1,179 @@
+#!/usr/bin/env bash
+
+set -e
+
+print_usage() {
+  echo "Usage:"
+  echo "  learn-rust --init [--name NAME]         Initialize new workspace"
+  echo "  learn-rust --lesson [#] [SUFFIX]        Add a new lesson crate"
+  echo "  learn-rust --remove N                   Remove lesson by number (e.g. 02)"
+  echo "  learn-rust --reset                      Remove all lessons"
+  echo "  learn-rust --list                       List all lessons"
+  exit 1
+}
+
+find_workspace_root() {
+  while [ ! -f "Cargo.toml" ]; do
+    cd .. || exit 1
+    if [ "$PWD" = "/" ]; then
+      echo "󰛉  Could not find workspace root"
+      exit 1
+    fi
+  done
+  WORKSPACE_TOML="Cargo.toml"
+}
+
+get_next_lesson_number() {
+  find_workspace_root
+  last=$(grep -oP 'lesson\d{2}' "$WORKSPACE_TOML" | sed 's/lesson//' | sort -nr | head -n1)
+  last_clean=$(echo "$last" | sed 's/^0*//')
+  next_num=$(printf "%02d" $((last_clean + 1)))
+  echo "$next_num"
+}
+
+case "$1" in
+  --init)
+    WORKSPACE_NAME="${2:-learn-rust}"
+    mkdir -p "$WORKSPACE_NAME"
+    cd "$WORKSPACE_NAME" || exit 1
+
+    # Create virtual workspace
+    cat >Cargo.toml <<EOF
+[workspace]
+resolver = "3"
+members = [
+]
+EOF
+
+    echo "✅ Initialized Rust workspace: $WORKSPACE_NAME"
+    ;;
+
+  --lesson)
+    find_workspace_root
+
+    lesson_number="$2"
+    lesson_name="$3"
+
+    if [ -z "$lesson_number" ] || [ -z "$lesson_name" ]; then
+      echo "󰛉  Please provide both a lesson number and a name, e.g. --lesson 02 borrowing"
+      exit 1
+    fi
+
+    # Validate the number format
+    if ! [[ "$lesson_number" =~ ^[0-9]{2}$ ]]; then
+      echo "󰛉  Invalid lesson number format. Use two digits (e.g., 01, 02)."
+      exit 1
+    fi
+
+    # Format the crate name (lessonXX-<name>)
+    crate_name="lesson${lesson_number}-${lesson_name}"
+
+    # Check if the lesson already exists in the workspace members
+    if ! grep -q "\"$crate_name\"" "$WORKSPACE_TOML"; then
+      # Create new lesson if it doesn't exist
+      echo "📦 Creating binary crate: $crate_name"
+      cargo new "$crate_name" --bin
+
+      echo "  Adding to workspace"
+
+      # Get the current members list, remove spaces and quotes, and avoid duplicates
+      updated_members=$(sed -n 's/^\s*members\s*=\s*\[\(.*\)\]/\1/p' "$WORKSPACE_TOML" | tr -d ' ')
+
+      # Remove existing lesson from updated_members if already present
+      updated_members=$(echo "$updated_members" | sed "s/, \"$crate_name\"//g")
+
+      # Add the new lesson at the end of the list
+      updated_members=$(echo "$updated_members" | sed "s/\]$/,$crate_name\]/")
+
+      # Safely get the resolver without extra quotes
+      resolver=$(grep -oP 'resolver\s*=\s*"\K[0-9]+"' "$WORKSPACE_TOML")
+      if [ -z "$resolver" ]; then
+        resolver="3"
+      fi
+
+      # Rebuild Cargo.toml with the updated members and resolver
+      {
+        echo "[workspace]"
+        echo "resolver = \"$resolver"
+        echo "members = [$updated_members]"
+      } >"$WORKSPACE_TOML.tmp"
+
+      mv "$WORKSPACE_TOML.tmp" "$WORKSPACE_TOML"
+      echo "  Lesson $lesson_number ($crate_name) added"
+    else
+      echo "  Lesson $lesson_number ($crate_name) already exists in the workspace."
+    fi
+    ;;
+
+  --list)
+    find_workspace_root
+
+    echo "📚 Lessons in workspace:"
+    grep -oP 'lesson\d{2}[^"]*' "$WORKSPACE_TOML" | sort -V | nl
+    ;;
+
+  --remove)
+    find_workspace_root
+    lesson_number="$2"
+
+    if [ -z "$lesson_number" ]; then
+      echo "󰛉  Missing lesson number to remove."
+      exit 1
+    fi
+
+    pattern="lesson${lesson_number}-"
+    crate=$(tq -r '.workspace.members' <"$WORKSPACE_TOML" | jq -r '.[]' | grep "^$pattern")
+
+    if [ -z "$crate" ]; then
+      echo "󰛉  No crate found starting with: $pattern"
+      exit 1
+    fi
+
+    echo "  Removing crate directory: $crate"
+    rm -rf "$crate"
+
+    echo "󰃢  Updating Cargo.toml..."
+
+    # Extract updated members list
+    updated_members=$(tq -r '.workspace.members' <"$WORKSPACE_TOML" | jq --arg crate "$crate" '[.[] | select(. != $crate)]')
+
+    # Preserve existing resolver or default to "3"
+    resolver=$(tq -r '.workspace.resolver' <"$WORKSPACE_TOML" | tr -d '"')
+
+    # Fallback if empty or null
+    if [ -z "$resolver" ] || [ "$resolver" = "null" ]; then
+      resolver="3"
+    fi
+
+    # Rebuild Cargo.toml
+    {
+      echo "[workspace]"
+      echo "resolver = \"$resolver\""
+      echo -n "members = "
+      echo "$updated_members" | jq -r tostring
+    } >"$WORKSPACE_TOML.tmp"
+
+    mv "$WORKSPACE_TOML.tmp" "$WORKSPACE_TOML"
+    echo "  Removed $crate from workspace"
+    ;;
+
+  --reset)
+    find_workspace_root
+    echo "  This will delete all lesson crates. Proceed? (y/n)"
+    read -r confirm
+    if [ "$confirm" = "y" ]; then
+      grep -oP 'lesson\d{2}[^"]*' "$WORKSPACE_TOML" | while read -r crate; do
+        echo " Removing $crate"
+        rm -rf "$crate"
+        sed -i "/$crate/d" "$WORKSPACE_TOML"
+      done
+      echo "  Workspace reset."
+    else
+      echo "󰛉  Aborted."
+    fi
+    ;;
+
+  *)
+    print_usage
+    ;;
+esac
