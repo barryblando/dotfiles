@@ -31,6 +31,8 @@ local linters_formatters_registry = {
 	{ "isort", "isort" },
 	{ "prettier", "prettier" },
 	{ "prettierd", "prettierd" },
+	{ "shfmt", "shfmt" },
+	{ "shellcheck", "shellcheck" },
 }
 
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
