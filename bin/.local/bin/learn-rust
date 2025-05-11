@@ -45,7 +45,7 @@ members = [
 ]
 EOF
 
-    echo "✅ Initialized Rust workspace: $WORKSPACE_NAME"
+    echo "  Initialized Rust workspace: $WORKSPACE_NAME"
     ;;
 
   --lesson)
@@ -71,7 +71,7 @@ EOF
     # Check if the lesson already exists in the workspace members
     if ! grep -q "\"$crate_name\"" "$WORKSPACE_TOML"; then
       # Create new lesson if it doesn't exist
-      echo "📦 Creating binary crate: $crate_name"
+      echo "  Creating binary crate: $crate_name"
       cargo new "$crate_name" --bin
 
       echo "  Adding to workspace"
@@ -108,7 +108,7 @@ EOF
   --list)
     find_workspace_root
 
-    echo "📚 Lessons in workspace:"
+    echo "  Lessons in workspace:"
     grep -oP 'lesson\d{2}[^"]*' "$WORKSPACE_TOML" | sort -V | nl
     ;;
 
