@@ -154,8 +154,9 @@ function M.project_picker()
 
 				if choice == 1 then
 					history.delete_project({ value = data.path })
-					M.project_picker()
 				end
+
+				M.project_picker()
 			end,
 			["ctrl-w"] = function(selection)
 				local _, _ = change_working_directory_by_selection(projects_data, selection)
