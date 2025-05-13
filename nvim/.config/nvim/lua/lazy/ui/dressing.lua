@@ -12,6 +12,7 @@ return {
 		local icons = require("core.icons")
 		require("dressing").setup({
 			select = {
+				backend = { "telescope" },
 				telescope = require("telescope.themes").get_dropdown({ -- or 'cursor'
 					borderchars = icons.ui.Border_Chars,
 					-- layout_config = {
@@ -21,7 +22,7 @@ return {
 					-- },
 				}),
 				builtin = {
-					border = icons.ui.Border_Chars_Single_Line,
+					border = icons.ui.Border_Single_Line,
 					win_options = {
 						winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
 					},
