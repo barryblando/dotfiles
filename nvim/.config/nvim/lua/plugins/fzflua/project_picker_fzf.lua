@@ -19,7 +19,8 @@ local M = {}
 
 local function format_for_display(project_path)
 	local name = project_path:match("/([^/]+)$")
-	return name, string.format("%-30s %s", name, project_path)
+	local bracketed = string.format("[%s]", name)
+	return name, string.format("%-30s %s", bracketed, project_path)
 end
 
 local function get_project_data(projects_data, selection)
