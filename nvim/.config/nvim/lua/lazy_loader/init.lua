@@ -16,8 +16,9 @@ end
 -- Put lazy into the runtimepath for neovim
 vim.opt.runtimepath:prepend(lazypath)
 
+-- vim.opt.winborder = "single"
 vim.opt.termguicolors = true
-vim.o.background = "dark"
+vim.opt.background = "dark"
 
 local opts = { noremap = true, silent = true }
 local keymap = vim.api.nvim_set_keymap
