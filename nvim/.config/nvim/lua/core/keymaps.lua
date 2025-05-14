@@ -32,12 +32,12 @@ end
 function M.setup_lsp_keymaps(bufnr)
 -- stylua: ignore start
   local keymaps = {
-    { "gd", vim.lsp.buf.definition, "Buf Definition" },
-    { "gD", function() require('fzf-lua').lsp_definitions() end, "LSP Definition" },
+    { "gd", vim.lsp.buf.definition, "LSP | Buf Definition" },
+    { "gD", function() require('fzf-lua').lsp_definitions() end, "LSP | Definition" },
     { "K", vim.lsp.buf.hover, "Hover Documentation" },
-    { "gI", function() require('fzf-lua').lsp_implementations() end, "LSP Implementations" },
-    { "gr", function() require('fzf-lua').lsp_references() end, "LSP References" },
-    { "gl", function() vim.diagnostic.open_float(nil, { focusable = false }) end, "Open Diagnostic (Float)" },
+    { "gI", function() require('fzf-lua').lsp_implementations() end, "LSP | Implementations" },
+    { "gl", function() require('fzf-lua').lsp_references() end, "LSP | References" },
+    { "go", function() vim.diagnostic.open_float(nil, { focusable = false }) end, "LSP | Open Diagnostic (Float)" },
     { "<C-k>", vim.lsp.buf.signature_help, "Signature Help" },
     { "<leader>la", function() require('fzf-lua').lsp_code_actions() end, "Code Action" },
     { "<leader>lf", function() require('conform').format({ async = true }) end, "Format" },
