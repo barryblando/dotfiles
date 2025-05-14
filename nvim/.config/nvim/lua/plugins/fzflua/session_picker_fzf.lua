@@ -13,6 +13,10 @@ local function decode_url(str)
 	end)
 end
 
+local function format_time(mtime)
+	return os.date("%Y-%m-%d %I:%M %p", mtime.sec)
+end
+
 local function get_sessions()
 	local session_dir = get_session_dir()
 	local files = scandir.scan_dir(session_dir, { depth = 1, add_dirs = false })
@@ -22,9 +26,15 @@ local function get_sessions()
 
 	for _, path in ipairs(files) do
 		local filename = vim.fn.fnamemodify(path, ":t")
-		local decoded = decode_url(filename) -- Human-readable display
-		entries[#entries + 1] = decoded
-		lookup[decoded] = { path = path } -- Real file is still encoded
+		local decoded = decode_url(filename)
+
+		local stat = vim.loop.fs_stat(path)
+		local time_str = stat and format_time(stat.mtime) or "unknown time"
+
+		local display = string.format("%s   [%s]", decoded, time_str)
+
+		entries[#entries + 1] = display
+		lookup[display] = { path = path, name = decoded, mtime = time_str }
 	end
 
 	return entries, lookup
@@ -41,8 +51,19 @@ end
 
 local function load_session(path)
 	if vim.fn.filereadable(path) == 1 then
+		-- Wipe all buffers (skip special buffers like NvimTree if needed)
+		vim.cmd("bufdo bwipeout")
+
+		-- Optional: Reload config to reinitialize plugins
+		vim.cmd("silent! source $MYVIMRC")
+
+		-- Load session
 		vim.cmd("source " .. vim.fn.fnameescape(path))
-		vim.notify("Loaded session: " .. vim.fn.fnamemodify(path, ":t"), vim.log.levels.INFO)
+		require("lazy").sync()
+
+		-- Notify user
+		local name = vim.fn.fnamemodify(path, ":t")
+		vim.notify("Loaded session: " .. decode_url(name), vim.log.levels.INFO)
 	else
 		vim.notify("Session not found: " .. path, vim.log.levels.ERROR)
 	end
