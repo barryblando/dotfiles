@@ -7,10 +7,18 @@ return {
 			require("lazy").load({ plugins = { "dressing.nvim" } })
 			return vim.ui.select(...)
 		end
+		---@diagnostic disable-next-line: duplicate-set-field
+		vim.ui.input = function(...)
+			require("lazy").load({ plugins = { "dressing.nvim" } })
+			return vim.ui.input(...)
+		end
 	end,
 	config = function()
 		local icons = require("core.icons")
 		require("dressing").setup({
+			input = {
+				border = "single",
+			},
 			select = {
 				backend = { "telescope" },
 				telescope = require("telescope.themes").get_dropdown({ -- or 'cursor'
