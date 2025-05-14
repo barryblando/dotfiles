@@ -1,11 +1,18 @@
 local M = {}
 
 M.keys = {
-	{ "<leader>Sd", "<cmd>Autosession delete<cr>", desc = "Find Delete", nowait = true, remap = false },
+	-- { "<leader>Sd", "<cmd>Autosession delete<cr>", desc = "Find Delete", nowait = true, remap = false },
+	-- {
+	-- 	"<leader>Sf",
+	-- 	'<cmd>lua require("auto-session.session-lens").search_session()<cr>',
+	-- 	desc = "Find",
+	-- 	nowait = true,
+	-- 	remap = false,
+	-- },
 	{
 		"<leader>Sf",
-		'<cmd>lua require("auto-session.session-lens").search_session()<cr>',
-		desc = "Find",
+		'<cmd>lua require("plugins.fzflua.session_picker_fzf").session_picker()<cr>',
+		desc = "Find, Load or Delete",
 		nowait = true,
 		remap = false,
 	},
