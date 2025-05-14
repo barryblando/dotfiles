@@ -5,7 +5,7 @@ return {
 
 		-- the following are equivalent
 		vim.keymap.set("n", "<F2>", function()
-			live_rename.rename({ text = "", insert = true })
+			live_rename.rename({ insert = true })
 		end, { desc = "LSP rename" })
 	end,
 }
