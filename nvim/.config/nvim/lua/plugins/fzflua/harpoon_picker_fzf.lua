@@ -75,7 +75,6 @@ M.harpoon_file_picker = function()
 
 		fzf_lua.fzf_exec(file_paths, {
 			prompt = "󱡀 Harpoon Files❯ ",
-			multi_select = true, -- enable multi select
 			winopts = {
 				border = "none",
 				height = 0.7,
@@ -87,7 +86,7 @@ M.harpoon_file_picker = function()
 			},
 			fzf_opts = {
 				["--ansi"] = true,
-				["--multi"] = "", -- make multi selection allowed
+				["--multi"] = true, -- make multi selection allowed
 				["--header"] = "<CR>: Open | <C-d>: Delete | <C-x/v>: (V)Split | <T>/<S-T>: Multi-Select | <esc>/<C-c>: Quit",
 				["--preview-window"] = "up:60%,noborder", -- preview window settings
 				["--border"] = "sharp",
