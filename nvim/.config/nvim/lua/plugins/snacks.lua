@@ -43,18 +43,15 @@ M.config = function()
 		-- },
 		-- styles = {
 		-- 	input = {
-		-- 		border = icons.ui.Border_Solid_Line,
+		-- 		border = icons.ui.Border_Single_Line,
 		-- 		backdrop = false,
-		-- 		position = "float",
 		-- 		title_pos = "center",
 		-- 		height = 1,
+		-- 		relative = "cursor",
+		-- 		row = -3,
+		-- 		col = 0,
 		-- 		width = 60,
-		-- 		-- relative = "editor",
 		-- 		noautocmd = true,
-		-- 		row = 2,
-		-- 		-- relative = "cursor",
-		-- 		-- row = -3,
-		-- 		-- col = 0,
 		-- 		wo = {
 		-- 			winhighlight = "NormalFloat:SnacksInputNormal,FloatBorder:SnacksInputBorder,FloatTitle:SnacksInputTitle",
 		-- 			cursorline = false,
@@ -63,9 +60,8 @@ M.config = function()
 		-- 			filetype = "snacks_input",
 		-- 			buftype = "prompt",
 		-- 		},
-		-- 		--- buffer local variables
 		-- 		b = {
-		-- 			completion = false, -- disable blink completions in input
+		-- 			completion = false,
 		-- 		},
 		-- 	},
 		-- },
