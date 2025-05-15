@@ -111,6 +111,13 @@ autocmd({ "VimEnter" }, {
 	end,
 })
 
+autocmd({ "VimLeavePre" }, {
+	callback = function()
+		-- Clean Yanky History
+		vim.cmd("YankyClearHistory")
+	end,
+})
+
 autocmd({ "CursorHold" }, {
 	callback = function()
 		local status_ok, luasnip = pcall(require, "luasnip")
