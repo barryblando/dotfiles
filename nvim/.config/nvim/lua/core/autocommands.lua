@@ -111,8 +111,12 @@ autocmd({ "VimEnter" }, {
 	end,
 })
 
-autocmd({ "VimLeavePre" }, {
+vim.api.nvim_create_autocmd({ "VimLeavePre" }, {
 	callback = function()
+		-- Exit early if YankyClearHistory doesn't exist
+		if vim.fn.exists(":YankyClearHistory") == 0 then
+			return
+		end
 		-- Clean Yanky History
 		vim.cmd("YankyClearHistory")
 	end,
