@@ -16,7 +16,7 @@ M.keys = function()
 			function()
 				Snacks.bufdelete.all()
 			end,
-			desc = "Buffer Delete All",
+			desc = "Buffer | Delete All",
 			mode = "n",
 		},
 		{
@@ -24,7 +24,15 @@ M.keys = function()
 			function()
 				Snacks.bufdelete.other()
 			end,
-			desc = "Buffer Delete Other",
+			desc = "Buffer | Delete Other",
+			mode = "n",
+		},
+		{
+			"<leader>bt",
+			function()
+				require("core.utils").toggle_buffer_lock()
+			end,
+			desc = "Buffer | Toggle Locked",
 			mode = "n",
 		},
 	}
