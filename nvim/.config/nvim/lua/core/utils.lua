@@ -35,6 +35,23 @@ function M.smart_quit()
 	end
 end
 
+function M.toggle_buffer_lock()
+	local bufnr = vim.api.nvim_get_current_buf()
+
+	-- Check if the buffer is currently locked (readonly)
+	if vim.api.nvim_buf_get_option(bufnr, "readonly") then
+		-- Unlock the buffer
+		vim.api.nvim_buf_set_option(bufnr, "readonly", false)
+		vim.api.nvim_buf_set_option(bufnr, "modifiable", true)
+		print("Buffer unlocked")
+	else
+		-- Lock the buffer
+		vim.api.nvim_buf_set_option(bufnr, "readonly", true)
+		vim.api.nvim_buf_set_option(bufnr, "modifiable", false)
+		print("Buffer locked")
+	end
+end
+
 function M.collect_specs(excluded_dirs)
 	local specs = {}
 	local root = vim.fn.stdpath("config") .. "/lua/lazy"
