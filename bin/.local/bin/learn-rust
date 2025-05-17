@@ -25,7 +25,7 @@ find_workspace_root() {
 
 get_next_lesson_number() {
   find_workspace_root
-  last=$(grep -oP 'lesson\d{2}' "$WORKSPACE_TOML" | sed 's/lesson//' | sort -nr | head -n1)
+  last=$(grep -oP 'L\d{2}' "$WORKSPACE_TOML" | sed 's/L//' | sort -nr | head -n1)
   last_clean=$(echo "$last" | sed 's/^0*//')
   next_num=$(printf "%02d" $((last_clean + 1)))
   echo "$next_num"
@@ -66,7 +66,7 @@ EOF
     fi
 
     # Format the crate name (lessonXX-<name>)
-    crate_name="lesson${lesson_number}-${lesson_name}"
+    crate_name="L${lesson_number}-${lesson_name}"
 
     # Check if the lesson already exists in the workspace members
     if ! grep -q "\"$crate_name\"" "$WORKSPACE_TOML"; then
@@ -109,7 +109,7 @@ EOF
     find_workspace_root
 
     echo "  Lessons in workspace:"
-    grep -oP 'lesson\d{2}[^"]*' "$WORKSPACE_TOML" | sort -V | nl
+    grep -oP 'L\d{2}[^"]*' "$WORKSPACE_TOML" | sort -V | nl
     ;;
 
   --remove)
@@ -121,7 +121,7 @@ EOF
       exit 1
     fi
 
-    pattern="lesson${lesson_number}-"
+    pattern="L${lesson_number}-"
     crate=$(tq -r '.workspace.members' <"$WORKSPACE_TOML" | jq -r '.[]' | grep "^$pattern")
 
     if [ -z "$crate" ]; then
@@ -162,7 +162,7 @@ EOF
     echo "  This will delete all lesson crates. Proceed? (y/n)"
     read -r confirm
     if [ "$confirm" = "y" ]; then
-      grep -oP 'lesson\d{2}[^"]*' "$WORKSPACE_TOML" | while read -r crate; do
+      grep -oP 'L\d{2}[^"]*' "$WORKSPACE_TOML" | while read -r crate; do
         echo " Removing $crate"
         rm -rf "$crate"
         sed -i "/$crate/d" "$WORKSPACE_TOML"
