@@ -65,8 +65,8 @@ EOF
       exit 1
     fi
 
-    # Format the crate name (lessonXX-<name>)
-    crate_name="L${lesson_number}-${lesson_name}"
+    # Format the crate name (lessonXX_<name>)
+    crate_name="L${lesson_number}_${lesson_name}"
 
     # Check if the lesson already exists in the workspace members
     if ! grep -q "\"$crate_name\"" "$WORKSPACE_TOML"; then
@@ -121,7 +121,7 @@ EOF
       exit 1
     fi
 
-    pattern="L${lesson_number}-"
+    pattern="L${lesson_number}_"
     crate=$(tq -r '.workspace.members' <"$WORKSPACE_TOML" | jq -r '.[]' | grep "^$pattern")
 
     if [ -z "$crate" ]; then
