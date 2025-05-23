@@ -56,7 +56,10 @@ M.config = function()
 				winblend = 0,
 			},
 		},
-		suppressed_dirs = { os.getenv("HOME") },
+		suppressed_dirs = {
+			vim.fn.expand("~"), -- Suppress $HOME,
+			vim.fn.expand("~") .. "/Rust.Projects/rust-tools/*", -- Suppress rust-tools subdirectories
+		},
 	}
 
 	vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
