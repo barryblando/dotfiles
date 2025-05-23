@@ -4,7 +4,9 @@ return {
 	ft = { "rust" },
 	config = function()
 		local icons = require("core.icons")
+		local util = require("lspconfig.util")
 		vim.g.rustaceanvim = {
+			-- root_dir = util.root_pattern(".git"),
 			tools = {
 				float_win_config = {
 					border = icons.ui.Border_Single_Line,
