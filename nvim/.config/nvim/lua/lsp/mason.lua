@@ -35,7 +35,7 @@ local linters_formatters_registry = {
 	{ "shellcheck", "shellcheck" },
 }
 
--- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
 local servers_registry = {
   -- stylua: ignore start
   -- turn off/on auto_update per tool, conditional installing, and version
