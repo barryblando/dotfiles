@@ -223,7 +223,7 @@ M.opts = function()
 			dashboard.button("r", " " .. " Recent files", "<cmd>FzfLua oldfiles <cr>"),
 			dashboard.button("g", " " .. " Find text", "<cmd>FzfLua live_grep <cr>"),
 			dashboard.button("c", " " .. " Config", "<cmd>cd ~/.config/nvim | e $MYVIMRC <cr>"),
-			dashboard.button("s", " " .. " Restore Session", "<cmd>SessionRestore<cr>"),
+			dashboard.button("s", " " .. " Restore Session", "<cmd>AutoSession restore<cr>"),
 			dashboard.button("l", "󰒲 " .. " Lazy", "<cmd>Lazy<cr>"),
 			dashboard.button("q", " " .. " Quit", "<cmd>qa<cr>"),
 		},

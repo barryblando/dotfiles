@@ -16,9 +16,9 @@ M.keys = {
 		nowait = true,
 		remap = false,
 	},
-	{ "<leader>Sr", "<cmd>SessionRestore<cr>", desc = "Restore", nowait = true, remap = false },
-	{ "<leader>Ss", "<cmd>SessionSave<cr>", desc = "Save", nowait = true, remap = false },
-	{ "<leader>Sx", "<cmd>SessionDelete<cr>", desc = "Delete", nowait = true, remap = false },
+	{ "<leader>Sr", "<cmd>AutoSession restore<cr>", desc = "Restore", nowait = true, remap = false },
+	{ "<leader>Ss", "<cmd>AutoSession save<cr>", desc = "Save", nowait = true, remap = false },
+	{ "<leader>Sx", "<cmd>AutoSession delete<cr>", desc = "Delete", nowait = true, remap = false },
 }
 
 M.config = function()
