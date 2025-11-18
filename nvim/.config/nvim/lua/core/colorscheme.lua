@@ -60,3 +60,8 @@ vim.cmd([[
   hi CoverageCoveredLine guibg=#5e8d5e ctermbg=green
   hi CoverageUncoveredLine guibg=#8b5f5f ctermbg=red
 ]])
+
+-- for ts context
+vim.cmd([[
+ hi TreesitterContext guibg=NONE
+]])
