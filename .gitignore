@@ -46,3 +46,5 @@ lazygit/.config/lazygit/state.yml
 .luarc.json
 btop/.config/btop/btop.log
 nvim/.config/nvim/.env
+yazi/.config/yazi/plugins/
+yazi/.config/yazi/package.toml
