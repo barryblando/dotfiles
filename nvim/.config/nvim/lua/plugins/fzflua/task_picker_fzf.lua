@@ -56,7 +56,7 @@ M.pick_template_for_filetype = function()
 				for _, sel in ipairs(selected) do
 					local item = lookup[sel]
 					if item then
-						overseer.run_template(item.entry)
+						overseer.run_task({ name = item.entry.name })
 						-- Add staggered delay for each to simulate step-by-step progress
 						delay = delay + 250
 					else

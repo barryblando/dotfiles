@@ -92,7 +92,7 @@ function M.setup_dap_keymaps()
 		{
 			"<leader>dd",
 			function()
-				require("overseer").run_template({}, function(task)
+				require("overseer").run_task({}, function(task)
 					if task then
 						require("plugins.overseer").open_and_close()
 						-- Start debugging after task is started

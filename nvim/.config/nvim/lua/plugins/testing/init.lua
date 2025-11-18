@@ -5,7 +5,7 @@ function M.init()
 
 	-- Go Coverage Command
 	vim.api.nvim_create_user_command("TestCoverageGo", function()
-		overseer.run_template({
+		overseer.run_task({
 			name = "Go Coverage",
 			builder = function()
 				return {
@@ -26,7 +26,7 @@ function M.init()
 
 	-- TypeScript Coverage Command
 	vim.api.nvim_create_user_command("TestCoverageTypeScript", function()
-		overseer.run_template({
+		overseer.run_task({
 			name = "Vitest Coverage",
 			builder = function()
 				return {
@@ -63,7 +63,7 @@ function M.keys()
 
 		vim.defer_fn(function()
 			if ft == "rust" then
-				overseer.run_template({ name = "Generate LLVM_COV report" })
+				overseer.run_task({ name = "Generate LLVM_COV report" })
 				coverage.load(true)
 				-- require("lualine").refresh()
 			elseif ft == "go" then

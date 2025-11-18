@@ -5,7 +5,7 @@ local dap = require("dap")
 
 function M.run_with_task(task_name, dap_config)
 	-- Run Overseer build task first
-	overseer.run_template({ name = task_name }, function(task)
+	overseer.run_task({ name = task_name }, function(task)
 		if not task then
 			vim.notify("Overseer task not found: " .. task_name, vim.log.levels.ERROR)
 			return

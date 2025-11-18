@@ -16,7 +16,7 @@ end
 M.config = function()
 	require("overseer").setup({
 		-- Setup DAP later when lazy-loading the plugin.
-		dap = true,
+		dap = false,
 		task_list = {
 			default_detail = 2,
 			direction = "bottom",

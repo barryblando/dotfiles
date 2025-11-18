@@ -63,7 +63,7 @@ M.pick_template_for_filetype = function()
 					local selection = action_state.get_selected_entry()
 					actions.close(prompt_bufnr)
 					if selection and selection.value then
-						overseer.run_template(selection.value)
+						overseer.run_task({ name = selection.value })
 					else
 						vim.notify("No template selected", vim.log.levels.WARN)
 					end
