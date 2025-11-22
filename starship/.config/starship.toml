@@ -26,6 +26,8 @@ $time\
 [▓▒░ ](fg:color_bg1)\
 $line_break$character"""
 
+scan_timeout = 1000
+
 palette = 'gruvbox_dark'
 
 [palettes.gruvbox_dark]
