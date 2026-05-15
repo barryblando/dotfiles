@@ -1,8 +1,6 @@
 # WSL2 NEOVIM CONFIG
 
-![screenshot](https://github-production-user-asset-6210df.s3.amazonaws.com/5582213/253721553-69a70b9a-6562-4645-ad01-c6be20a96a00.png)
-
-[Follow this Playlist from Christian Chiarulli for Guides](https://www.youtube.com/watch?v=ctH-a-1eUME&list=PLhoH5vyxr6Qq41NFL4GvhFp-WLd5xzIzZ).
+![screenshot](https://github-production-user-asset-6210df.s3.amazonaws.com/5582213/593073127-7ebccb37-81b5-437b-a1bc-6a7f1517225e.png)
 
 ## Before setting this up... **FORK AT YOUR OWN RISK**
 
@@ -14,7 +12,7 @@
 
 ## Without further ado Lezzgaw!
 
-- Install [Neovim v0.9.0](https://github.com/neovim/neovim/releases/tag/v0.9.0) or [Nightly](https://github.com/neovim/neovim/releases/tag/nightly). Using `linuxbrew`
+- Install [Neovim v0.12.0](https://github.com/neovim/neovim/releases/tag/v0.12.0) or [Nightly](https://github.com/neovim/neovim/releases/tag/nightly). Using `linuxbrew`
 
 ```
 brew install neovim
