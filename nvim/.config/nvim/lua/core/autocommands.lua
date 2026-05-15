@@ -79,7 +79,7 @@ autocmd({ "TextYankPost" }, {
 		if vim.fn.has("wsl") == 1 then
 			vim.fn.system("clip.exe", vim.fn.getreg('"'))
 		else
-			vim.highlight.on_yank()
+			vim.hl.on_yank()
 		end
 	end,
 })
