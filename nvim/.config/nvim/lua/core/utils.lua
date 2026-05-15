@@ -149,7 +149,7 @@ function M.open_lsp_info_floating_window()
 	for _, client in ipairs(clients) do
 		local server_name = client.name or "Unknown"
 		local pid = get_client_pid(client)
-		local attached_buffers = vim.lsp.get_buffers_by_client_id(client.id) or {}
+		local attached_buffers = vim.lsp.get_client_by_id(client.id).attached_buffers or {}
 
 		local header_line = string.format(
 			"LSP Server: %s (id: %d, pid: %s, bufnr: [%s])",
