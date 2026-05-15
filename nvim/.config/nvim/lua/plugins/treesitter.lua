@@ -1,15 +1,18 @@
 local M = {}
 
-M.config = function()
-	local status_ok, configs = pcall(require, "nvim-treesitter.configs")
+M.init = function()
+	vim.api.nvim_create_autocmd("FileType", {
+		callback = function()
+			-- Enable treesitter highlighting and disable regex syntax
+			pcall(vim.treesitter.start)
+			-- Enable treesitter-based indentation
+			vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+		end,
+	})
 
-	if not status_ok then
-		return
-	end
-
-	local parsers = require("nvim-treesitter.parsers")
-	local enabled_list = {
+	local ensureInstalled = {
 		"bash",
+		"dockerfile",
 		"lua",
 		"rust",
 		"go",
@@ -18,42 +21,40 @@ M.config = function()
 		"tsx",
 		"graphql",
 		"prisma",
+		"http",
+		"json",
+		"make",
 		"proto",
+		"markdown",
+		"html",
 		"css",
 		"scss",
+		"yaml",
+		"toml",
+		"query",
+		"regex",
+		"kdl",
 		"powershell",
 		"fish",
 	}
 
+	local alreadyInstalled = require("nvim-treesitter.config").get_installed()
+	local parsersToInstall = vim.iter(ensureInstalled)
+		:filter(function(parser)
+			return not vim.tbl_contains(alreadyInstalled, parser)
+		end)
+		:totable()
+	require("nvim-treesitter").install(parsersToInstall)
+end
+
+M.config = function()
+	local status_ok, configs = pcall(require, "nvim-treesitter")
+
+	if not status_ok then
+		return
+	end
+
 	configs.setup({
-		-- ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
-		ensure_installed = {
-			"bash",
-			"dockerfile",
-			"lua",
-			"rust",
-			"go",
-			"javascript",
-			"typescript",
-			"tsx",
-			"graphql",
-			"prisma",
-			"http",
-			"json",
-			"make",
-			"proto",
-			"markdown",
-			"html",
-			"css",
-			"scss",
-			"yaml",
-			"toml",
-			"query",
-			"regex",
-			"kdl",
-			"powershell",
-			"fish",
-		},
 		sync_install = false, -- install languages synchronously (only applied to `ensure_installed`)
 		ignore_install = { "" }, -- List of parsers to ignore installing
 		autopairs = {
@@ -96,40 +97,9 @@ M.config = function()
 				"menuitem",
 			},
 		},
-		highlight = {
-			enable = true, -- false will disable the whole extension
-			-- disable for big files
-			disable = function(_, buf)
-				-- Don't disable for read-only buffers.
-				if not vim.bo[buf].modifiable then
-					return false
-				end
-
-				local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(buf))
-				-- Disable for files larger than 250 KB.
-				return ok and stats and stats.size > (250 * 1024)
-			end,
-			additional_vim_regex_highlighting = false,
-		},
-		rainbow = {
-			enable = true,
-			extended_mode = false,
-			additional_vim_regex_highlighting = false,
-			max_file_lines = nil,
-			disable = vim.tbl_filter(function(p)
-				local disable = true
-				for _, lang in pairs(enabled_list) do
-					if p == lang then
-						disable = false
-					end
-				end
-				return disable
-			end, parsers.available_parsers()),
-		},
 		-- playground = {
 		--   enable = true,
 		-- },
-		indent = { enable = true, disable = { "yaml" } },
 		textobjects = {
 			select = {
 				enable = true,
