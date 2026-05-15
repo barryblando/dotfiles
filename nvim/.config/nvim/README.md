@@ -1,6 +1,6 @@
 # WSL2 NEOVIM CONFIG
 
-![screenshot](https://github-production-user-asset-6210df.s3.amazonaws.com/5582213/593073127-7ebccb37-81b5-437b-a1bc-6a7f1517225e.png)
+![screenshot](https://github-production-user-asset-6210df.s3.amazonaws.com/5582213/593076165-1aa58149-59bc-4149-b551-b2419d66f4fe.png)
 
 ## Before setting this up... **FORK AT YOUR OWN RISK**
 
