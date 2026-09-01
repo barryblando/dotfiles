@@ -36,7 +36,6 @@ M.config = function()
 		auto_restore_last_session = vim.loop.cwd() == vim.loop.os_homedir(),
 		lazy_support = true,
 		pre_save_cmds = { "tabdo Neotree close" },
-		post_restore_cmds = { "LspRestart" },
 		lsp_stop_on_restore = true,
 		bypass_save_filetypes = { "alpha", "neo-tree", "TelescopePrompt", "lazy", "OverseerList" },
 		cwd_change_handling = true,
