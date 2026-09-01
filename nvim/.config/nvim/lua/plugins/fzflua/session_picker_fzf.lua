@@ -91,24 +91,38 @@ M.session_picker = function()
 					msg = string.format("Delete %d sessions?", count)
 				end
 
-				local choice = vim.fn.confirm(msg, "&Yes\n&No", 2)
+				vim.ui.select({ "Yes", "No" }, {
+					prompt = msg,
+					format_item = function(item)
+						if item == "Yes" then
+							return "󰆴 " .. item
+						end
 
-				if choice == 1 then
+						return "󰜺 " .. item
+					end,
+				}, function(choice)
+					if choice ~= "Yes" then
+						vim.schedule(M.session_picker)
+						return
+					end
+
 					for _, name in ipairs(selected) do
 						local item = lookup[name]
 						if item then
 							delete_session(item.path)
 						end
 					end
+
 					vim.notify("Deleted " .. count .. " session(s).", vim.log.levels.INFO)
-				end
-				vim.schedule(M.session_picker)
+
+					vim.schedule(M.session_picker)
+				end)
 			end,
 		},
 		fzf_opts = {
 			["--ansi"] = true,
 			["--multi"] = true,
-			["--header"] = "<CR>: Open | <C-d>: Delete | <T>/<S-T>: Multi-Select | <esc>/<C-c>: Quit",
+			["--header"] = "<CR>: Open | <C-d>: Delete | <T/S-Tab>: Multi-Select | <esc>/<C-c>: Quit",
 		},
 		winopts = {
 			height = 0.4, -- 60% of screen height
