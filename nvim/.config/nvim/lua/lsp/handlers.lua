@@ -140,7 +140,7 @@ M.setup = function()
 	vim.diagnostic.open_float = (function(orig)
 		return function(bufnr, opts)
 			local lnum = vim.api.nvim_win_get_cursor(0)[1] - 1
-			local opts = opts or {}
+			opts = opts or {}
 			-- A more robust solution would check the "scope" value in `opts` to
 			-- determine where to get diagnostics from, but if you're only using
 			-- this for your own purposes you can make it as simple as you like
