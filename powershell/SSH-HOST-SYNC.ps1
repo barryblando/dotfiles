@@ -90,6 +90,14 @@ Foreach ($Port in $Ports) {
 # Display all portproxy information
 netsh interface portproxy show v4tov4;
 
+Start-Sleep -Seconds 3
+
+Write-Host ">>[TASK]: Enabling Windows Security Health in System Tray..."
+Invoke-Expression 'C:\Windows\System32\SecurityHealthSystray.exe'
+Write-Host ">>[STATUS]: Windows Security Health should now be visible in the system tray. If not, please check your system settings."
+
+Start-Sleep -Seconds 5
+
 # Give user to chance to see above list when relaunched start
 If ($Args[0] -eq "runas" -Or $Args[1] -eq "runas") {
     Write-Host -NoNewLine 'Press any key to close! ';
