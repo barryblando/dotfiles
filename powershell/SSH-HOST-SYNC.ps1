@@ -93,7 +93,10 @@ netsh interface portproxy show v4tov4;
 Start-Sleep -Seconds 3
 
 Write-Host ">>[TASK]: Enabling Windows Security Health in System Tray..."
-Invoke-Expression 'C:\Windows\System32\SecurityHealthSystray.exe'
+
+# Start Windows Security Health Systray to show the firewall status in the system tray
+& "C:\Windows\System32\SecurityHealthSystray.exe"
+
 Write-Host ">>[STATUS]: Windows Security Health should now be visible in the system tray. If not, please check your system settings."
 
 Start-Sleep -Seconds 5
